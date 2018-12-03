@@ -22,7 +22,7 @@ class Connection {
     private final InputStream clientSocketInputStream; 
     private final InputStreamReader clientSocketInputStreamReader;
     private final BufferedReader clientSocketBufferedReader;
-    PrintWriter clientPrintWriter;
+    private final PrintWriter clientPrintWriter;
                                             
     
     // Create a partially connected connection.
@@ -38,7 +38,7 @@ class Connection {
         clientSocketInputStreamReader = new InputStreamReader(clientSocketInputStream);
         clientSocketBufferedReader = new BufferedReader(clientSocketInputStreamReader);
         clientPrintWriter = new PrintWriter(this.socket.getOutputStream(), true);
-        System.out.println("Connection established with " + handle);
+        //System.out.println("Connection established with " + handle);
     }
     
     public void setHandle(final String handle) {

@@ -27,7 +27,9 @@ public class Message {
     public Message(String from, String to) {
         this.from = from;
         this.to = new ArrayList<>();
-        this.to.add(to);
+        if(to != null && to.length() > 0) {
+            this.to.add(to);
+        }
     }
     
     public void append(String appendWith) {
@@ -42,7 +44,7 @@ public class Message {
     
     public boolean isBroadcast() { return to.isEmpty(); }
     
-    public boolean isHelloMessage() { return content.compareTo("HELLO") == 0; }
+    public boolean isHelloMessage() { return to.isEmpty() && content.compareTo("HELLO") == 0; }
     public boolean isHelloAckMessage() { return content.compareTo("HELLOACK") == 0; }
     
     @Override
@@ -56,7 +58,7 @@ public class Message {
                 content);
     }
     
-    static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.+)#$");
+    static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.+)#$");
 
     public static Message parseMessage(String rawMessage) {
         System.out.println("RAW MESSAGE: " + rawMessage);
