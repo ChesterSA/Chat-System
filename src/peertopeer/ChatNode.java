@@ -88,7 +88,7 @@ public class ChatNode {
                                                                                         
                                             //The HELLOACK allows the peer to know our handle
                                             //
-                                            newConnection.sendMessage(Message.createHelloAckMessage(handle));
+                                            newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
                                         }
                                         else {
                                             System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");

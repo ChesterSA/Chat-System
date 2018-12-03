@@ -81,8 +81,8 @@ public class Message {
         return helloMessage;
     }
     
-    public static Message createHelloAckMessage(final String from) {
-        Message helloAckMessage = new Message(from);
+    public static Message createHelloAckMessage(final String from, final String to) {
+        Message helloAckMessage = new Message(from, to);
         helloAckMessage.content = "HELLOACK";
         return helloAckMessage;       
     }
