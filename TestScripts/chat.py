@@ -4,9 +4,9 @@ import socket
 import sys
 import re # for regular expressions
 
-REMOTE_IP = '192.168.0.2'
+REMOTE_IP = '127.0.0.1'
 PORT = 9090
-MESSAGE_REGEX = re.compile("FROM:\#([A-Za-z]+)\#(,TO:\#([A-Za-z]+)\#)?,CONTENT:\#(.+)\#$")
+MESSAGE_REGEX = re.compile("^FROM:\#([A-Za-z]+)\#(,TO:\#([A-Za-z]+)\#)?,CONTENT:\#(.+)\#$")
 RECV_BUF_READ = 4098
 
 #create socket
@@ -41,7 +41,7 @@ def receive_all(recv_socket):
             pass
         else:
             return (False, None)
-    return (all_data.decode('utf-8'), len(all_data))
+    return (all_data.decode('utf-8').strip(), len(all_data))
 
 HANDLE = input("Please enter my handle: ").strip()
 
@@ -55,7 +55,7 @@ if len(HANDLE) > 0:
         while True:
             incoming_message, incoming_message_len = receive_all(chat_socket)
 
-            print(incoming_message, incoming_message)
+            #print(incoming_message, incoming_message_len)
             
             if incoming_message and incoming_message_len > 0:
                 
