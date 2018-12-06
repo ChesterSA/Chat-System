@@ -25,26 +25,27 @@ import java.util.logging.Logger;
 public class ChatNode
 {
 
-    private final Object lock = new Object();
+    protected final Object lock = new Object();
 
-    private static final String DEFAULT_RECV_IP_ADDRESS = "127.0.0.1";
-    private static final int DEFAULT_PORT = 9090;
+    protected static final String DEFAULT_RECV_IP_ADDRESS = "127.0.0.1";
+    protected static final int DEFAULT_PORT = 9090;
 
     //Messages are received as a server, other peers need to connect.
     //
-    private ServerSocket serverSocket;
-    private String receiveIp;
-    private String handle;
-    private int receivePort;
+    protected ServerSocket serverSocket;
+    protected String receiveIp;
+    protected String handle;
+    protected int receivePort;
 
     //Messages are sent as a client.
     //
-    private HashMap<String, Connection> peerGroupConnections = new HashMap<>();
-    private LinkedList<String> ipAddresses = new LinkedList<>();
+    protected HashMap<String, Connection> peerGroupConnections = new HashMap<>();
+    protected LinkedList<String> ipAddresses = new LinkedList<>();
 
     public void updateList(LinkedList<String> ipAddresses)
     {
         this.ipAddresses = ipAddresses;
+        connectToAll();
     }
 
     public void connectToAll()
@@ -56,7 +57,7 @@ public class ChatNode
         });
     }
 
-    private final Thread acceptThread = new Thread(
+    protected final Thread acceptThread = new Thread(
             new Runnable()
     {
         @Override
@@ -85,7 +86,7 @@ public class ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
 
                     System.out.println("Message received: " + receivedMessage.toString());
-
+                    
                     if (!receivedMessage.isHelloMessage())
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
@@ -135,7 +136,7 @@ public class ChatNode
     }
     );
 
-    private final Thread receiveThread = new Thread(
+    protected final Thread receiveThread = new Thread(
             new Runnable()
     {
         @Override
@@ -221,7 +222,7 @@ public class ChatNode
         return Collections.unmodifiableList(peerGroupHandleList);
     }
 
-    private void startPeerReceiver() throws UnknownHostException, IOException
+    protected void startPeerReceiver() throws UnknownHostException, IOException
     {
         if (serverSocket == null)
         {
@@ -242,7 +243,7 @@ public class ChatNode
         // instigated a connection previously.
         if (isalreadyConnected(remoteIpAddress))
         {
-            System.err.println(String.format("Already connected to the peer with IP: '%s'", remoteIpAddress));
+            //System.err.println(String.format("Already connected to the peer with IP: '%s'", remoteIpAddress));
             return;
         }
 
@@ -297,7 +298,7 @@ public class ChatNode
 
     }
 
-    private void addConnection(final Connection connection)
+    protected void addConnection(final Connection connection)
     {
         synchronized (lock)
         {
@@ -310,7 +311,7 @@ public class ChatNode
         }
     }
 
-    private synchronized boolean isalreadyConnected(final String ipAddress)
+    protected synchronized boolean isalreadyConnected(final String ipAddress)
     {
         for (Connection c : peerGroupConnections.values())
         {

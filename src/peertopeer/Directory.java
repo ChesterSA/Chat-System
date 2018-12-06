@@ -5,33 +5,80 @@
  */
 package peertopeer;
 
-import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  * @author s6089488
  */
-public class Directory
+public class Directory extends ChatNode
 {
-
-    private final Object lock = new Object();
-
-    private static final String DEFAULT_RECV_IP_ADDRESS = "127.0.0.1";
-    private static final int DEFAULT_PORT = 9090;
-
-    //Messages are received as a server, other peers need to connect.
-    //
-    private ServerSocket serverSocket;
-    private String receiveIp;
-    private String handle;
-    private int receivePort;
-
-    LinkedList<String> ipAddresses = new LinkedList<>();
     
     //Messages are sent as a client.
     //
-    private HashMap<String, Connection> peerGroupConnections = new HashMap<>();
+    
+    private LinkedList<String> ipAddresses = new LinkedList<>();
+    
+    public String getAddresses()
+    {
+        String output = "";
+        for(Connection c : peerGroupConnections.values())
+        {
+            System.out.println(c.socket.toString().substring(13,27));
+            
+            output += c.socket.toString().substring(13,27) + ", ";
+        }
+        return output;
+    }
+
+    public Directory(String handle)
+    {
+        super(handle);
+    }
+
+    public Directory(String handle, String receiveIp)
+    {
+        super(handle, receiveIp);
+    }
+    
+    
+    private void updateAllConnections()
+    {
+    }
+    
+
+    public void sendDirMessage(Message message)
+    {
+        synchronized (lock)
+        {
+            if (message.isBroadcast())
+            {
+                //
+                // Not handling broadcast messages presently...
+                //
+            }
+            else
+            {
+                final List<String> receivers = message.getTo();
+
+                for (String receiver : receivers)
+                {
+                    //find the socket of the peer using their handle:
+                    Connection peerConnection = peerGroupConnections.get(receiver);
+
+                    if (peerConnection != null)
+                    {
+                        peerConnection.sendMessage(message);
+                    }
+                    else
+                    {
+                        System.err.println("'" + receiver + "' is an unknown peer");
+                    }
+                }
+            }
+        }
+    }
 }
  

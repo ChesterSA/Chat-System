@@ -18,12 +18,13 @@ import java.net.Socket;
  */
 class Connection {
     private String handle;
-    private final Socket socket;
+    public final Socket socket;
     private final InputStream clientSocketInputStream; 
     private final InputStreamReader clientSocketInputStreamReader;
     private final BufferedReader clientSocketBufferedReader;
     private final PrintWriter clientPrintWriter;
-                                            
+               
+   
     
     // Create a partially connected connection.
     // The handle is not yet known.
