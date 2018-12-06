@@ -97,14 +97,7 @@ public class ChatNode
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
                     }
-                    if (receivedMessage.isDirMessage()) {
-                        System.out.println("IPs ARE: " + receivedMessage.getContent());
-                        String[] ips = receivedMessage.getContent().split(",");
 
-                        for (String ip : ips) {
-                            connectTo(ip);
-                        }
-                    }
                     else
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -287,12 +280,21 @@ public class ChatNode
 
                     //We should have a HELLOACK message, which will have
                     //the handle of the remote peer
+                    final Message receivedMessage = partialConnection.receiveMessage();
                     Message ackMessage = partialConnection.receiveMessage();
 
                     if (ackMessage.isHelloAckMessage())
                     {
                         partialConnection.setHandle(ackMessage.getFrom());
                         addConnection(partialConnection);
+                    }
+                    else if (receivedMessage.isDirMessage()) {
+                        System.out.println("IPs ARE: " + receivedMessage.getContent());
+                        String[] ips = receivedMessage.getContent().split(",");
+
+                        for (String ip : ips) {
+                            connectTo(ip);
+                        }
                     }
 
                 }
