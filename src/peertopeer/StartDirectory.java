@@ -19,8 +19,7 @@ public class StartDirectory
 {
     public static void main(String[] args)
     {
-        System.out.println("Handle");
-        String myHandle = gets();
+        String myHandle = "dir";
 
         // TODO code application logic here
         //Change 0.0.0.0 to a more specific ip address range or

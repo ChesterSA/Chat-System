@@ -43,6 +43,7 @@ public class PeerToPeerTest
                 System.out.println("2. Send message to existing connection");
                 System.out.println("3. Show connections");
                 System.out.println("4. Connect to dir");
+                System.out.println("5. Remove Connections");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -59,6 +60,9 @@ public class PeerToPeerTest
                         break;
                     case "4":
                         connectToDir(thisChatNode);
+                        break;
+                    case "5":
+                        thisChatNode.removeConnections();
                         break;
                     default:
                         System.err.println("Invalid option.");

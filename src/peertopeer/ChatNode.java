@@ -41,27 +41,10 @@ public class ChatNode
     //Messages are sent as a client.
     //
     protected HashMap<String, Connection> peerGroupConnections = new HashMap<>();
-    protected LinkedList<String> ipAddresses = new LinkedList<>();
 
     public void removeConnections()
     {
         peerGroupConnections = new HashMap<>();
-    }
-
-    public void updateList(LinkedList<String> ipAddresses)
-    {
-
-        this.ipAddresses = ipAddresses;
-        connectToAll();
-    }
-
-    public void connectToAll()
-    {
-        ipAddresses.forEach((s) ->
-        {
-            System.out.println(s);
-            connectTo(s);
-        });
     }
 
     protected Thread acceptThread = new Thread(
