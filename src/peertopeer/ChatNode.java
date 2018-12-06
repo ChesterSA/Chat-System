@@ -13,22 +13,22 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
  * @author u0012604
  */
-public class ChatNode {
-    
+public class ChatNode
+{
+
     private final Object lock = new Object();
-    
+
     private static final String DEFAULT_RECV_IP_ADDRESS = "127.0.0.1";
     private static final int DEFAULT_PORT = 9090;
-
 
     //Messages are received as a server, other peers need to connect.
     //
@@ -36,249 +36,326 @@ public class ChatNode {
     private String receiveIp;
     private String handle;
     private int receivePort;
-    
+
     //Messages are sent as a client.
     //
     private HashMap<String, Connection> peerGroupConnections = new HashMap<>();
-    
+    private LinkedList<String> ipAddresses = new LinkedList<>();
+
+    public void updateList(LinkedList<String> ipAddresses)
+    {
+        this.ipAddresses = ipAddresses;
+    }
+
+    public void connectToAll()
+    {
+        ipAddresses.forEach((s) ->
+        {
+            System.out.println(s);
+            connectTo(s);
+        });
+    }
+
     private final Thread acceptThread = new Thread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    while(true) {
-                        try {
-                            final Socket newClientSocket = serverSocket.accept();
+            new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
+                    final Socket newClientSocket = serverSocket.accept();
 
-                            //Create a partial connection
-                            final Connection newConnection = new Connection(newClientSocket);
-                            
-                            System.out.println("Awaiting HELLO message from new connection");
-                            
-                            while(!newConnection.hasMessage()) {
-                                // wait for a message from the new connection...
-                                // should probably handle timeouts...
-                            }
-                                         
-                            //At this point in the connection process, only a HELLO message
-                            //will do, anything else will be ignored.
-                            //
-                            final Message receivedMessage = newConnection.receiveMessage();
-                            
-                            System.out.println("Message received: " + receivedMessage.toString());
-                            
-                            if(!receivedMessage.isHelloMessage()) {
-                                System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
-                            }
-                            else {
-                                final String newConnectionHandle = receivedMessage.getFrom();
+                    //Create a partial connection
+                    final Connection newConnection = new Connection(newClientSocket);
 
-                                if(newConnectionHandle != null) {
-                                    synchronized(lock) {
-                                        
-                                        if(peerGroupConnections.get(newConnectionHandle) == null) {
-                                            //Complete the connection by setting its handle.
-                                            //this is essential as we use the handle to send
-                                            //messages to our peers.
-                                            //
-                                            newConnection.setHandle(newConnectionHandle);
-                                            
-                                            //update our register of peer connections
-                                            //
-                                            addConnection(newConnection);
-                                                                                        
-                                            //The HELLOACK allows the peer to know our handle
-                                            //
-                                            newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
-                                        }
-                                        else {
-                                            System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
-                                        }
-                                    }
+                    System.out.println("Awaiting HELLO message from new connection");
+
+                    while (!newConnection.hasMessage())
+                    {
+                        // wait for a message from the new connection...
+                        // should probably handle timeouts...
+                    }
+
+                    //At this point in the connection process, only a HELLO message
+                    //will do, anything else will be ignored.
+                    //
+                    final Message receivedMessage = newConnection.receiveMessage();
+
+                    System.out.println("Message received: " + receivedMessage.toString());
+
+                    if (!receivedMessage.isHelloMessage())
+                    {
+                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                    }
+                    else
+                    {
+                        final String newConnectionHandle = receivedMessage.getFrom();
+
+                        if (newConnectionHandle != null)
+                        {
+                            synchronized (lock)
+                            {
+
+                                if (peerGroupConnections.get(newConnectionHandle) == null)
+                                {
+                                    //Complete the connection by setting its handle.
+                                    //this is essential as we use the handle to send
+                                    //messages to our peers.
+                                    //
+                                    newConnection.setHandle(newConnectionHandle);
+
+                                    //update our register of peer connections
+                                    //
+                                    addConnection(newConnection);
+
+                                    //The HELLOACK allows the peer to know our handle
+                                    //
+                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                }
+                                else
+                                {
+                                    System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
                                 }
                             }
-                            // Check for HELLO message with client name.
+                        }
+                    }
+                    // Check for HELLO message with client name.
 
-                        } catch (IOException ex) {
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+    );
+
+    private final Thread receiveThread = new Thread(
+            new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                synchronized (lock)
+                {
+                    for (Connection connection : peerGroupConnections.values())
+                    {
+                        try
+                        {
+                            if (connection.hasMessage())
+                            {
+                                System.out.println(connection.receiveMessage());
+                            }
+                        }
+                        catch (IOException ex)
+                        {
                             Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
-                
             }
+        }
+    }
     );
-    
-    private final Thread receiveThread = new Thread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    while(true) {
-                        synchronized(lock) {
-                            for(Connection connection : peerGroupConnections.values()) {
-                                try {
-                                    if(connection.hasMessage()) {
-                                        System.out.println(connection.receiveMessage());
-                                    }
-                                } catch (IOException ex) {
-                                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-    );
-        
-    public ChatNode(String handle) {
+
+    public ChatNode(String handle)
+    {
         this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
-    
-    public ChatNode(String handle, String receiveIp) {
+
+    public ChatNode(String handle, String receiveIp)
+    {
         this(handle, receiveIp, DEFAULT_PORT);
     }
-    
-    public ChatNode(String handle, String receiveIp, int receivePort) {
+
+    public ChatNode(String handle, String receiveIp, int receivePort)
+    {
         this.handle = handle;
         this.receiveIp = receiveIp;
         this.receivePort = receivePort;
     }
-        
-    public void begin() throws IOException {
-       startPeerReceiver();
-       receiveThread.start();
+
+    public void begin() throws IOException
+    {
+        startPeerReceiver();
+        receiveThread.start();
     }
-    
-    public String getHandle() { return handle; }
-    
-    public synchronized boolean hasPeerConnections() {
+
+    public String getHandle()
+    {
+        return handle;
+    }
+
+    public synchronized boolean hasPeerConnections()
+    {
         return peerConnectionCount() > 0;
     }
-    
-    public synchronized int peerConnectionCount() {
+
+    public synchronized int peerConnectionCount()
+    {
         return peerGroupConnections.size();
     }
-    
-    public synchronized List<String> getConnectionHandles() {
+
+    public synchronized List<String> getConnectionHandles()
+    {
         List<String> peerGroupHandleList = new ArrayList<>();
         peerGroupConnections.
                 values().
                 stream().
                 forEach(
-                        (connection) -> { peerGroupHandleList.add(connection.getHandle()); }
+                        (connection) ->
+                {
+                    peerGroupHandleList.add(connection.getHandle());
+                }
                 );
-        
+
         Collections.sort(peerGroupHandleList);
-        
+
         return Collections.unmodifiableList(peerGroupHandleList);
     }
-    
-    private void startPeerReceiver() throws UnknownHostException, IOException {
-        if(serverSocket == null) {
+
+    private void startPeerReceiver() throws UnknownHostException, IOException
+    {
+        if (serverSocket == null)
+        {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
-            serverSocket = new ServerSocket(this.receivePort, 0, bindAddress); 
+            serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
             acceptThread.start();
         }
     }
-    
-    public void connectTo(final String remoteIpAddress) {
+
+    public void connectTo(final String remoteIpAddress)
+    {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
-    
-    public void connectTo(final String remoteIpAddress, final int remotePort) {
+
+    public void connectTo(final String remoteIpAddress, final int remotePort)
+    {
         // check if we're already connected, perhaps the remote device
         // instigated a connection previously.
-        if(isalreadyConnected(remoteIpAddress)) {
+        if (isalreadyConnected(remoteIpAddress))
+        {
             System.err.println(String.format("Already connected to the peer with IP: '%s'", remoteIpAddress));
             return;
         }
-        
+
         //Create a thread to instigate the HELLO handshake between this peer
         //and the remote peer
         Thread helloThread = new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        InetAddress bindAddress;
-                        try {
-                            bindAddress = InetAddress.getByName(remoteIpAddress);
-                            Socket newSocket = new Socket(bindAddress, remotePort);
-                            Connection partialConnection = new Connection(newSocket);
-                            partialConnection.sendMessage(Message.createHelloMessage(handle));
-                            
-                            //Wait for a response from this connection.
-                            while(!partialConnection.hasMessage()) {
-                                // ... Do nothing ...
-                                // assumes it will eventually connect... probably not a good idea...
-                            }
-                            
-                            //We should have a HELLOACK message, which will have
-                            //the handle of the remote peer
-                            Message ackMessage = partialConnection.receiveMessage();
-                            
-                            if(ackMessage.isHelloAckMessage()) {
-                                partialConnection.setHandle(ackMessage.getFrom());
-                                addConnection(partialConnection);
-                            }
+                new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                InetAddress bindAddress;
+                try
+                {
+                    bindAddress = InetAddress.getByName(remoteIpAddress);
+                    Socket newSocket = new Socket(bindAddress, remotePort);
+                    Connection partialConnection = new Connection(newSocket);
+                    partialConnection.sendMessage(Message.createHelloMessage(handle));
 
-                        } catch (UnknownHostException ex) {
-                            Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex) {
-                            Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
+                    //Wait for a response from this connection.
+                    while (!partialConnection.hasMessage())
+                    {
+                        // ... Do nothing ...
+                        // assumes it will eventually connect... probably not a good idea...
                     }
+
+                    //We should have a HELLOACK message, which will have
+                    //the handle of the remote peer
+                    Message ackMessage = partialConnection.receiveMessage();
+
+                    if (ackMessage.isHelloAckMessage())
+                    {
+                        partialConnection.setHandle(ackMessage.getFrom());
+                        addConnection(partialConnection);
+                    }
+
                 }
+                catch (UnknownHostException ex)
+                {
+                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
         );
-        
+
         helloThread.start();
 
     }
-    
-    private void addConnection(final Connection connection) {
-        synchronized(lock) {
-            if(peerGroupConnections.containsKey(connection.getHandle())){
-               System.err.println("[" + connection.getHandle() + "] is already an established connection."); 
-               return;
+
+    private void addConnection(final Connection connection)
+    {
+        synchronized (lock)
+        {
+            if (peerGroupConnections.containsKey(connection.getHandle()))
+            {
+                System.err.println("[" + connection.getHandle() + "] is already an established connection.");
+                return;
             }
             peerGroupConnections.put(connection.getHandle(), connection);
         }
     }
-    
-    private synchronized boolean isalreadyConnected(final String ipAddress) {
-        for(Connection c : peerGroupConnections.values()) {
-            if(c.hasIpAddress(ipAddress)) {
+
+    private synchronized boolean isalreadyConnected(final String ipAddress)
+    {
+        for (Connection c : peerGroupConnections.values())
+        {
+            if (c.hasIpAddress(ipAddress))
+            {
                 return true;
             }
         }
 
         return false;
     }
-        
+
     /*
      * @param peer The peer that the message is being sent to 
      * @param message The message to send to all peers
-     */    
-    public void sendMessage(Message message) {
-        synchronized(lock) {
-            if(message.isBroadcast()) {
+     */
+    public void sendMessage(Message message)
+    {
+        synchronized (lock)
+        {
+            if (message.isBroadcast())
+            {
                 //
                 // Not handling broadcast messages presently...
                 //
             }
-            else {
+            else
+            {
                 final List<String> receivers = message.getTo();
-                
-                for(String receiver : receivers) {
+
+                for (String receiver : receivers)
+                {
                     //find the socket of the peer using their handle:
                     Connection peerConnection = peerGroupConnections.get(receiver);
 
-                    if(peerConnection != null) {
+                    if (peerConnection != null)
+                    {
                         peerConnection.sendMessage(message);
                     }
-                    else {
+                    else
+                    {
                         System.err.println("'" + receiver + "' is an unknown peer");
                     }
                 }
             }
         }
-    }    
+    }
 }
