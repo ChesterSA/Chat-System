@@ -36,8 +36,7 @@ public class StartDirectory
 
                 System.out.println("Options:");
                 System.out.println("1. Show connections");
-                System.out.println("2. Send dir message");
-                System.out.println("3. Remove connections");
+                System.out.println("2. Remove connections");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -47,12 +46,8 @@ public class StartDirectory
                         displayConnectionList(dir);
                         break;
                     case "2":
-                        sendDirMessage(dir);
-                        break;
-                    case "3":
                         dir.removeConnections();
-                        break;
-                        
+                        break;     
                     default:
                         System.err.println("Invalid option.");
                 }
@@ -85,17 +80,5 @@ public class StartDirectory
     {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
-    }
-
-    private static void sendDirMessage(Directory dir)
-    {
-        System.out.println("Who would you like to send the directory to");
-        final String peerHandle = gets();
-
-        Message newMessage = new Message(dir.getHandle(), peerHandle);
-
-        newMessage.append(dir.getAddresses());
-
-        dir.sendMessage(newMessage);
     }
 }

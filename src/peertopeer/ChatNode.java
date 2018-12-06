@@ -282,21 +282,32 @@ public class ChatNode
                     //the handle of the remote peer
                     final Message receivedMessage = partialConnection.receiveMessage();
                     //Message ackMessage = partialConnection.receiveMessage();
-                    
+
                     if (receivedMessage.isHelloAckMessage())
                     {
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addConnection(partialConnection);
                     }
-                    else if (receivedMessage.isDirMessage()) {
-                        System.out.println("IPs ARE: " + receivedMessage.getContent());
+                    else if (receivedMessage.isDirMessage())
+                    {
                         String[] ips = receivedMessage.getContent().split(",");
 
-                        for (String ip : ips) {
-                            connectTo(ip);
+                        for (String ip : ips)
+                        {
+                            boolean alreadyConnected = false;
+                            for (Connection c : peerGroupConnections.values())
+                            {
+                                if (c.socket.toString().substring(13, 27).equals(ip))
+                                {
+                                    alreadyConnected = true;
+                                }
+                            }
+                            if (!alreadyConnected)
+                            {
+                                connectTo(ip);
+                            }
                         }
                     }
-
                 }
                 catch (UnknownHostException ex)
                 {
