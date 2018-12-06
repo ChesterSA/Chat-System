@@ -44,6 +44,7 @@ public class ChatNode
 
     public void updateList(LinkedList<String> ipAddresses)
     {
+        
         this.ipAddresses = ipAddresses;
         connectToAll();
     }
@@ -90,6 +91,10 @@ public class ChatNode
                     if (!receivedMessage.isHelloMessage())
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                    }
+                    else if (receivedMessage.isDirMessage())
+                    {
+                        System.out.println("IPs ARE: " + receivedMessage.getContent());
                     }
                     else
                     {
