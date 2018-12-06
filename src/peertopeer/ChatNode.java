@@ -6,6 +6,7 @@
 package peertopeer;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -294,15 +295,24 @@ public class ChatNode
 
                         for (String ip : ips)
                         {
-                            boolean alreadyConnected = false;
-                            for (Connection c : peerGroupConnections.values())
+                            boolean newConnection = true;
+
+                            if (ip.equals(Inet4Address.getLocalHost().getHostAddress()))
                             {
-                                if (c.socket.toString().substring(13, 27).equals(ip))
+                                newConnection = false;
+                            }
+                            else
+                            {
+                                for (Connection c : peerGroupConnections.values())
                                 {
-                                    alreadyConnected = true;
+                                    if (c.socket.toString().substring(13, 27).equals(ip))
+                                    {
+                                        newConnection = false;
+                                    }
+                                    System.out.println(c.socket.toString().substring(13, 27) + "    " + newConnection);
                                 }
                             }
-                            if (!alreadyConnected)
+                            if (newConnection)
                             {
                                 connectTo(ip);
                             }
