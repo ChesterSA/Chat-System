@@ -117,7 +117,7 @@ public class PeerToPeerTest
 
     private static void connectToDir(ChatNode me)
     {
-        me.connectTo("152.106.67.116");
+        me.connectTo("152.105.67.116");
     }
 
 }

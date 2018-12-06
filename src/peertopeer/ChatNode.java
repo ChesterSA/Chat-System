@@ -42,6 +42,11 @@ public class ChatNode
     protected HashMap<String, Connection> peerGroupConnections = new HashMap<>();
     protected LinkedList<String> ipAddresses = new LinkedList<>();
 
+    public void removeConnections()
+    {
+        peerGroupConnections = new HashMap<>();
+    }
+    
     public void updateList(LinkedList<String> ipAddresses)
     {
         

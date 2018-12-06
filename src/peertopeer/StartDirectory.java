@@ -35,23 +35,24 @@ public class StartDirectory
             {
 
                 System.out.println("Options:");
-                System.out.println("1. Send message to existing connection");
-                System.out.println("2. Show connections");
-                System.out.println("3. Send dir message");
+                System.out.println("1. Show connections");
+                System.out.println("2. Send dir message");
+                System.out.println("3. Remove connections");
                 System.out.println("> ");
                 final String option = gets();
 
                 switch (option)
                 {
                     case "1":
-                        sendMessage(dir);
-                        break;
-                    case "2":
                         displayConnectionList(dir);
                         break;
-                    case "3":
+                    case "2":
                         sendDirMessage(dir);
                         break;
+                    case "3":
+                        dir.removeConnections();
+                        break;
+                        
                     default:
                         System.err.println("Invalid option.");
                 }
