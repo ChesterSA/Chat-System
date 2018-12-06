@@ -42,7 +42,7 @@ public class PeerToPeerTest
                 System.out.println("1. New Connection");
                 System.out.println("2. Send message to existing connection");
                 System.out.println("3. Show connections");
-                System.out.println("4. Connect to all");
+                System.out.println("4. Connect to dir");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -58,7 +58,7 @@ public class PeerToPeerTest
                         displayConnectionList(thisChatNode);
                         break;
                     case "4":
-                        connectToAll(thisChatNode);
+                        connectToDir(thisChatNode);
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -115,16 +115,9 @@ public class PeerToPeerTest
         return sc.nextLine();
     }
 
-    private static void connectToAll(ChatNode me)
+    private static void connectToDir(ChatNode me)
     {
-        LinkedList<String> ipAddresses = new LinkedList<>();
-        ipAddresses.add("152.105.67.115");
-        ipAddresses.add("152.105.67.111");
-        ipAddresses.add("152.105.67.112");
-
-        me.updateList(ipAddresses);
-
-        me.connectToAll();
+        me.connectTo("152.106.67.116");
     }
 
 }
