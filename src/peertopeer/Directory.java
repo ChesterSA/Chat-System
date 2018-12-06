@@ -28,7 +28,7 @@ public class Directory extends ChatNode
         {
             System.out.println(c.socket.toString().substring(13,27));
             
-            output += c.socket.toString().substring(13,27) + ", ";
+            output += c.socket.toString().substring(13,27) + ",";
         }
         return output;
     }

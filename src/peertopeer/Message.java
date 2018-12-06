@@ -74,7 +74,7 @@ public class Message
     
     public boolean isDirMessage()
     {
-        Pattern ipPattern = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}, *)#$");
+        Pattern ipPattern = Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}, *");
         Matcher m = ipPattern.matcher(content);
         return m.matches();
     }

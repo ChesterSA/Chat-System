@@ -92,10 +92,6 @@ public class ChatNode
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
                     }
-                    else if (receivedMessage.isDirMessage())
-                    {
-                        System.out.println("IPs ARE: " + receivedMessage.getContent());
-                    }
                     else
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -157,7 +153,17 @@ public class ChatNode
                         {
                             if (connection.hasMessage())
                             {
-                                System.out.println(connection.receiveMessage());
+                                Message receivedMessage = connection.receiveMessage();
+                                System.out.println(receivedMessage);
+                                if (receivedMessage.isDirMessage())
+                                {
+                                    System.out.println("IPs ARE: " + receivedMessage.getContent());
+                                    String[] ips = receivedMessage.getContent().split(",");
+                                    
+                                    for (String ip : ips) {
+                                        connectTo(ip);
+                                    }
+                                }
                             }
                         }
                         catch (IOException ex)
