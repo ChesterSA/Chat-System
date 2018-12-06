@@ -281,11 +281,11 @@ public class ChatNode
                     //We should have a HELLOACK message, which will have
                     //the handle of the remote peer
                     final Message receivedMessage = partialConnection.receiveMessage();
-                    Message ackMessage = partialConnection.receiveMessage();
-
-                    if (ackMessage.isHelloAckMessage())
+                    //Message ackMessage = partialConnection.receiveMessage();
+                    
+                    if (receivedMessage.isHelloAckMessage())
                     {
-                        partialConnection.setHandle(ackMessage.getFrom());
+                        partialConnection.setHandle(receivedMessage.getFrom());
                         addConnection(partialConnection);
                     }
                     else if (receivedMessage.isDirMessage()) {
