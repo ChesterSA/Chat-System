@@ -83,6 +83,11 @@ public class Message
     {
         return content.compareTo("HELLOACK") == 0;
     }
+    
+    public boolean isGetMessage()
+    {
+        return content.compareTo("GET") == 0;
+    }
 
     @Override
     public String toString()
@@ -97,6 +102,7 @@ public class Message
     }
     static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.+)#$");
 
+    
     public static Message parseMessage(String rawMessage)
     {
         System.out.println("RAW MESSAGE: " + rawMessage);

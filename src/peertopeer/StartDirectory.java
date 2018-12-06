@@ -65,20 +65,6 @@ public class StartDirectory
         }
     }
 
-    private static void sendMessage(Directory dir)
-    {
-        System.out.println("Who would you like to send a message to?");
-        final String peerHandle = gets();
-
-        System.out.println("What message would you like to send to " + peerHandle + "?");
-
-        Message newMessage = new Message(dir.getHandle(), peerHandle);
-
-        newMessage.append(gets());
-
-        dir.sendMessage(newMessage);
-    }
-
     private static void displayConnectionList(Directory me)
     {
         if (!me.hasPeerConnections())

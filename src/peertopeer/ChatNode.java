@@ -46,10 +46,10 @@ public class ChatNode
     {
         peerGroupConnections = new HashMap<>();
     }
-    
+
     public void updateList(LinkedList<String> ipAddresses)
     {
-        
+
         this.ipAddresses = ipAddresses;
         connectToAll();
     }
@@ -63,7 +63,7 @@ public class ChatNode
         });
     }
 
-    protected final Thread acceptThread = new Thread(
+    protected Thread acceptThread = new Thread(
             new Runnable()
     {
         @Override
@@ -92,7 +92,7 @@ public class ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
 
                     System.out.println("Message received: " + receivedMessage.toString());
-                    
+
                     if (!receivedMessage.isHelloMessage())
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
@@ -164,8 +164,9 @@ public class ChatNode
                                 {
                                     System.out.println("IPs ARE: " + receivedMessage.getContent());
                                     String[] ips = receivedMessage.getContent().split(",");
-                                    
-                                    for (String ip : ips) {
+
+                                    for (String ip : ips)
+                                    {
                                         connectTo(ip);
                                     }
                                 }
