@@ -150,9 +150,17 @@ public class Portal extends ChatNode
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
 
-                    //System.out.println("Message received: " + receivedMessage.toString());
+                    if (receivedMessage == null)
+                    {
+                        System.out.println(newConnection.socket.toString());
+                    }
+                    else
+                    {
+                        System.out.println("Message received: " + receivedMessage.toString());
+                    }
+                    
 
-  
+                    
                     if (receivedMessage.isHelloMessage())
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -235,12 +243,14 @@ public class Portal extends ChatNode
     }
     );
     
+    @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
         if (serverSocket == null)
         {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
+            System.out.println("portal initiated");
             portalAcceptThread.start();
         }
     }

@@ -24,8 +24,7 @@ class Connection {
     private final BufferedReader clientSocketBufferedReader;
     private final PrintWriter clientPrintWriter;
                
-   
-    
+
     // Create a partially connected connection.
     // The handle is not yet known.
     Connection(Socket socket) throws IOException {
