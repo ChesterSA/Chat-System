@@ -156,7 +156,7 @@ public class Portal extends ChatNode
                     }
                     else
                     {
-                        System.out.println("Message received: " + receivedMessage.toString());
+                        //System.out.println("Message received: " + receivedMessage.toString());
                     }
                     
 
