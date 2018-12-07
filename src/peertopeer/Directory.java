@@ -124,7 +124,11 @@ public class Directory
                                 }
                                 else
                                 {
-                                    System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
+                                    peerGroupConnections.remove(newConnectionHandle);
+                                    newConnection.setHandle(newConnectionHandle);
+                                    addConnection(newConnection);     
+                                    newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
+                                    System.out.println("reconnected: '" + newConnectionHandle + "'");
                                 }
                             }
                         }
