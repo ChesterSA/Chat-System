@@ -164,7 +164,7 @@ public class Interface {
                
             }
            });
-        JButton portalshowConnections = new JButton("Show Connections");
+        JButton portalshowConnections = new JButton("Show Portals");
         addComponentToGridBag(PortalFrame, portalshowConnections, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalshowConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) 
@@ -174,22 +174,41 @@ public class Interface {
                
             }
            });
-        
-        
-        
-        
         JButton portalConnectdir = new JButton("Connect To directory");
         addComponentToGridBag(PortalFrame, portalConnectdir, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-
-        JButton portalRemoveConnections = new JButton("Remove Connections");
-        addComponentToGridBag(PortalFrame, portalRemoveConnections, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-
-       
+        portalConnectdir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) 
+            {
+            
+                PortalconnectToDir(portal);
+               
+            }
+           });
         
-
-
-
-
+        
+        JButton portalRemoveConnections = new JButton("Remove Connections");
+        addComponentToGridBag(PortalFrame, portalRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalRemoveConnections
+                .addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) 
+            {
+            
+                 portal.removeConnections();
+               
+            }
+           });
+        JButton portalShowAgents = new JButton("Show Agents");
+        addComponentToGridBag(PortalFrame, portalShowAgents, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+         portalShowAgents.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) 
+            {
+            
+                 displayAgentList(portal);
+               
+            }
+           });
+        
+ 
 // end of portal settings
         //start of the directory buttons
         JLabel directoryOptions = new JLabel("Directory Options", SwingConstants.CENTER);
@@ -252,7 +271,7 @@ public class Interface {
     {
         if (!me.hasPeerConnections())
         {
-            JOptionPane.showMessageDialog(null, "No Connections!");
+            JOptionPane.showMessageDialog(null, "No Portal Connections!");
             return;
         }
 
@@ -262,5 +281,18 @@ public class Interface {
     private static void PortalconnectToDir(ChatNode me)
     {
         me.connectTo("152.105.67.116");
+    }
+    
+    private static void displayAgentList(Portal me)
+    {
+        if (!me.hasPeerConnections())
+        {
+            JOptionPane.showMessageDialog(null, "No Agent Connections!");
+            return;
+        }
+
+           List<String> connections = me.getAgentHandles();
+            JOptionPane.showMessageDialog(null,connections);
+        
     }
 }
