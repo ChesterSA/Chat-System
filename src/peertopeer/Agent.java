@@ -121,10 +121,12 @@ public class Agent extends ChatNode {
                                 newConnection = false;
                             }
                             else
+                                
                             {
                                 
                                 for (Connection c : peerGroupConnections.values())
                                 {
+                                    //Matches everything between the / and the , of the socket.toString
                                     Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
                                     
                                     Matcher m = ipPattern.matcher(c.socket.toString());                                   
@@ -167,6 +169,11 @@ public class Agent extends ChatNode {
         {
             portal = new Pair<>(connection.getHandle(), connection);
         }
+    }
+    
+    public String getPortal()
+    {
+        return portal.getKey();
     }
     
 }

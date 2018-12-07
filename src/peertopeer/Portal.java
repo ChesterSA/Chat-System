@@ -26,6 +26,7 @@ import java.util.Set;
 public class Portal extends ChatNode
 {
 
+    protected HashMap<String, Connection> portals = new HashMap<>();
     protected HashMap<String, Connection> agents = new HashMap<>();
 
     public Portal(String handle)
@@ -69,7 +70,7 @@ public class Portal extends ChatNode
                 else
                 {
 
-                    for (Connection c : peerGroupConnections.values())
+                    for (Connection c : portals.values())
                     {
                         c.sendMessage(message);
                     }
@@ -91,37 +92,26 @@ public class Portal extends ChatNode
                 synchronized (lock)
                 {
 
-                    for (Connection connection : peerGroupConnections.values())
+                    for (Connection connection : portals.values())
                     {
                         try
                         {
-                            
-                            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                             if (connection.hasMessage())
                             {
                                 Message receivedMessage = connection.receiveMessage();
 
-                                System.out.println("Portal: " + handle + " has received message");
+                                System.out.println("---Portal: " + handle + " has received message");
 
                                 if (agents.containsKey(receivedMessage.getTo()))
                                 {
-                                    System.out.println("message is to local agent");
+                                    System.out.println("---Message is to local agent of portal " + handle);
                                     sendMessage(receivedMessage);
                                 }
                                 else
                                 {
-                                    System.out.println("Agent not present at portal " + handle);
-
-                                    for (Connection c : peerGroupConnections.values())
-                                    {
-                                        System.out.println("Sending to next portal");
-                                        c.sendMessage(receivedMessage);
-                                    }
-
+                                    System.out.println("---Agent not present at portal " + handle);
                                 }
-
                             }
-
                         }
                         catch (IOException ex)
                         {
@@ -180,7 +170,7 @@ public class Portal extends ChatNode
                             synchronized (lock)
                             {
 
-                                if (peerGroupConnections.get(newConnectionHandle) == null)
+                                if (portals.get(newConnectionHandle) == null)
                                 {
                                     //Complete the connection by setting its handle.
                                     //this is essential as we use the handle to send
@@ -274,22 +264,8 @@ public class Portal extends ChatNode
         {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
-            System.out.println("portal initiated");
             portalAcceptThread.start();
         }
-    }
-
-    private LinkedList<String> recipients(Set<String> set, List<String> list)
-    {
-        LinkedList<String> recipients = new LinkedList<>();
-        for (String s : list)
-        {
-            if (set.contains(s))
-            {
-                recipients.add(s);
-            }
-        }
-        return recipients;
     }
 
     @Override

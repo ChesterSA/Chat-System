@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  */
 public class AgentTest
 {
+
     /**
      * @param args the command line arguments
      */
@@ -39,7 +40,7 @@ public class AgentTest
                 System.out.println("Agent Options:");
                 System.out.println("1. New Connection");
                 System.out.println("2. Send Message");
-                System.out.println("3. Show portal");
+                System.out.println("3. Show Portal");
                 System.out.println("4. Connect to dir");
                 System.out.println("5. Remove Connections");
                 System.out.println("> ");
@@ -87,8 +88,8 @@ public class AgentTest
 
         me.sendMessage(newMessage);
     }
-    
-    private static void newConnection(ChatNode me)
+
+    private static void newConnection(Agent me)
     {
         System.out.println("What is the IP address of the portal to connect to?");
         String ipAddressOfPeer = gets();
@@ -96,20 +97,11 @@ public class AgentTest
         me.connectTo(ipAddressOfPeer);
     }
 
-    private static void displayConnectionList(ChatNode me)
+    private static void displayConnectionList(Agent me)
     {
-        if (!me.hasPeerConnections())
-        {
-            System.out.println("\n* No peers connected *\n");
-            return;
-        }
-
-        System.out.println(
-                String.format(
-                        "Connected peer handles\n\n%s\n\n",
-                        String.join(", ", me.getConnectionHandles())
-                )
-        );
+        System.out.println("***");
+        System.out.println(me.getPortal());
+        System.out.println("***");
     }
 
     private static String gets()
