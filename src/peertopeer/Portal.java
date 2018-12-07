@@ -152,11 +152,8 @@ public class Portal extends ChatNode
 
                     //System.out.println("Message received: " + receivedMessage.toString());
 
-                    if (!receivedMessage.isHelloMessage() && !receivedMessage.isAgentsMessage())
-                    {
-                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
-                    }     
-                    else if (receivedMessage.isHelloMessage())
+  
+                    if (receivedMessage.isHelloMessage())
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
@@ -219,6 +216,10 @@ public class Portal extends ChatNode
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
                     }
                     
                     // Check for HELLO message with client name.
