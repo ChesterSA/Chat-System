@@ -63,13 +63,15 @@ public class Message
 
     public boolean isHelloMessage()
     {
-        return to.isEmpty() && content.compareTo("HELLO") == 0;
+        System.out.println(to.isEmpty());
+        System.out.println("-" + to + "-");
+        return to.equals("null") && content.compareTo("HELLO") == 0;
         
     }
 
     public boolean isAgentsMessage()
     {
-        return to.isEmpty() && content.compareTo("AGENT") == 0;
+        return to.equals("null") && content.compareTo("AGENT") == 0;
     }
 
     public boolean isDirMessage()

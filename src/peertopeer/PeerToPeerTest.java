@@ -22,7 +22,7 @@ public class PeerToPeerTest
      */
     public static void main(String[] args)
     {
-        System.out.println("Handle?");
+        System.out.println("why are you running this class");
         String myHandle = gets();
 
         // TODO code application logic here
