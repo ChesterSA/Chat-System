@@ -61,23 +61,19 @@ public class Portal extends ChatNode
 
                 for (String receiver : receivers)
                 {
-                    Connection peer;
-
                     //Check if reciever is in local agents list
                     if (agents.containsKey(receiver))
                     {
-                        peer = agents.get(receiver);
-                        peer.sendMessage(message);
-                    }
-                    else if (peerGroupConnections.containsKey(receiver))
-                    {
-                        //find the socket of the peer using their handle:
-                        peer = peerGroupConnections.get(receiver);
+                        Connection peer = agents.get(receiver);
                         peer.sendMessage(message);
                     }
                     else
                     {
-                        System.err.println("'" + receiver + "' is an unknown peer");
+                        for(Connection c : peerGroupConnections.values())
+                        { 
+                            c.sendMessage(message);
+                        }
+                        //System.err.println("'" + receiver + "' is an unknown peer");
                     }
 
                 }
