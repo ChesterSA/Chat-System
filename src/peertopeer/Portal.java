@@ -112,6 +112,7 @@ public class Portal extends ChatNode
                                 else
                                 {
                                     System.out.println("---No local agents, contacting external portals");
+                                    System.out.println("--- portals size = " + portals.values().size());
                                     for (Connection con : portals.values())
                                     {
                                         System.out.println("---trying socket " + con.socket.toString());
@@ -128,7 +129,7 @@ public class Portal extends ChatNode
                         }
                     }
                     
-                    for (Connection c : agents.values())
+                    for (Connection c : portals.values())
                     {
                         try
                         {
@@ -323,6 +324,24 @@ public class Portal extends ChatNode
         return Collections.unmodifiableList(agentHandleList);
     }
 
+    public synchronized List<String> getPortalHandles()
+    {
+        List<String> agentHandleList = new ArrayList<>();
+        portals.
+                values().
+                stream().
+                forEach(
+                        (connection) ->
+                {
+                    agentHandleList.add(connection.getHandle());
+                }
+                );
+
+        Collections.sort(agentHandleList);
+
+        return Collections.unmodifiableList(agentHandleList);
+    }
+    
     public void removePortals()
     {
         portals = new HashMap<>();

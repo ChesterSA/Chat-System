@@ -52,7 +52,7 @@ public class PortalTest
                         newConnection(portal);
                         break;
                     case "2":
-                        displayConnectionList(portal);
+                        displayPortalList(portal);
                         break;
                     case "3":
                         displayAgentList(portal);
@@ -85,18 +85,18 @@ public class PortalTest
         me.connectTo(ipAddressOfPeer);
     }
 
-    private static void displayConnectionList(Portal me)
+    private static void displayPortalList(Portal me)
     {
         if (!me.hasPeerConnections())
         {
-            System.out.println("\n* No peers connected *\n");
+            System.out.println("\n* No portal *\n");
             return;
         }
 
         System.out.println(
                 String.format(
                         "Connected peer handles\n\n%s\n\n",
-                        String.join(", ", me.getConnectionHandles())
+                        String.join(", ", me.getPortalHandles())
                 )
         );
     }
