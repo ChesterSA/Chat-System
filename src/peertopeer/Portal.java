@@ -256,12 +256,12 @@ public class Portal extends ChatNode
     {
         synchronized (lock)
         {
-            if (peerGroupConnections.containsKey(c.getHandle()))
+            if (agents.containsKey(c.getHandle()))
             {
                 System.err.println("[" + c.getHandle() + "] is already an established connection.");
                 return;
             }
-            peerGroupConnections.put(c.getHandle(), c);
+            agents.put(c.getHandle(), c);
         }
     }
 
