@@ -112,7 +112,7 @@ public class Portal extends ChatNode
                                 else
                                 {
                                     System.out.println("---No local agents, contacting external portals");
-                                    System.out.println("--- portals size = " + portals.values().size());
+                                    System.out.println("---portals size = " + portals.values().size());
                                     for (Connection con : portals.values())
                                     {
                                         System.out.println("---trying socket " + con.socket.toString());
@@ -211,7 +211,7 @@ public class Portal extends ChatNode
 
                                     //update our register of peer connections
                                     //
-                                    addConnection(newConnection);
+                                    addPortal(newConnection);
 
                                     //The HELLOACK allows the peer to know our handle
                                     //
@@ -275,6 +275,19 @@ public class Portal extends ChatNode
     }
     );
 
+    private void addPortal(Connection c)
+    {
+        synchronized (lock)
+        {
+            if (portals.containsKey(c.getHandle()))
+            {
+                System.err.println("[" + c.getHandle() + "] is already an established connection.");
+                return;
+            }
+            portals.put(c.getHandle(), c);
+        }
+    }
+    
     private void addAgent(Connection c)
     {
         synchronized (lock)
