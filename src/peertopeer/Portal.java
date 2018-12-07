@@ -297,7 +297,7 @@ public class Portal extends ChatNode
         portalReceiveThread.start();
     }
     
-    public synchronized List<String> getConnectionHandles()
+    public synchronized List<String> getAgentHandles()
     {
         List<String> agentHandleList = new ArrayList<>();
         agents.
