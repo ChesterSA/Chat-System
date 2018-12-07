@@ -102,7 +102,7 @@ public class Portal extends ChatNode
                             {
                                 Message receivedMessage = c.receiveMessage();
 
-                                System.out.println("---Portal: " + handle + " has received message");
+                                System.out.println("---Portal: " + handle + " has received message from an agent");
 
                                 if (agents.containsKey(receivedMessage.getTo()))
                                 {
@@ -111,8 +111,10 @@ public class Portal extends ChatNode
                                 }
                                 else
                                 {
+                                    System.out.println("---No local agents, contacting external portals");
                                     for (Connection con : portals.values())
                                     {
+                                        System.out.println("---trying socket " + con.socket.toString());
                                         con.sendMessage(receivedMessage);
                                     }
                                 }
