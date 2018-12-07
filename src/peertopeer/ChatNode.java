@@ -300,7 +300,7 @@ public class ChatNode
                                     {
                                         newConnection = false;
                                     }
-                                    System.out.println(c.socket.toString().substring(13, 27) + "    " + newConnection);
+                                    System.out.println(m.group() + "    " + newConnection);
                                 }
                             }
                             if (newConnection)

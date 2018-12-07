@@ -37,7 +37,7 @@ public class PeerToPeerTest
 
             while (true)
             {
-
+                
                 System.out.println("Options:");
                 System.out.println("1. New Connection");
                 System.out.println("2. Send message to existing connection");
@@ -121,7 +121,7 @@ public class PeerToPeerTest
 
     private static void connectToDir(ChatNode me)
     {
-        me.connectTo("152.105.67.116");
+        me.connectTo("152.105.67.117");
     }
 
 }
