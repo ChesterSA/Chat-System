@@ -22,8 +22,6 @@ public class Message
     private final ArrayList<String> to;
     private String content = "";
 
-    
-    
     public Message(String from)
     {
         this(from, null);
@@ -71,12 +69,12 @@ public class Message
     {
         return to.isEmpty() && content.compareTo("HELLO") == 0;
     }
-    
+
     public boolean isAgentsMessage()
     {
         return to.isEmpty() && content.compareTo("AGENT") == 0;
     }
-    
+
     public boolean isDirMessage()
     {
         Pattern ipPattern = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3},)+");
@@ -88,7 +86,7 @@ public class Message
     {
         return content.compareTo("HELLOACK") == 0;
     }
-    
+
     public boolean isGetMessage()
     {
         return content.compareTo("GET") == 0;
@@ -105,9 +103,9 @@ public class Message
                 String.join(",", to),
                 content);
     }
+
     static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.+)#$");
 
-    
     public static Message parseMessage(String rawMessage)
     {
         System.out.println("RAW MESSAGE: " + rawMessage);
@@ -141,7 +139,7 @@ public class Message
         agentMessage.content = "AGENT";
         return agentMessage;
     }
-    
+
     public static Message createHelloAckMessage(final String from, final String to)
     {
         Message helloAckMessage = new Message(from, to);

@@ -150,13 +150,18 @@ public class Portal extends ChatNode
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
 
-                    //System.out.println("Message received: " + receivedMessage.toString());
-
-                    if (!receivedMessage.isHelloMessage() && !receivedMessage.isAgentsMessage())
+                    if (receivedMessage == null)
                     {
-                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
-                    }     
-                    else if (receivedMessage.isHelloMessage())
+                        System.out.println(newConnection.socket.toString());
+                    }
+                    else
+                    {
+                        System.out.println("Message received: " + receivedMessage.toString());
+                    }
+                    
+
+                    
+                    if (receivedMessage.isHelloMessage())
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
@@ -220,6 +225,10 @@ public class Portal extends ChatNode
                             }
                         }
                     }
+                    else
+                    {
+                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                    }
                     
                     // Check for HELLO message with client name.
 
@@ -234,12 +243,14 @@ public class Portal extends ChatNode
     }
     );
     
+    @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
         if (serverSocket == null)
         {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
+            System.out.println("portal initiated");
             portalAcceptThread.start();
         }
     }

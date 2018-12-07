@@ -38,9 +38,10 @@ public class AgentTest
 
                 System.out.println("Agent Options:");
                 System.out.println("1. New Connection");
-                System.out.println("2. Show portal");
-                System.out.println("3. Connect to dir");
-                System.out.println("4. Remove Connections");
+                System.out.println("2. Send Message");
+                System.out.println("3. Show portal");
+                System.out.println("4. Connect to dir");
+                System.out.println("5. Remove Connections");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -50,12 +51,15 @@ public class AgentTest
                         newConnection(agent);
                         break;
                     case "2":
-                        displayConnectionList(agent);
+                        sendMessage(agent);
                         break;
                     case "3":
-                        connectToDir(agent);
+                        displayConnectionList(agent);
                         break;
                     case "4":
+                        connectToDir(agent);
+                        break;
+                    case "5":
                         agent.removeConnections();
                         break;
                     default:
@@ -70,10 +74,25 @@ public class AgentTest
         }
     }
 
+    private static void sendMessage(Agent me)
+    {
+        System.out.println("Who would you like to send a message to?");
+        final String peerHandle = gets();
+
+        System.out.println("What message would you like to send to " + peerHandle + "?");
+
+        Message newMessage = new Message(me.getHandle(), peerHandle);
+
+        newMessage.append(gets());
+
+        me.sendMessage(newMessage);
+    }
+    
     private static void newConnection(ChatNode me)
     {
         System.out.println("What is the IP address of the portal to connect to?");
         String ipAddressOfPeer = gets();
+        System.out.println("Connecting to " + ipAddressOfPeer);
         me.connectTo(ipAddressOfPeer);
     }
 
