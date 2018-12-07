@@ -87,15 +87,13 @@ public class PortalTest
 
     private static void displayPortalList(Portal me)
     {
-        if (!me.hasPeerConnections())
-        {
-            System.out.println("\n* No portal *\n");
-            return;
-        }
+
+        System.out.println("Amount of portals = " + me.getPortalHandles().size());
+
 
         System.out.println(
                 String.format(
-                        "Connected peer handles\n\n%s\n\n",
+                        "Connected portals handles\n%s\n",
                         String.join(", ", me.getPortalHandles())
                 )
         );

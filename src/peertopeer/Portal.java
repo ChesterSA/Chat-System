@@ -116,6 +116,7 @@ public class Portal extends ChatNode
                                     for (Connection con : portals.values())
                                     {
                                         System.out.println("---trying socket " + con.socket.toString());
+                                         
                                         con.sendMessage(receivedMessage);
                                     }
                                 }
@@ -284,6 +285,7 @@ public class Portal extends ChatNode
                 System.err.println("[" + c.getHandle() + "] is already an established connection.");
                 return;
             }
+            System.out.println("---Adding portal " + c.toString() + " to " + handle);
             portals.put(c.getHandle(), c);
         }
     }
