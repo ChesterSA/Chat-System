@@ -63,8 +63,6 @@ public class Message
 
     public boolean isHelloMessage()
     {
-        System.out.println(to.isEmpty());
-        System.out.println("-" + to + "-");
         return to.equals("null") && content.compareTo("HELLO") == 0;
         
     }
