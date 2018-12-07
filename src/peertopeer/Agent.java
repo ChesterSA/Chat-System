@@ -63,6 +63,10 @@ public class Agent extends ChatNode {
                     System.out.println("---Portal: " + portal.getKey() + " ... " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
                 }
+                else
+                {
+                    System.out.println("Portal is null...");
+                }
             }
         }
     }
