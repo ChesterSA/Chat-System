@@ -95,6 +95,8 @@ public class Portal extends ChatNode
                     {
                         try
                         {
+                            
+                            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                             if (connection.hasMessage())
                             {
                                 Message receivedMessage = connection.receiveMessage();
