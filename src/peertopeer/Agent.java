@@ -46,21 +46,9 @@ public class Agent extends ChatNode {
             }
             else
             {
-                final List<String> receivers = message.getTo();
-
-                for (String receiver : receivers)
+                if(portal != null)
                 {
-                    //find the socket of the peer using their handle:
-                    Connection peerConnection = peerGroupConnections.get(receiver);
-
-                    if (peerConnection != null)
-                    {
-                        peerConnection.sendMessage(message);
-                    }
-                    else
-                    {
-                        System.err.println("'" + receiver + "' is an unknown peer");
-                    }
+                    portal.sendMessage(message);
                 }
             }
         }
