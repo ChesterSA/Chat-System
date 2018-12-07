@@ -5,6 +5,7 @@
  */
 package peertopeer;
 
+
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -18,6 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -286,9 +289,14 @@ public class ChatNode
                             }
                             else
                             {
+                                
                                 for (Connection c : peerGroupConnections.values())
                                 {
-                                    if (c.socket.toString().substring(13, 27).equals(ip))
+                                    Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
+                                    
+                                    Matcher m = ipPattern.matcher(c.socket.toString());                                   
+                                    
+                                    if (m.group().equals(ip))
                                     {
                                         newConnection = false;
                                     }
