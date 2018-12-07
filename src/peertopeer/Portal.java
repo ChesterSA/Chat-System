@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  */
 import java.util.LinkedList;
 import java.util.Set;
+
 public class Portal extends ChatNode
 {
 
@@ -47,6 +48,7 @@ public class Portal extends ChatNode
     @Override
     public void sendMessage(Message message)
     {
+        System.out.println("sending message " + message.toString());
         synchronized (lock)
         {
             if (message.isBroadcast())
@@ -57,32 +59,27 @@ public class Portal extends ChatNode
             }
             else
             {
-                final List<String> receivers = message.getTo();
-
-                for (String receiver : receivers)
+                if (agents.containsKey(message.getTo()))
                 {
-                    //Check if reciever is in local agents list
-                    if (agents.containsKey(receiver))
-                    {
-                        Connection peer = agents.get(receiver);
-                        peer.sendMessage(message);
-                    }
-                    else
-                    {
-                        for(Connection c : peerGroupConnections.values())
-                        { 
-                            c.sendMessage(message);
-                        }
-                        //System.err.println("'" + receiver + "' is an unknown peer");
-                    }
-
+                    System.out.println("message is to local agent");
+                    agents.get(message.getTo()).sendMessage(message);
                 }
+                else
+                {
+
+                    for (Connection c : peerGroupConnections.values())
+                    {
+                        c.sendMessage(message);
+                    }
+                    //System.err.println("'" + receiver + "' is an unknown peer");
+                }
+
             }
         }
-    }     
-    
+    }
+
     protected final Thread portalReceiveThread = new Thread(
-        new Runnable()
+            new Runnable()
     {
         @Override
         public void run()
@@ -91,6 +88,7 @@ public class Portal extends ChatNode
             {
                 synchronized (lock)
                 {
+
                     for (Connection connection : peerGroupConnections.values())
                     {
                         try
@@ -98,30 +96,34 @@ public class Portal extends ChatNode
                             if (connection.hasMessage())
                             {
                                 Message receivedMessage = connection.receiveMessage();
-                                LinkedList<String> receivers = recipients(agents.keySet(), receivedMessage.getTo());
-                                if (receivers.size() > 0)
+
+                                System.out.println("Portal: " + handle + " has received message");
+
+                                if (agents.containsKey(receivedMessage.getTo()))
                                 {
-                                    Connection peer;
-                                    for(String s : receivers)
-                                    {
-                                        peer = agents.get(s);
-                                        peer.sendMessage(receivedMessage);
-                                    }
+                                    System.out.println("message is to local agent");
+                                    sendMessage(receivedMessage);
                                 }
-                                System.out.println(receivedMessage);
+                                else
+                                {
+                                    System.out.println("Agent not present at portal " + handle);
+
+                                }
+
                             }
-                            
+
                         }
                         catch (IOException ex)
                         {
-                            Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(ChatNode.class
+                                    .getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
             }
         }
     });
-    
+
     protected Thread portalAcceptThread = new Thread(
             new Runnable()
     {
@@ -158,9 +160,7 @@ public class Portal extends ChatNode
                     {
                         System.out.println("Message received: " + receivedMessage.toString());
                     }
-                    
 
-                    
                     if (receivedMessage.isHelloMessage())
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -228,21 +228,22 @@ public class Portal extends ChatNode
                     else
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
-                    }
-                    
-                    // Check for HELLO message with client name.
 
+                    }
+
+                    // Check for HELLO message with client name.
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ChatNode.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
 
     }
     );
-    
+
     @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
@@ -254,24 +255,24 @@ public class Portal extends ChatNode
             portalAcceptThread.start();
         }
     }
-    
-    
+
     private LinkedList<String> recipients(Set<String> set, List<String> list)
     {
         LinkedList<String> recipients = new LinkedList<>();
-        for(String s : list)
+        for (String s : list)
         {
             if (set.contains(s))
+            {
                 recipients.add(s);
+            }
         }
         return recipients;
     }
-    
-    
+
     @Override
     public void begin() throws IOException
     {
         startPeerReceiver();
         portalReceiveThread.start();
-    }        
+    }
 }

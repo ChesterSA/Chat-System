@@ -19,7 +19,7 @@ public class Message
 {
 
     private final String from;
-    private final ArrayList<String> to;
+    private final String to;
     private String content = "";
 
     public Message(String from)
@@ -30,11 +30,7 @@ public class Message
     public Message(String from, String to)
     {
         this.from = from;
-        this.to = new ArrayList<>();
-        if (to != null && to.length() > 0)
-        {
-            this.to.add(to);
-        }
+        this.to = to;
     }
 
     public void append(String appendWith)
@@ -45,9 +41,9 @@ public class Message
         }
     }
 
-    public List<String> getTo()
+    public String getTo()
     {
-        return Collections.unmodifiableList(to);
+        return to;
     }
 
     public String getFrom()

@@ -369,10 +369,8 @@ public class ChatNode
             }
             else
             {
-                final List<String> receivers = message.getTo();
+                final String receiver = message.getTo();
 
-                for (String receiver : receivers)
-                {
                     //find the socket of the peer using their handle:
                     Connection peerConnection = peerGroupConnections.get(receiver);
 
@@ -384,7 +382,6 @@ public class ChatNode
                     {
                         System.err.println("'" + receiver + "' is an unknown peer");
                     }
-                }
             }
         }
     }
