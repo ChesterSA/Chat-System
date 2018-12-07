@@ -38,9 +38,10 @@ public class PortalTest
 
                 System.out.println("Portal Options:");
                 System.out.println("1. New Connection");
-                System.out.println("2. Show connections");
-                System.out.println("3. Connect to dir");
-                System.out.println("4. Remove Connections");
+                System.out.println("2. Show portals");
+                System.out.println("3. Show agents");
+                System.out.println("4. Connect to dir");
+                System.out.println("5. Remove Connections");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -53,9 +54,12 @@ public class PortalTest
                         displayConnectionList(portal);
                         break;
                     case "3":
-                        connectToDir(portal);
+                        displayAgentList(portal);
                         break;
                     case "4":
+                        connectToDir(portal);
+                        break;
+                    case "5":
                         portal.removeConnections();
                         break;
                     default:
@@ -70,14 +74,14 @@ public class PortalTest
         }
     }
 
-    private static void newConnection(ChatNode me)
+    private static void newConnection(Portal me)
     {
         System.out.println("What is the IP address of the peer to connect to?");
         String ipAddressOfPeer = gets();
         me.connectTo(ipAddressOfPeer);
     }
 
-    private static void displayConnectionList(ChatNode me)
+    private static void displayConnectionList(Portal me)
     {
         if (!me.hasPeerConnections())
         {
@@ -89,6 +93,22 @@ public class PortalTest
                 String.format(
                         "Connected peer handles\n\n%s\n\n",
                         String.join(", ", me.getConnectionHandles())
+                )
+        );
+    }
+    
+    private static void displayAgentList(Portal me)
+    {
+        if (!me.hasPeerConnections())
+        {
+            System.out.println("\n* No peers connected *\n");
+            return;
+        }
+
+        System.out.println(
+                String.format(
+                        "Connected peer handles\n\n%s\n\n",
+                        String.join(", ", me.getAgentHandles())
                 )
         );
     }

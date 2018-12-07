@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.util.Pair;
 
 /**
  *
@@ -22,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class Agent extends ChatNode {
     
-    ChatNode portal;
+    Pair<String, Connection> portal;
     
     public Agent(String handle) {
         super(handle);
@@ -57,7 +58,7 @@ public class Agent extends ChatNode {
             {
                 if(portal != null)
                 {
-                    portal.sendMessage(message);
+                    portal.getValue().sendMessage(message);
                 }
             }
         }
@@ -157,6 +158,15 @@ public class Agent extends ChatNode {
 
         helloAgentThread.start();
 
+    }
+    
+    @Override
+    protected void addConnection(final Connection connection)
+    {
+        synchronized (lock)
+        {
+            portal = new Pair<>(connection.getHandle(), connection);
+        }
     }
     
 }

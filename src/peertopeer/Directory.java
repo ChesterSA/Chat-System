@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  */
 public class Directory
 {
+
     protected final Object lock = new Object();
 
     protected static final String DEFAULT_RECV_IP_ADDRESS = "127.0.0.1";
@@ -34,12 +35,11 @@ public class Directory
     protected String receiveIp;
     protected String handle;
     protected int receivePort;
-    
+
     //Messages are sent as a client.
     //
     protected HashMap<String, Connection> peerGroupConnections = new HashMap<>();
 
-    
     public Directory(String handle)
     {
         this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
@@ -56,7 +56,7 @@ public class Directory
         this.receiveIp = receiveIp;
         this.receivePort = receivePort;
     }
-    
+
     public void removeConnections()
     {
         peerGroupConnections = new HashMap<>();
@@ -91,7 +91,7 @@ public class Directory
                     final Message receivedMessage = newConnection.receiveMessage();
 
                     System.out.println("Message received: " + receivedMessage.toString());
-                    
+
                     if (!receivedMessage.isHelloMessage())
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
@@ -119,14 +119,13 @@ public class Directory
 
                                     //The HELLOACK allows the peer to know our handle
                                     //
-                                                                        
                                     newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
                                 }
                                 else
                                 {
                                     peerGroupConnections.remove(newConnectionHandle);
                                     newConnection.setHandle(newConnectionHandle);
-                                    addConnection(newConnection);     
+                                    addConnection(newConnection);
                                     newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
                                     System.out.println("reconnected: '" + newConnectionHandle + "'");
                                 }
@@ -245,30 +244,26 @@ public class Directory
             }
             else
             {
-                final List<String> receivers = message.getTo();
+                final String receiver = message.getTo();
 
-                for (String receiver : receivers)
+                //find the socket of the peer using their handle:
+                Connection peerConnection = peerGroupConnections.get(receiver);
+
+                if (peerConnection != null)
                 {
-                    //find the socket of the peer using their handle:
-                    Connection peerConnection = peerGroupConnections.get(receiver);
-
-                    if (peerConnection != null)
-                    {
-                        peerConnection.sendMessage(message);
-                    }
-                    else
-                    {
-                        System.err.println("'" + receiver + "' is an unknown peer");
-                    }
+                    peerConnection.sendMessage(message);
                 }
+                else
+                {
+                    System.err.println("'" + receiver + "' is an unknown peer");
+                }
+
             }
         }
     }
-    
+
     //Messages are sent as a client.
     //
-
-
     public String getAddresses()
     {
         String output = "";
@@ -280,5 +275,5 @@ public class Directory
         }
         return output;
     }
-    
+
 }
