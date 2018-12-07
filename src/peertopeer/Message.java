@@ -64,6 +64,7 @@ public class Message
     public boolean isHelloMessage()
     {
         return to.isEmpty() && content.compareTo("HELLO") == 0;
+        
     }
 
     public boolean isAgentsMessage()
