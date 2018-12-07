@@ -151,15 +151,8 @@ public class Portal extends ChatNode
                     //will do, anything else will be ignored.
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
-
-                    if (receivedMessage == null)
-                    {
-                        System.out.println(newConnection.socket.toString());
-                    }
-                    else
-                    {
-                        System.out.println("Message received: " + receivedMessage.toString());
-                    }
+                    System.out.println("Message Recieved:");
+                    System.out.println("Message Content: " + receivedMessage.toString());
 
                     if (receivedMessage.isHelloMessage())
                     {
@@ -274,7 +267,7 @@ public class Portal extends ChatNode
         startPeerReceiver();
         portalReceiveThread.start();
     }
-    
+
     public synchronized List<String> getAgentHandles()
     {
         List<String> agentHandleList = new ArrayList<>();
@@ -292,12 +285,12 @@ public class Portal extends ChatNode
 
         return Collections.unmodifiableList(agentHandleList);
     }
-    
+
     public void removePortals()
     {
         portals = new HashMap<>();
     }
-    
+
     public void removeAgents()
     {
         agents = new HashMap<>();
