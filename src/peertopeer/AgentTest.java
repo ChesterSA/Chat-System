@@ -85,6 +85,8 @@ public class AgentTest
         Message newMessage = new Message(me.getHandle(), peerHandle);
 
         newMessage.append(gets());
+        
+        System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
 
         me.sendMessage(newMessage);
     }

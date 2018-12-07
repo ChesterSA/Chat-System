@@ -46,6 +46,7 @@ public class Agent extends ChatNode {
     @Override
     public void sendMessage(Message message)
     {
+        System.out.println("---Agent is sending message");
         synchronized (lock)
         {
             if (message.isBroadcast())
@@ -56,8 +57,10 @@ public class Agent extends ChatNode {
             }
             else
             {
+                System.out.println("---Message has a set receiver");
                 if(portal != null)
                 {
+                    System.out.println("Portal: " + portal.getKey() + " ... " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
                 }
             }

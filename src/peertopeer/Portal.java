@@ -51,7 +51,7 @@ public class Portal extends ChatNode
     @Override
     public void sendMessage(Message message)
     {
-        System.out.println("sending message " + message.toString());
+        System.out.println("Sending message " + message.toString());
         synchronized (lock)
         {
             if (message.isBroadcast())
@@ -64,7 +64,7 @@ public class Portal extends ChatNode
             {
                 if (agents.containsKey(message.getTo()))
                 {
-                    System.out.println("message is to local agent");
+                    System.out.println("Message is to local agent");
                     agents.get(message.getTo()).sendMessage(message);
                 }
                 else
