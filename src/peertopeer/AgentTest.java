@@ -73,7 +73,6 @@ public class AgentTest
     private static void newConnection(ChatNode me)
     {
         System.out.println("What is the IP address of the portal to connect to?");
-        System.out.print("152.105.67.");
         String ipAddressOfPeer = gets();
         System.out.println("Connecting to " + ipAddressOfPeer);
         me.connectTo(ipAddressOfPeer);
