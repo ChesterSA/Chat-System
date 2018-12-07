@@ -1,6 +1,10 @@
 package peertopeer;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -121,6 +125,129 @@ public class Portal extends ChatNode
             }
         }
     });
+    
+    protected Thread portalAcceptThread = new Thread(
+            new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
+                    final Socket newClientSocket = serverSocket.accept();
+
+                    //Create a partial connection
+                    final Connection newConnection = new Connection(newClientSocket);
+
+                    System.out.println("Awaiting HELLO message from new connection");
+
+                    while (!newConnection.hasMessage())
+                    {
+                        // wait for a message from the new connection...
+                        // should probably handle timeouts...
+                    }
+
+                    //At this point in the connection process, only a HELLO message
+                    //will do, anything else will be ignored.
+                    //
+                    final Message receivedMessage = newConnection.receiveMessage();
+
+                    System.out.println("Message received: " + receivedMessage.toString());
+
+                    if (!receivedMessage.isHelloMessage() && !receivedMessage.isAgentsMessage())
+                    {
+                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                    }     
+                    else if (receivedMessage.isHelloMessage())
+                    {
+                        final String newConnectionHandle = receivedMessage.getFrom();
+
+                        if (newConnectionHandle != null)
+                        {
+                            synchronized (lock)
+                            {
+
+                                if (peerGroupConnections.get(newConnectionHandle) == null)
+                                {
+                                    //Complete the connection by setting its handle.
+                                    //this is essential as we use the handle to send
+                                    //messages to our peers.
+                                    //
+                                    newConnection.setHandle(newConnectionHandle);
+
+                                    //update our register of peer connections
+                                    //
+                                    addConnection(newConnection);
+
+                                    //The HELLOACK allows the peer to know our handle
+                                    //
+                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                }
+                                else
+                                {
+                                    System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
+                                }
+                            }
+                        }
+                    }
+                    else if (receivedMessage.isAgentsMessage())
+                    {
+                        final String newConnectionHandle = receivedMessage.getFrom();
+
+                        if (newConnectionHandle != null)
+                        {
+                            synchronized (lock)
+                            {
+
+                                if (agents.get(newConnectionHandle) == null)
+                                {
+                                    //Complete the connection by setting its handle.
+                                    //this is essential as we use the handle to send
+                                    //messages to our peers.
+                                    //
+                                    newConnection.setHandle(newConnectionHandle);
+
+                                    //update our register of peer connections
+                                    //
+                                    addConnection(newConnection);
+
+                                    //The HELLOACK allows the peer to know our handle
+                                    //
+                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                }
+                                else
+                                {
+                                    System.err.println("Already connected to a agent with name: '" + newConnectionHandle + "'");
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Check for HELLO message with client name.
+
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+    );
+    
+    protected void startPeerReceiver() throws UnknownHostException, IOException
+    {
+        if (serverSocket == null)
+        {
+            InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
+            serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
+            portalAcceptThread.start();
+        }
+    }
+    
     
     private LinkedList<String> recipients(Set<String> set, List<String> list)
     {

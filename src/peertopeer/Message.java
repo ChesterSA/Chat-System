@@ -72,6 +72,11 @@ public class Message
         return to.isEmpty() && content.compareTo("HELLO") == 0;
     }
     
+    public boolean isAgentsMessage()
+    {
+        return to.isEmpty() && content.compareTo("AGENT") == 0;
+    }
+    
     public boolean isDirMessage()
     {
         Pattern ipPattern = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3},)+");
