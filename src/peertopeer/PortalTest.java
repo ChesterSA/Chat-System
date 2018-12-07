@@ -44,6 +44,7 @@ public class PortalTest
                 System.out.println("4. Remove portals");
                 System.out.println("5. Remove agents");
                 System.out.println("6. Connect to dir");
+                System.out.println("7. Send message");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -66,6 +67,9 @@ public class PortalTest
                         break;
                     case "6":
                         connectToDir(portal);
+                        break;
+                    case "7":
+                        sendMessage(portal);
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -120,5 +124,21 @@ public class PortalTest
     private static void connectToDir(ChatNode me)
     {
         me.connectTo("152.105.67.116");
+    }
+
+    private static void sendMessage(Portal me)
+    {
+        System.out.println("Who would you like to send a message to?");
+        final String peerHandle = gets();
+
+        System.out.println("What message would you like to send to " + peerHandle + "?");
+
+        Message newMessage = new Message(me.getHandle(), peerHandle);
+
+        newMessage.append(gets());
+
+        System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
+
+        me.sendMessage(newMessage);
     }
 }
