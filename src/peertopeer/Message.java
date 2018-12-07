@@ -130,6 +130,13 @@ public class Message
         return helloMessage;
     }
 
+    public static Message createAgentMessage(final String from)
+    {
+        Message agentMessage = new Message(from);
+        agentMessage.content = "AGENT";
+        return agentMessage;
+    }
+    
     public static Message createHelloAckMessage(final String from, final String to)
     {
         Message helloAckMessage = new Message(from, to);
