@@ -40,8 +40,9 @@ public class PortalTest
                 System.out.println("1. New Connection");
                 System.out.println("2. Show portals");
                 System.out.println("3. Show agents");
-                System.out.println("4. Connect to dir");
-                System.out.println("5. Remove Connections");
+                System.out.println("4. Remove portals");
+                System.out.println("5. Remove agents");
+                System.out.println("6. Connect to dir");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -57,10 +58,13 @@ public class PortalTest
                         displayAgentList(portal);
                         break;
                     case "4":
-                        connectToDir(portal);
+                        portal.removePortals();
                         break;
                     case "5":
-                        portal.removeConnections();
+                        portal.removeAgents();
+                        break;
+                    case "6":
+                        connectToDir(portal);
                         break;
                     default:
                         System.err.println("Invalid option.");

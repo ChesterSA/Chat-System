@@ -292,4 +292,14 @@ public class Portal extends ChatNode
 
         return Collections.unmodifiableList(agentHandleList);
     }
+    
+    public void removePortals()
+    {
+        portals = new HashMap<>();
+    }
+    
+    public void removeAgents()
+    {
+        agents = new HashMap<>();
+    }
 }
