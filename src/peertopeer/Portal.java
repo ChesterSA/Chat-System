@@ -91,14 +91,48 @@ public class Portal extends ChatNode
             {
                 synchronized (lock)
                 {
-
-                    for (Connection connection : portals.values())
+//                    LinkedList<Connection> connections = new LinkedList(portals.values());
+//                    connections.addAll(agents.values());
+                    
+                    for (Connection c : agents.values())
                     {
                         try
                         {
-                            if (connection.hasMessage())
+                            if (c.hasMessage())
                             {
-                                Message receivedMessage = connection.receiveMessage();
+                                Message receivedMessage = c.receiveMessage();
+
+                                System.out.println("---Portal: " + handle + " has received message");
+
+                                if (agents.containsKey(receivedMessage.getTo()))
+                                {
+                                    System.out.println("---Message is to local agent of portal " + handle);
+                                    sendMessage(receivedMessage);
+                                }
+                                else
+                                {
+                                    for (Connection con : portals.values())
+                                    {
+                                        con.sendMessage(receivedMessage);
+                                    }
+                                }
+                            }
+                            
+                        }
+                        catch (IOException ex)
+                        {
+                            Logger.getLogger(ChatNode.class
+                                    .getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    
+                    for (Connection c : agents.values())
+                    {
+                        try
+                        {
+                            if (c.hasMessage())
+                            {
+                                Message receivedMessage = c.receiveMessage();
 
                                 System.out.println("---Portal: " + handle + " has received message");
 
@@ -112,6 +146,7 @@ public class Portal extends ChatNode
                                     System.out.println("---Agent not present at portal " + handle);
                                 }
                             }
+                            
                         }
                         catch (IOException ex)
                         {
@@ -151,7 +186,7 @@ public class Portal extends ChatNode
                     //will do, anything else will be ignored.
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
-                    System.out.println("Message Recieved:");
+                    System.out.println("Message Recieved");
                     System.out.println("Message Content: " + receivedMessage.toString());
 
                     if (receivedMessage.isHelloMessage())
