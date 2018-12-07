@@ -60,7 +60,7 @@ public class Agent extends ChatNode {
                 System.out.println("---Message has a set receiver");
                 if(portal != null)
                 {
-                    System.out.println("Portal: " + portal.getKey() + " ... " + portal.getValue() + " is handling message");
+                    System.out.println("---Portal: " + portal.getKey() + " ... " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
                 }
             }
