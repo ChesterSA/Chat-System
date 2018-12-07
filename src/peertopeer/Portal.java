@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,6 +109,12 @@ public class Portal extends ChatNode
                                 else
                                 {
                                     System.out.println("Agent not present at portal " + handle);
+
+                                    for (Connection c : peerGroupConnections.values())
+                                    {
+                                        System.out.println("Sending to next portal");
+                                        c.sendMessage(receivedMessage);
+                                    }
 
                                 }
 
@@ -212,7 +220,7 @@ public class Portal extends ChatNode
 
                                     //update our register of peer connections
                                     //
-                                    addConnection(newConnection);
+                                    addAgent(newConnection);
 
                                     //The HELLOACK allows the peer to know our handle
                                     //
@@ -244,6 +252,19 @@ public class Portal extends ChatNode
     }
     );
 
+    private void addAgent(Connection c)
+    {
+        synchronized (lock)
+        {
+            if (peerGroupConnections.containsKey(c.getHandle()))
+            {
+                System.err.println("[" + c.getHandle() + "] is already an established connection.");
+                return;
+            }
+            peerGroupConnections.put(c.getHandle(), c);
+        }
+    }
+
     @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
@@ -274,5 +295,23 @@ public class Portal extends ChatNode
     {
         startPeerReceiver();
         portalReceiveThread.start();
+    }
+    
+    public synchronized List<String> getConnectionHandles()
+    {
+        List<String> agentHandleList = new ArrayList<>();
+        agents.
+                values().
+                stream().
+                forEach(
+                        (connection) ->
+                {
+                    agentHandleList.add(connection.getHandle());
+                }
+                );
+
+        Collections.sort(agentHandleList);
+
+        return Collections.unmodifiableList(agentHandleList);
     }
 }
