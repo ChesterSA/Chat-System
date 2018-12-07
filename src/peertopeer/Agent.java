@@ -170,8 +170,8 @@ public class Agent extends ChatNode {
     {
         synchronized (lock)
         {
-            System.out.println("---Connecting to portal " + portal.getKey() + " ... " + portal.getValue());
             portal = new Pair<>(connection.getHandle(), connection);
+            System.out.println("---Connected to portal " + portal.getKey() + " ... " + portal.getValue());
         }
     }
     
