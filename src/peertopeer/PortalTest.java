@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  */
 public class PortalTest
 {
+
     /**
      * @param args the command line arguments
      */
@@ -90,7 +91,6 @@ public class PortalTest
 
         System.out.println("Amount of portals = " + me.getPortalHandles().size());
 
-
         System.out.println(
                 String.format(
                         "Connected portals handles\n%s\n",
@@ -98,18 +98,14 @@ public class PortalTest
                 )
         );
     }
-    
+
     private static void displayAgentList(Portal me)
     {
-        if (!me.hasPeerConnections())
-        {
-            System.out.println("\n* No peers connected *\n");
-            return;
-        }
+        System.out.println("Amount of portals = " + me.getAgentHandles().size());
 
         System.out.println(
                 String.format(
-                        "Connected peer handles\n\n%s\n\n",
+                        "Connected agents handles\n%s\n",
                         String.join(", ", me.getAgentHandles())
                 )
         );

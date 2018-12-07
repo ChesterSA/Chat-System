@@ -91,10 +91,10 @@ public class Portal extends ChatNode
             {
                 synchronized (lock)
                 {
-//                    LinkedList<Connection> connections = new LinkedList(portals.values());
-//                    connections.addAll(agents.values());
+                    LinkedList<Connection> connections = new LinkedList(portals.values());
+                    connections.addAll(agents.values());
                     
-                    for (Connection c : agents.values())
+                    for (Connection c : connections)
                     {
                         try
                         {
@@ -130,34 +130,34 @@ public class Portal extends ChatNode
                         }
                     }
                     
-                    for (Connection c : portals.values())
-                    {
-                        try
-                        {
-                            if (c.hasMessage())
-                            {
-                                Message receivedMessage = c.receiveMessage();
-
-                                System.out.println("---Portal: " + handle + " has received message");
-
-                                if (agents.containsKey(receivedMessage.getTo()))
-                                {
-                                    System.out.println("---Message is to local agent of portal " + handle);
-                                    sendMessage(receivedMessage);
-                                }
-                                else
-                                {
-                                    System.out.println("---Agent not present at portal " + handle);
-                                }
-                            }
-                            
-                        }
-                        catch (IOException ex)
-                        {
-                            Logger.getLogger(ChatNode.class
-                                    .getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+//                    for (Connection c : portals.values())
+//                    {
+//                        try
+//                        {
+//                            if (c.hasMessage())
+//                            {
+//                                Message receivedMessage = c.receiveMessage();
+//
+//                                System.out.println("---Portal: " + handle + " has received message");
+//
+//                                if (agents.containsKey(receivedMessage.getTo()))
+//                                {
+//                                    System.out.println("---Message is to local agent of portal " + handle);
+//                                    sendMessage(receivedMessage);
+//                                }
+//                                else
+//                                {
+//                                    System.out.println("---Agent not present at portal " + handle);
+//                                }
+//                            }
+//                            
+//                        }
+//                        catch (IOException ex)
+//                        {
+//                            Logger.getLogger(ChatNode.class
+//                                    .getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
                 }
             }
         }
@@ -227,6 +227,7 @@ public class Portal extends ChatNode
                     }
                     else if (receivedMessage.isAgentsMessage())
                     {
+                        System.out.println("---Agent connecting to me");
                         final String newConnectionHandle = receivedMessage.getFrom();
 
                         if (newConnectionHandle != null)
@@ -252,7 +253,7 @@ public class Portal extends ChatNode
                                 }
                                 else
                                 {
-                                    System.err.println("Already connected to a agent with name: '" + newConnectionHandle + "'");
+                                    System.err.println("Already connected to an agent with name: '" + newConnectionHandle + "'");
                                 }
                             }
                         }
