@@ -150,7 +150,7 @@ public class Portal extends ChatNode
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
 
-                    System.out.println("Message received: " + receivedMessage.toString());
+                    //System.out.println("Message received: " + receivedMessage.toString());
 
                     if (!receivedMessage.isHelloMessage() && !receivedMessage.isAgentsMessage())
                     {
