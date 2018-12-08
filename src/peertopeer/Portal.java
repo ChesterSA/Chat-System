@@ -104,14 +104,14 @@ public class Portal extends ChatNode
                             {
                                 Message receivedMessage = c.receiveMessage();
 
-                                System.out.println("---Portal: " + handle + " has received message from an agent");
+                                System.out.println("---Portal: " + handle + " has received message");
 
                                 if (agents.containsKey(receivedMessage.getTo()))
                                 {
                                     System.out.println("---Message is to local agent of portal " + handle);
                                     sendMessage(receivedMessage);
                                 }
-                                else
+                                else if (agents.containsKey(receivedMessage.getFrom()))
                                 {
                                     System.out.println("---No local agents, contacting external portals");
                                     System.out.println("---portals size = " + portals.values().size());
