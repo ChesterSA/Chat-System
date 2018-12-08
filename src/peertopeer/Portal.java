@@ -270,7 +270,7 @@ public class Portal extends ChatNode
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
                     switch (receivedMessage.getType())
-                    {
+                    {                          
                         case PORTAL:
                             {
                                 final String newConnectionHandle = receivedMessage.getFrom();
@@ -302,7 +302,7 @@ public class Portal extends ChatNode
                                     }
                                 }       break;
                             }
-                        case PORTALACK:
+                        case AGENT:
                             {
                                 //System.out.println("---Agent connecting to me");
                                 final String newConnectionHandle = receivedMessage.getFrom();
