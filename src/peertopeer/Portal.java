@@ -269,78 +269,76 @@ public class Portal extends ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
-                    if (receivedMessage.getType().equals(MessageType.PORTAL))
+                    switch (receivedMessage.getType())
                     {
-                        final String newConnectionHandle = receivedMessage.getFrom();
-
-                        if (newConnectionHandle != null)
-                        {
-                            synchronized (lock)
+                        case PORTAL:
                             {
-
-                                if (portals.get(newConnectionHandle) == null)
+                                final String newConnectionHandle = receivedMessage.getFrom();
+                                if (newConnectionHandle != null)
                                 {
-                                    //Complete the connection by setting its handle.
-                                    //this is essential as we use the handle to send
-                                    //messages to our peers.
-                                    //
-                                    newConnection.setHandle(newConnectionHandle);
-
-                                    //update our register of peer connections
-                                    //
-                                    addPortal(newConnection);
-
-                                    //The HELLOACK allows the peer to know our handle
-                                    //
-                                    newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.PORTALACK));
-                                }
-                                else
-                                {
-                                    System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
-                                }
+                                    synchronized (lock)
+                                    {
+                                        
+                                        if (portals.get(newConnectionHandle) == null)
+                                        {
+                                            //Complete the connection by setting its handle.
+                                            //this is essential as we use the handle to send
+                                            //messages to our peers.
+                                            //
+                                            newConnection.setHandle(newConnectionHandle);
+                                            
+                                            //update our register of peer connections
+                                            //
+                                            addPortal(newConnection);
+                                            
+                                            //The HELLOACK allows the peer to know our handle
+                                            //
+                                            newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.PORTALACK));
+                                        }
+                                        else
+                                        {
+                                            System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
+                                        }
+                                    }
+                                }       break;
                             }
-                        }
-                    }
-                    else if (receivedMessage.getType().equals(MessageType.PORTALACK))
-                    {
-                        //System.out.println("---Agent connecting to me");
-                        final String newConnectionHandle = receivedMessage.getFrom();
-
-                        if (newConnectionHandle != null)
-                        {
-                            synchronized (lock)
+                        case PORTALACK:
                             {
-
-                                if (agents.get(newConnectionHandle) == null)
+                                //System.out.println("---Agent connecting to me");
+                                final String newConnectionHandle = receivedMessage.getFrom();
+                                if (newConnectionHandle != null)
                                 {
-                                    //Complete the connection by setting its handle.
-                                    //this is essential as we use the handle to send
-                                    //messages to our peers.
-                                    //
-                                    newConnection.setHandle(newConnectionHandle);
-
-                                    //update our register of peer connections
-                                    //
-                                    addAgent(newConnection);
-
-                                    //The HELLOACK allows the peer to know our handle
-                                    //
-                                    newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
-                                }
-                                else
-                                {
-                                    System.err.println("Already connected to an agent with name: '" + newConnectionHandle + "'");
-                                }
+                                    synchronized (lock)
+                                    {
+                                        
+                                        if (agents.get(newConnectionHandle) == null)
+                                        {
+                                            //Complete the connection by setting its handle.
+                                            //this is essential as we use the handle to send
+                                            //messages to our peers.
+                                            //
+                                            newConnection.setHandle(newConnectionHandle);
+                                            
+                                            //update our register of peer connections
+                                            //
+                                            addAgent(newConnection);
+                                            
+                                            //The HELLOACK allows the peer to know our handle
+                                            //
+                                            newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
+                                        }
+                                        else
+                                        {
+                                            System.err.println("Already connected to an agent with name: '" + newConnectionHandle + "'");
+                                        }
+                                    }
+                                }       break;
                             }
-                        }
-                    }
-                    else
-                    {
-                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
-
-                    }
-
+                        default:
+                            System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                            break;
                     // Check for HELLO message with client name.
+                    }
                 }
                 catch (IOException ex)
                 {
