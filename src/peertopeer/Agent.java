@@ -45,7 +45,7 @@ public class Agent extends ChatNode
     @Override
     public void sendMessage(Message message)
     {
-        //System.out.println("---Agent is sending message");
+        System.out.println("---Agent is sending message");
         synchronized (lock)
         {
             if (message.getType().equals(MessageType.BROADCAST))
@@ -56,10 +56,10 @@ public class Agent extends ChatNode
             }
             else
             {
-                ///System.out.println("---Message has a set receiver");
+                System.out.println("---Message has a set receiver");
                 if (portal != null)
                 {
-                    //System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
+                    System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
                 }
                 else
@@ -107,7 +107,6 @@ public class Agent extends ChatNode
                     //We should have a HELLOACK message, which will have
                     //the handle of the remote peer
                     final Message receivedMessage = partialConnection.receiveMessage();
-                    //Message ackMessage = partialConnection.receiveMessage();
 
                     if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
