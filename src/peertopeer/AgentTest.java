@@ -64,7 +64,7 @@ public class AgentTest {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(PeerToPeerTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AgentTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

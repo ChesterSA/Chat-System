@@ -8,6 +8,7 @@ package peertopeer;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -115,42 +116,6 @@ public class Agent extends ChatNode {
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addConnection(partialConnection);
                     }
-                    else if (receivedMessage.isDirMessage())
-                    {
-                        String[] ips = receivedMessage.getContent().split(",");
-
-                        for (String ip : ips)
-                        {
-                            boolean newConnection = true;
-
-                            if (ip.equals(Inet4Address.getLocalHost().getHostAddress()))
-                            {
-                                newConnection = false;
-                            }
-                            else
-                                
-                            {
-                                
-                                for (Connection c : peerGroupConnections.values())
-                                {
-                                    //Matches everything between the / and the , of the socket.toString
-                                    Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
-                                    
-                                    Matcher m = ipPattern.matcher(c.socket.toString());                                   
-                                    
-                                    if (m.group().equals(ip))
-                                    {
-                                        newConnection = false;
-                                    }
-                                    System.out.println(m.group() + "    " + newConnection);
-                                }
-                            }
-                            if (newConnection)
-                            {
-                                connectTo(ip);
-                            }
-                        }
-                    }
                 }
                 catch (UnknownHostException ex)
                 {
@@ -169,6 +134,79 @@ public class Agent extends ChatNode {
 
     }
     
+    protected Thread acceptThread = new Thread(
+            new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
+                    final Socket newClientSocket = serverSocket.accept();
+
+                    //Create a partial connection
+                    final Connection newConnection = new Connection(newClientSocket);
+
+                    System.out.println("Awaiting HELLO message from new connection");
+
+                    while (!newConnection.hasMessage())
+                    {
+                        // wait for a message from the new connection...
+                        // should probably handle timeouts...
+                    }
+
+                    //At this point in the connection process, only a HELLO message
+                    //will do, anything else will be ignored.
+                    //
+                    final Message receivedMessage = newConnection.receiveMessage();
+
+                    System.out.println("Message received: " + receivedMessage.toString());
+
+                    if (!receivedMessage.isHelloMessage())
+                    {
+                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                    }
+
+                    else
+                    {
+                        final String newConnectionHandle = receivedMessage.getFrom();
+
+                        if (newConnectionHandle != null)
+                        {
+                            synchronized (lock)
+                            {
+
+                                    //Complete the connection by setting its handle.
+                                    //this is essential as we use the handle to send
+                                    //messages to our peers.
+                                    //
+                                    newConnection.setHandle(newConnectionHandle);
+
+                                    //update our register of peer connections
+                                    //
+                                    addConnection(newConnection);
+
+                                    //The HELLOACK allows the peer to know our handle
+                                    //
+                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                            }
+                        }
+                    }
+                    // Check for HELLO message with client name.
+
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+    );
+    
     @Override
     protected void addConnection(final Connection connection)
     {
@@ -179,9 +217,31 @@ public class Agent extends ChatNode {
         }
     }
     
+    protected void startPeerReceiver() throws UnknownHostException, IOException
+    {
+        if (serverSocket == null)
+        {
+            InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
+            serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
+            acceptThread.start();
+        }
+    }
+    
     public String getPortal()
     {
         return portal.getKey();
+    }
+
+    @Override
+    public void removeConnections()
+    {
+        portal = null;
+    }
+
+    @Override
+    public void begin() throws IOException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

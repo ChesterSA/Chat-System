@@ -132,7 +132,7 @@ public class Interface {
                 } 
                 catch (IOException ex) 
                 {
-                    Logger.getLogger(PeerToPeerTest.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PortalTest.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 // sets the frame to be visible
                 PortalFrame.setVisible(true);
@@ -260,22 +260,22 @@ public class Interface {
         System.out.println("The IP Adress is: " + ip);
         return ip;
     }
-    private static void newPortalConnection(ChatNode me)
+    private static void newPortalConnection(Portal me)
     {
         System.out.println("What is the IP address of the peer to connect to?");
         String ipAddressOfPeer = newConnection();
         me.connectTo(ipAddressOfPeer);
     }
 
-    private static void displayPortalConnectionList(ChatNode me)
+    private static void displayPortalConnectionList(Portal me)
     {
-        if (!me.hasPeerConnections())
+        if (!me.hasPortals())
         {
             JOptionPane.showMessageDialog(null, "No Portal Connections!");
             return;
         }
 
-        List<String> connections = me.getConnectionHandles();
+        List<String> connections = me.getPortalHandles();
         JOptionPane.showMessageDialog(null,connections);
     }
     private static void PortalconnectToDir(ChatNode me)
@@ -285,7 +285,7 @@ public class Interface {
     
     private static void displayAgentList(Portal me)
     {
-        if (!me.hasPeerConnections())
+        if (!me.hasAgents())
         {
             JOptionPane.showMessageDialog(null, "No Agent Connections!");
             return;
