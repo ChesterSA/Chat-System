@@ -86,7 +86,7 @@ public class AgentTest
 
         newMessage.append(gets());
 
-        System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
+        //System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
 
         me.sendMessage(newMessage);
     }

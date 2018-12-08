@@ -59,7 +59,7 @@ class Connection
 
     public void sendMessage(Message message)
     {
-        System.out.println("---connection is sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent() + " Type:" + message.getType());
+        //System.out.println("---connection is sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent() + " Type:" + message.getType());
         //System.out.println("---connection details: " + this.socket.toString());
         clientPrintWriter.println(message.toString());
     }
@@ -67,7 +67,7 @@ class Connection
     public Message receiveMessage() throws IOException
     {
         Message m = Message.parseMessage(clientSocketBufferedReader.readLine());
-        System.out.println("---" + m.getType());
+        //System.out.println("---" + m.getType());
         return m;
     }
 
