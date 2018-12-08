@@ -55,6 +55,11 @@ public class Message
         return content;
     }
 
+    public MessageType getType()
+    {
+        return type;
+    }
+
     @Override
     public String toString()
     {
@@ -91,8 +96,4 @@ public class Message
         return newMessage;
     }
 
-      public MessageType getType()
-      {
-          return type;
-      }
 }

@@ -1,4 +1,4 @@
-package peertopeer;
+package drivers;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,23 +6,16 @@ package peertopeer;
  * and open the template in the editor.
  */
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.*;
+import peertopeer.Agent;
+import peertopeer.ChatNode;
+import peertopeer.Portal;
 
 /**
  *
@@ -137,7 +130,7 @@ public class Interface
                 try
                 {
                     String myHandle = handler();
-                    portal.handle = myHandle;
+                    portal.setHandle(myHandle);
                     portal.begin();
                 }
                 catch (IOException ex)

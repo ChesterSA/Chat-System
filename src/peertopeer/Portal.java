@@ -476,4 +476,9 @@ public class Portal extends ChatNode
     {
         return !agents.isEmpty();
     }
+
+    public void setHandle(String handle)
+    {
+        this.handle = handle;
+    }
 }
