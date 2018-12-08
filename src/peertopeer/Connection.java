@@ -59,14 +59,16 @@ class Connection
 
     public void sendMessage(Message message)
     {
-        //System.out.println("---connection is sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent());
+        System.out.println("---connection is sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent() + " Type:" + message.getType());
         //System.out.println("---connection details: " + this.socket.toString());
         clientPrintWriter.println(message.toString());
     }
 
     public Message receiveMessage() throws IOException
     {
-        return Message.parseMessage(clientSocketBufferedReader.readLine());
+        Message m = Message.parseMessage(clientSocketBufferedReader.readLine());
+        System.out.println("---" + m.getType());
+        return m;
     }
 
     public boolean hasMessage() throws IOException
