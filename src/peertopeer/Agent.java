@@ -207,7 +207,6 @@ public class Agent extends ChatNode {
     }
     );
     
-    @Override
     protected void addConnection(final Connection connection)
     {
         synchronized (lock)

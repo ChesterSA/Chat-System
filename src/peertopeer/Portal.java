@@ -22,7 +22,6 @@ import java.util.logging.Logger;
  * @author s6089488
  */
 import java.util.LinkedList;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,7 +83,7 @@ public class Portal extends ChatNode
         }
     }
 
-    protected final Thread portalReceiveThread = new Thread(
+    protected final Thread receiveThread = new Thread(
             new Runnable()
     {
         @Override
@@ -192,7 +191,7 @@ public class Portal extends ChatNode
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
-                    partialConnection.sendMessage(Message.createHelloMessage(handle));
+                    partialConnection.sendMessage(Message.createPortalMessage(handle));
 
                     //Wait for a response from this connection.
                     while (!partialConnection.hasMessage())
@@ -208,8 +207,15 @@ public class Portal extends ChatNode
 
                     if (receivedMessage.isHelloAckMessage())
                     {
+                        System.out.println("---Hello Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
-                        addConnection(partialConnection);
+                        addPortal(partialConnection);
+                    }
+                    if (receivedMessage.isPortalAckMessage())
+                    {
+                        System.out.println("---Portal Ack Message received from " + partialConnection.toString());
+                        partialConnection.setHandle(receivedMessage.getFrom());
+                        addPortal(partialConnection);
                     }
                     else if (receivedMessage.isDirMessage())
                     {
@@ -264,7 +270,7 @@ public class Portal extends ChatNode
     
     }
     
-    protected Thread AcceptThread = new Thread(
+    protected Thread acceptThread = new Thread(
             new Runnable()
     {
         @Override
@@ -294,7 +300,7 @@ public class Portal extends ChatNode
                     System.out.println("Message Recieved");
                     System.out.println("Message Content: " + receivedMessage.toString());
 
-                    if (receivedMessage.isHelloMessage())
+                    if (receivedMessage.isPortalMessage())
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
@@ -317,7 +323,7 @@ public class Portal extends ChatNode
 
                                     //The HELLOACK allows the peer to know our handle
                                     //
-                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                    newConnection.sendMessage(Message.createPortalAckMessage(handle, newConnectionHandle));
                                 }
                                 else
                                 {
@@ -401,6 +407,7 @@ public class Portal extends ChatNode
                 System.err.println("[" + c.getHandle() + "] is already an established connection.");
                 return;
             }
+            System.out.println("---Adding agent " + c.toString() + " to " + handle);
             agents.put(c.getHandle(), c);
         }
     }
@@ -412,7 +419,7 @@ public class Portal extends ChatNode
         {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
-            AcceptThread.start();
+            acceptThread.start();
         }
     }
 
@@ -420,7 +427,7 @@ public class Portal extends ChatNode
     public void begin() throws IOException
     {
         startPeerReceiver();
-        portalReceiveThread.start();
+        receiveThread.start();
     }
 
     public synchronized List<String> getAgentHandles()
@@ -474,12 +481,6 @@ public class Portal extends ChatNode
     {
         portals = new HashMap<>();
         agents = new HashMap<>();
-    }
-
-    @Override
-    protected void addConnection(Connection connection)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public boolean hasPortals()

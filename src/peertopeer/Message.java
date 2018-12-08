@@ -67,6 +67,11 @@ public class Message
         
     }
 
+    public boolean isHelloAckMessage()
+    {
+        return content.compareTo("HELLOACK") == 0;
+    }
+    
     public boolean isAgentsMessage()
     {
         return to.equals("null") && content.compareTo("AGENT") == 0;
@@ -79,9 +84,14 @@ public class Message
         return m.matches();
     }
 
-    public boolean isHelloAckMessage()
+    public boolean isPortalMessage()
     {
-        return content.compareTo("HELLOACK") == 0;
+        return content.compareTo("PORTAL") == 0;
+    }
+    
+    public boolean isPortalAckMessage()
+    {
+        return content.compareTo("PORTALACK") == 0;
     }
 
     public boolean isGetMessage()
@@ -128,6 +138,20 @@ public class Message
         Message helloMessage = new Message(from);
         helloMessage.content = "HELLO";
         return helloMessage;
+    }
+    
+    public static Message createPortalMessage(final String from)
+    {
+        Message portalMessage = new Message(from);
+        portalMessage.content = "PORTAL";
+        return portalMessage;
+    }
+    
+    public static Message createPortalAckMessage(final String from, final String to)
+    {
+        Message portalAckMessage = new Message(from, to);
+        portalAckMessage.content = "PORTALACK";
+        return portalAckMessage;
     }
 
     public static Message createAgentMessage(final String from)

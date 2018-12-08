@@ -63,9 +63,6 @@ public abstract class ChatNode
     }
 
     public abstract void connectTo(final String remoteIpAddress, final int remotePort);
-    
-    
-    protected abstract void addConnection(final Connection connection);
 
     //cannot declare abstract, but needs to be overriden
     protected synchronized boolean isalreadyConnected(final String ipAddress)
