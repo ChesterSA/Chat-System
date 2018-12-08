@@ -122,11 +122,11 @@ public class Message
 
         if (matcher.matches())
         {
-            System.out.println(matcher.group(1));
-            System.out.println(matcher.group(3));
-            System.out.println(matcher.group(4));
-            System.out.println(matcher.group(5));
-            newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.STANDARD);
+//            System.out.println(matcher.group(1));
+//            System.out.println(matcher.group(3));
+//            System.out.println(matcher.group(4));
+//            System.out.println(matcher.group(5));
+            newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5)));
             newMessage.append(matcher.group(4));
         }
 
