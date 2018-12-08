@@ -55,49 +55,6 @@ public class Message
         return content;
     }
 
-//    public boolean isBroadcast()
-//    {
-//        return to.isEmpty();
-//    }
-//
-//    public boolean isHelloMessage()
-//    {
-//        return to.equals("null") && content.compareTo("HELLO") == 0;
-//
-//    }
-//
-//    public boolean isHelloAckMessage()
-//    {
-//        return content.compareTo("HELLOACK") == 0;
-//    }
-//
-//    public boolean isAgentsMessage()
-//    {
-//        return to.equals("null") && content.compareTo("AGENT") == 0;
-//    }
-//
-//    public boolean isDirMessage()
-//    {
-//        Pattern ipPattern = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3},)+");
-//        Matcher m = ipPattern.matcher(content);
-//        return m.matches();
-//    }
-//
-//    public boolean isPortalMessage()
-//    {
-//        return content.compareTo("PORTAL") == 0;
-//    }
-//
-//    public boolean isPortalAckMessage()
-//    {
-//        return content.compareTo("PORTALACK") == 0;
-//    }
-//
-//    public boolean isGetMessage()
-//    {
-//        return content.compareTo("GET") == 0;
-//    }
-
     @Override
     public String toString()
     {
@@ -138,40 +95,4 @@ public class Message
       {
           return type;
       }
-    
-    
-//    public static Message createHelloMessage(final String from)
-//    {
-//        Message helloMessage = new Message(from);
-//        helloMessage.content = "HELLO";
-//        return helloMessage;
-//    }
-//
-//    public static Message createPortalMessage(final String from)
-//    {
-//        Message portalMessage = new Message(from);
-//        portalMessage.content = "PORTAL";
-//        return portalMessage;
-//    }
-//
-//    public static Message createPortalAckMessage(final String from, final String to)
-//    {
-//        Message portalAckMessage = new Message(from, to);
-//        portalAckMessage.content = "PORTALACK";
-//        return portalAckMessage;
-//    }
-//
-//    public static Message createAgentMessage(final String from)
-//    {
-//        Message agentMessage = new Message(from);
-//        agentMessage.content = "AGENT";
-//        return agentMessage;
-//    }
-//
-//    public static Message createHelloAckMessage(final String from, final String to)
-//    {
-//        Message helloAckMessage = new Message(from, to);
-//        helloAckMessage.content = "HELLOACK";
-//        return helloAckMessage;
-//    }
 }

@@ -39,12 +39,10 @@ public class PortalTest
 
                 System.out.println("Portal Options:");
                 System.out.println("1. New Connection");
-                System.out.println("2. Show portals");
-                System.out.println("3. Show agents");
-                System.out.println("4. Remove portals");
-                System.out.println("5. Remove agents");
-                System.out.println("6. Connect to dir");
-                System.out.println("7. Send message");
+                System.out.println("2. Manage agents");
+                System.out.println("3. Manage portals");
+                System.out.println("4. Remove all connections");
+                System.out.println("5. Connect to dir");
                 System.out.println("> ");
                 final String option = gets();
 
@@ -54,22 +52,16 @@ public class PortalTest
                         newConnection(portal);
                         break;
                     case "2":
-                        displayPortalList(portal);
+                        manageAgents(portal);
                         break;
                     case "3":
-                        displayAgentList(portal);
+                        managePortals(portal);
                         break;
                     case "4":
-                        portal.removePortals();
-                        break;
+                        portal.removeConnections();
+                        System.out.println("All connections removed");
                     case "5":
-                        portal.removeAgents();
-                        break;
-                    case "6":
                         connectToDir(portal);
-                        break;
-                    case "7":
-                        sendMessage(portal);
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -90,6 +82,77 @@ public class PortalTest
         me.connectTo(ipAddressOfPeer);
     }
 
+    private static void manageAgents(Portal me)
+    {
+        System.out.println("Agent Management:");
+        System.out.println("1. Show agents");
+        System.out.println("2. Remove all agents");
+        System.out.println("3. Remove specified agent");
+        System.out.println("> ");
+        final String option = gets();
+
+        switch (option)
+        {
+            case "1":
+                displayAgentList(me);
+                break;
+            case "2":
+                me.removeAgents();
+                System.out.println("All agents removed");
+                break;
+            case "3":
+                removeAgent(me);
+                break;
+            default:
+                System.err.println("Invalid option.");
+        }
+    }
+
+    private static void displayAgentList(Portal me)
+    {
+        System.out.println("\nAmount of agents = " + me.getAgentHandles().size());
+
+        System.out.println(
+                String.format(
+                        "Connected agents handles\n%s\n",
+                        String.join(", ", me.getAgentHandles())
+                )
+        );
+    }
+
+    private static void removeAgent(Portal me)
+    {
+        System.out.println("What is the handle of the agent to remove?");
+        String handle = gets();
+        me.removeAgent(handle);
+    }
+
+    private static void managePortals(Portal me)
+    {
+        System.out.println("Portal Management:");
+        System.out.println("1. Show portals");
+        System.out.println("2. Remove all portals");
+        System.out.println("3. Remove specified portal");
+        System.out.println("> ");
+        final String option = gets();
+
+        switch (option)
+        {
+            case "1":
+                displayPortalList(me);
+                break;
+            case "2":
+                me.removePortals();
+                System.out.println("All portals removed");
+                break;
+            case "3":
+                removePortal(me);
+                break;
+            default:
+                System.err.println("Invalid option.");
+        }
+    }
+
     private static void displayPortalList(Portal me)
     {
 
@@ -103,16 +166,11 @@ public class PortalTest
         );
     }
 
-    private static void displayAgentList(Portal me)
+    private static void removePortal(Portal me)
     {
-        System.out.println("\nAmount of agents = " + me.getAgentHandles().size());
-
-        System.out.println(
-                String.format(
-                        "Connected agents handles\n%s\n",
-                        String.join(", ", me.getAgentHandles())
-                )
-        );
+        System.out.println("What is the handle of the portal to remove?");
+        String handle = gets();
+        me.removePortal(handle);
     }
 
     private static String gets()
@@ -141,4 +199,5 @@ public class PortalTest
 
         me.sendMessage(newMessage);
     }
+
 }

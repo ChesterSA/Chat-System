@@ -42,7 +42,7 @@ public class AgentTest
                 System.out.println("2. Send Message");
                 System.out.println("3. Show Portal");
                 System.out.println("4. Connect to dir");
-                System.out.println("5. Remove Connections");
+                System.out.println("5. Remove Portal");
                 System.out.println("> ");
                 final String option = gets();
 

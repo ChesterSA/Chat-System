@@ -269,7 +269,7 @@ public class Portal extends ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
-                    System.out.println("---" + receivedMessage.getType());
+                    //System.out.println("---" + receivedMessage.getType());
                     switch (receivedMessage.getType())
                     {                          
                         case PORTAL:
@@ -438,10 +438,26 @@ public class Portal extends ChatNode
     {
         portals = new HashMap<>();
     }
+    
+    public void removePortal(String key)
+    {
+        if (portals.containsKey(key))
+        {
+            portals.remove(key);
+        }
+    }
 
     public void removeAgents()
     {
         agents = new HashMap<>();
+    }
+    
+    public void removeAgent(String key)
+    {
+        if (agents.containsKey(key))
+        {
+            agents.remove(key);
+        }
     }
 
     @Override

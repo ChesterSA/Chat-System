@@ -45,7 +45,7 @@ public class Agent extends ChatNode
     @Override
     public void sendMessage(Message message)
     {
-        System.out.println("---Agent is sending message");
+        //System.out.println("---Agent is sending message");
         synchronized (lock)
         {
             if (message.getType().equals(MessageType.BROADCAST))
@@ -56,10 +56,10 @@ public class Agent extends ChatNode
             }
             else
             {
-                System.out.println("---Message has a set receiver");
+                //System.out.println("---Message has a set receiver");
                 if (portal != null)
                 {
-                    System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
+                    //System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
                 }
                 else
@@ -191,7 +191,7 @@ public class Agent extends ChatNode
 
                     if (!receivedMessage.getType().equals(MessageType.HELLO))
                     {
-                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                        System.err.println("Invalid message type, connection attempt will be dropped.");
                     }
                     else
                     {
