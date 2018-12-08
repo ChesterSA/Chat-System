@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,14 +23,16 @@ import javafx.util.Pair;
  *
  * @author v8269590
  */
-public class Agent extends ChatNode {
-    
+public class Agent extends ChatNode
+{
+
     Pair<String, Connection> portal;
-    
-    public Agent(String handle) {
+
+    public Agent(String handle)
+    {
         super(handle);
     }
-    
+
     public Agent(String handle, String receiveIp)
     {
         super(handle, receiveIp);
@@ -39,7 +42,7 @@ public class Agent extends ChatNode {
     {
         super(handle, receiveIp, receivePort);
     }
-    
+
     /*
      * @param peer The peer that the message is being sent to 
      * @param message The message to send to all peers
@@ -59,7 +62,7 @@ public class Agent extends ChatNode {
             else
             {
                 System.out.println("---Message has a set receiver");
-                if(portal != null)
+                if (portal != null)
                 {
                     System.out.println("---Portal: " + portal.getKey() + " ... " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
@@ -71,7 +74,7 @@ public class Agent extends ChatNode {
             }
         }
     }
-    
+
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
@@ -85,7 +88,7 @@ public class Agent extends ChatNode {
 
         //Create a thread to instigate the HELLO handshake between this peer
         //and the remote peer
-        Thread helloAgentThread = new Thread(
+        Thread helloThread = new Thread(
                 new Runnable()
         {
             @Override
@@ -130,10 +133,38 @@ public class Agent extends ChatNode {
         }
         );
 
-        helloAgentThread.start();
+        helloThread.start();
 
     }
-    
+
+    private final Thread receiveThread = new Thread(
+            new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                synchronized (lock)
+                {
+                    try
+                    {
+                        if (portal.getValue().hasMessage())
+                        {
+                            System.out.println(portal.getValue().receiveMessage());
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        }
+    }
+    );
+
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
@@ -178,19 +209,19 @@ public class Agent extends ChatNode {
                             synchronized (lock)
                             {
 
-                                    //Complete the connection by setting its handle.
-                                    //this is essential as we use the handle to send
-                                    //messages to our peers.
-                                    //
-                                    newConnection.setHandle(newConnectionHandle);
+                                //Complete the connection by setting its handle.
+                                //this is essential as we use the handle to send
+                                //messages to our peers.
+                                //
+                                newConnection.setHandle(newConnectionHandle);
 
-                                    //update our register of peer connections
-                                    //
-                                    addConnection(newConnection);
+                                //update our register of peer connections
+                                //
+                                addConnection(newConnection);
 
-                                    //The HELLOACK allows the peer to know our handle
-                                    //
-                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                //The HELLOACK allows the peer to know our handle
+                                //
+                                newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
                             }
                         }
                     }
@@ -206,7 +237,7 @@ public class Agent extends ChatNode {
 
     }
     );
-    
+
     protected void addConnection(final Connection connection)
     {
         synchronized (lock)
@@ -215,7 +246,8 @@ public class Agent extends ChatNode {
             System.out.println("---Connected to portal " + portal.getKey() + " ... " + portal.getValue());
         }
     }
-    
+
+    @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
         if (serverSocket == null)
@@ -225,7 +257,7 @@ public class Agent extends ChatNode {
             acceptThread.start();
         }
     }
-    
+
     public String getPortal()
     {
         return portal.getKey();
@@ -240,7 +272,8 @@ public class Agent extends ChatNode {
     @Override
     public void begin() throws IOException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        startPeerReceiver();
+        receiveThread.start();
     }
-    
+
 }
