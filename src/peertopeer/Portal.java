@@ -56,7 +56,7 @@ public class Portal extends ChatNode
         System.out.println("Sending message " + message.toString());
         synchronized (lock)
         {
-            if (message.isBroadcast())
+            if (message.getType().equals(MessageType.BROADCAST))
             {
                 //
                 // Not handling broadcast messages presently...
@@ -162,7 +162,7 @@ public class Portal extends ChatNode
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
-                    partialConnection.sendMessage(Message.createPortalMessage(handle));
+                    partialConnection.sendMessage(new Message(handle, MessageType.PORTAL));
 
                     //Wait for a response from this connection.
                     while (!partialConnection.hasMessage())
@@ -176,19 +176,19 @@ public class Portal extends ChatNode
                     final Message receivedMessage = partialConnection.receiveMessage();
                     //Message ackMessage = partialConnection.receiveMessage();
 
-                    if (receivedMessage.isHelloAckMessage())
+                    if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
                         //System.out.println("---Hello Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addPortal(partialConnection);
                     }
-                    if (receivedMessage.isPortalAckMessage())
+                    if (receivedMessage.getType().equals(MessageType.PORTALACK))
                     {
                         //System.out.println("---Portal Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addPortal(partialConnection);
                     }
-                    else if (receivedMessage.isDirMessage())
+                    else if (receivedMessage.getType().equals(MessageType.DIR))
                     {
                         String[] ips = receivedMessage.getContent().split(",");
 
@@ -269,7 +269,7 @@ public class Portal extends ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
-                    if (receivedMessage.isPortalMessage())
+                    if (receivedMessage.getType().equals(MessageType.PORTAL))
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
@@ -292,7 +292,7 @@ public class Portal extends ChatNode
 
                                     //The HELLOACK allows the peer to know our handle
                                     //
-                                    newConnection.sendMessage(Message.createPortalAckMessage(handle, newConnectionHandle));
+                                    newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.PORTALACK));
                                 }
                                 else
                                 {
@@ -301,7 +301,7 @@ public class Portal extends ChatNode
                             }
                         }
                     }
-                    else if (receivedMessage.isAgentsMessage())
+                    else if (receivedMessage.getType().equals(MessageType.PORTALACK))
                     {
                         //System.out.println("---Agent connecting to me");
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -325,7 +325,7 @@ public class Portal extends ChatNode
 
                                     //The HELLOACK allows the peer to know our handle
                                     //
-                                    newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                    newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
                                 }
                                 else
                                 {

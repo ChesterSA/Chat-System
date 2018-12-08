@@ -133,7 +133,7 @@ public class PortalTest
 
         System.out.println("What message would you like to send to " + peerHandle + "?");
 
-        Message newMessage = new Message(me.getHandle(), peerHandle);
+        Message newMessage = new Message(me.getHandle(), peerHandle, MessageType.STANDARD);
 
         newMessage.append(gets());
 

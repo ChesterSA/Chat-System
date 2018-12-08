@@ -4,14 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/ChatNode.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/StartDirectory.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/PeerToPeerTest.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Connection.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/PortalTest.java</file>
+            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/DirectoryTest.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Directory.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Message.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/AgentTest.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Agent.java</file>
+            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Interface.java</file>
             <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Portal.java</file>
         </group>
     </open-files>

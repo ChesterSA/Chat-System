@@ -79,7 +79,7 @@ public class Directory extends ChatNode
 
                     System.out.println("Message received: " + receivedMessage.toString());
 
-                    if (!receivedMessage.isHelloMessage())
+                    if (!(receivedMessage.getType().equals(MessageType.HELLO)))
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
                     }
@@ -134,7 +134,7 @@ public class Directory extends ChatNode
 
     private Message createDirMessage(String from, String to)
     {
-        Message m = new Message(from, to);
+        Message m = new Message(from, to, MessageType.DIR);
         String content = "";
         for (Connection c : connections.values())
         {
@@ -221,7 +221,7 @@ public class Directory extends ChatNode
     {
         synchronized (lock)
         {
-            if (message.isBroadcast())
+            if (message.getType().equals(MessageType.BROADCAST))
             {
                 //
                 // Not handling broadcast messages presently...

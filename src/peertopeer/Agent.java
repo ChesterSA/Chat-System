@@ -48,7 +48,7 @@ public class Agent extends ChatNode
         //System.out.println("---Agent is sending message");
         synchronized (lock)
         {
-            if (message.isBroadcast())
+            if (message.getType().equals(MessageType.BROADCAST))
             {
                 //
                 // Not handling broadcast messages presently...
@@ -95,7 +95,7 @@ public class Agent extends ChatNode
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
-                    partialConnection.sendMessage(Message.createAgentMessage(handle));
+                    partialConnection.sendMessage(new Message(handle, MessageType.AGENT));
 
                     //Wait for a response from this connection.
                     while (!partialConnection.hasMessage())
@@ -109,7 +109,7 @@ public class Agent extends ChatNode
                     final Message receivedMessage = partialConnection.receiveMessage();
                     //Message ackMessage = partialConnection.receiveMessage();
 
-                    if (receivedMessage.isHelloAckMessage())
+                    if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addConnection(partialConnection);
@@ -190,11 +190,10 @@ public class Agent extends ChatNode
 
                     System.out.println("Message received: " + receivedMessage.toString());
 
-                    if (!receivedMessage.isHelloMessage())
+                    if (!receivedMessage.getType().equals(MessageType.HELLO))
                     {
                         System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
                     }
-
                     else
                     {
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -216,7 +215,7 @@ public class Agent extends ChatNode
 
                                 //The HELLOACK allows the peer to know our handle
                                 //
-                                newConnection.sendMessage(Message.createHelloAckMessage(handle, newConnectionHandle));
+                                newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
                             }
                         }
                     }
