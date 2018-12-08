@@ -21,45 +21,31 @@ import java.util.logging.Logger;
  *
  * @author s6089488
  */
-public class Directory
+public class Directory extends ChatNode
 {
-
-    protected final Object lock = new Object();
-
-    protected static final String DEFAULT_RECV_IP_ADDRESS = "127.0.0.1";
-    protected static final int DEFAULT_PORT = 9090;
-
-    //Messages are received as a server, other peers need to connect.
-    //
-    protected ServerSocket serverSocket;
-    protected String receiveIp;
-    protected String handle;
-    protected int receivePort;
-
     //Messages are sent as a client.
     //
-    protected HashMap<String, Connection> peerGroupConnections = new HashMap<>();
+    protected HashMap<String, Connection> connections = new HashMap<>();
 
     public Directory(String handle)
     {
-        this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
+        super(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
 
     public Directory(String handle, String receiveIp)
     {
-        this(handle, receiveIp, DEFAULT_PORT);
+        super(handle, receiveIp, DEFAULT_PORT);
     }
 
     public Directory(String handle, String receiveIp, int receivePort)
     {
-        this.handle = handle;
-        this.receiveIp = receiveIp;
-        this.receivePort = receivePort;
+        super(handle,receiveIp, receivePort);
     }
 
+    @Override
     public void removeConnections()
     {
-        peerGroupConnections = new HashMap<>();
+        connections = new HashMap<>();
     }
 
     protected Thread acceptThread = new Thread(
@@ -105,7 +91,7 @@ public class Directory
                             synchronized (lock)
                             {
 
-                                if (peerGroupConnections.get(newConnectionHandle) == null)
+                                if (connections.get(newConnectionHandle) == null)
                                 {
                                     //Complete the connection by setting its handle.
                                     //this is essential as we use the handle to send
@@ -123,7 +109,7 @@ public class Directory
                                 }
                                 else
                                 {
-                                    peerGroupConnections.remove(newConnectionHandle);
+                                    connections.remove(newConnectionHandle);
                                     newConnection.setHandle(newConnectionHandle);
                                     addConnection(newConnection);
                                     newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
@@ -149,7 +135,7 @@ public class Directory
     {
         Message m = new Message(from, to);
         String content = "";
-        for (Connection c : peerGroupConnections.values())
+        for (Connection c : connections.values())
         {
             System.out.println(c.socket.toString().substring(13, 27));
 
@@ -164,20 +150,15 @@ public class Directory
         startPeerReceiver();
     }
 
-    public String getHandle()
+    public synchronized boolean hasConnections()
     {
-        return handle;
-    }
-
-    public synchronized boolean hasPeerConnections()
-    {
-        return peerGroupConnections.size() > 0;
+        return connections.size() > 0;
     }
 
     public synchronized List<String> getConnectionHandles()
     {
         List<String> peerGroupHandleList = new ArrayList<>();
-        peerGroupConnections.
+        connections.
                 values().
                 stream().
                 forEach(
@@ -192,6 +173,7 @@ public class Directory
         return Collections.unmodifiableList(peerGroupHandleList);
     }
 
+    @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
         if (serverSocket == null)
@@ -202,22 +184,24 @@ public class Directory
         }
     }
 
+    @Override
     protected void addConnection(final Connection connection)
     {
         synchronized (lock)
         {
-            if (peerGroupConnections.containsKey(connection.getHandle()))
+            if (connections.containsKey(connection.getHandle()))
             {
                 System.err.println("[" + connection.getHandle() + "] is already an established connection.");
                 return;
             }
-            peerGroupConnections.put(connection.getHandle(), connection);
+            connections.put(connection.getHandle(), connection);
         }
     }
 
+    @Override
     protected synchronized boolean isalreadyConnected(final String ipAddress)
     {
-        for (Connection c : peerGroupConnections.values())
+        for (Connection c : connections.values())
         {
             if (c.hasIpAddress(ipAddress))
             {
@@ -232,6 +216,7 @@ public class Directory
      * @param peer The peer that the message is being sent to 
      * @param message The message to send to all peers
      */
+    @Override
     public void sendMessage(Message message)
     {
         synchronized (lock)
@@ -247,7 +232,7 @@ public class Directory
                 final String receiver = message.getTo();
 
                 //find the socket of the peer using their handle:
-                Connection peerConnection = peerGroupConnections.get(receiver);
+                Connection peerConnection = connections.get(receiver);
 
                 if (peerConnection != null)
                 {
@@ -267,13 +252,19 @@ public class Directory
     public String getAddresses()
     {
         String output = "";
-        for (Connection c : peerGroupConnections.values())
+        for (Connection c : connections.values())
         {
             System.out.println(c.socket.toString().substring(13, 27));
 
             output += c.socket.toString().substring(13, 27) + ",";
         }
         return output;
+    }
+
+    @Override
+    public void connectTo(String remoteIpAddress, int remotePort)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

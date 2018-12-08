@@ -61,7 +61,7 @@ public class StartDirectory
 
     private static void displayConnectionList(Directory me)
     {
-        if (!me.hasPeerConnections())
+        if (!me.hasConnections())
         {
             System.out.println("\n* No peers connected *\n");
             return;

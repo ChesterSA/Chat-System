@@ -7,20 +7,8 @@ package peertopeer;
 
 
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -41,44 +29,7 @@ public abstract class ChatNode
     protected String handle;
     protected int receivePort;
 
-    //Messages are sent as a client.
-    //
-    //protected HashMap<String, Connection> peerGroupConnections = new HashMap<>();
-
     public abstract void removeConnections();
-
-    
-
-//    protected final Thread receiveThread = new Thread(
-//            new Runnable()
-//    {
-//        @Override
-//        public void run()
-//        {
-//            while (true)
-//            {
-//                synchronized (lock)
-//                {
-//                    for (Connection connection : peerGroupConnections.values())
-//                    {
-//                        try
-//                        {
-//                            if (connection.hasMessage())
-//                            {
-//                                Message receivedMessage = connection.receiveMessage();
-//                                System.out.println(receivedMessage);
-//                            }
-//                        }
-//                        catch (IOException ex)
-//                        {
-//                            Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    );
 
     public ChatNode(String handle)
     {
