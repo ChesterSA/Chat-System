@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  */
 public class Directory extends ChatNode
 {
+
     //Messages are sent as a client.
     //
     protected HashMap<String, Connection> connections = new HashMap<>();
@@ -39,7 +40,7 @@ public class Directory extends ChatNode
 
     public Directory(String handle, String receiveIp, int receivePort)
     {
-        super(handle,receiveIp, receivePort);
+        super(handle, receiveIp, receivePort);
     }
 
     @Override

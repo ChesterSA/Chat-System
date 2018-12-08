@@ -16,22 +16,25 @@ import java.net.Socket;
  *
  * @author steven
  */
-class Connection {
+class Connection
+{
+
     private String handle;
     public final Socket socket;
-    private final InputStream clientSocketInputStream; 
+    private final InputStream clientSocketInputStream;
     private final InputStreamReader clientSocketInputStreamReader;
     private final BufferedReader clientSocketBufferedReader;
     private final PrintWriter clientPrintWriter;
-               
 
     // Create a partially connected connection.
     // The handle is not yet known.
-    Connection(Socket socket) throws IOException {
-        this((String)null, socket);
+    Connection(Socket socket) throws IOException
+    {
+        this((String) null, socket);
     }
-    
-    Connection(String handle, Socket socket) throws IOException {
+
+    Connection(String handle, Socket socket) throws IOException
+    {
         this.handle = handle;
         this.socket = socket;
         clientSocketInputStream = this.socket.getInputStream();
@@ -40,29 +43,39 @@ class Connection {
         clientPrintWriter = new PrintWriter(this.socket.getOutputStream(), true);
         //System.out.println("Connection established with " + handle);
     }
-    
-    public void setHandle(final String handle) {
-        if(this.handle == null && handle != null)
+
+    public void setHandle(final String handle)
+    {
+        if (this.handle == null && handle != null)
+        {
             this.handle = handle;
+        }
     }
-    
-    public String getHandle() { return handle; }
-    
-    public void sendMessage(Message message) {
+
+    public String getHandle()
+    {
+        return handle;
+    }
+
+    public void sendMessage(Message message)
+    {
         System.out.println("---connection sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent());
         System.out.println("---" + this.socket.toString());
         clientPrintWriter.println(message.toString());
     }
-    
-    public Message receiveMessage() throws IOException {
+
+    public Message receiveMessage() throws IOException
+    {
         return Message.parseMessage(clientSocketBufferedReader.readLine());
     }
-    
-    public boolean hasMessage() throws IOException {
+
+    public boolean hasMessage() throws IOException
+    {
         return clientSocketInputStream.available() > 0;
     }
-    
-    public boolean hasIpAddress(final String ipAddress) {
+
+    public boolean hasIpAddress(final String ipAddress)
+    {
         return socket.getInetAddress().getHostAddress().compareTo(ipAddress) == 0;
     }
 }

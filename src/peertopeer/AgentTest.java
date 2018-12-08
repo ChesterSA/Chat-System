@@ -14,12 +14,14 @@ import java.util.logging.Logger;
  *
  * @author s6089488
  */
-public class AgentTest {
+public class AgentTest
+{
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         System.out.println("Agent Handle?");
         String myHandle = gets();
 
@@ -28,10 +30,12 @@ public class AgentTest {
         //specific ip address.
         Agent agent = new Agent(myHandle, "0.0.0.0");
 
-        try {
+        try
+        {
             agent.begin();
 
-            while (true) {
+            while (true)
+            {
 
                 System.out.println("Agent Options:");
                 System.out.println("1. New Connection");
@@ -42,7 +46,8 @@ public class AgentTest {
                 System.out.println("> ");
                 final String option = gets();
 
-                switch (option) {
+                switch (option)
+                {
                     case "1":
                         newConnection(agent);
                         break;
@@ -63,12 +68,15 @@ public class AgentTest {
                 }
             }
 
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             Logger.getLogger(AgentTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private static void sendMessage(Agent me) {
+    private static void sendMessage(Agent me)
+    {
         System.out.println("Who would you like to send a message to?");
         final String peerHandle = gets();
 
@@ -83,29 +91,36 @@ public class AgentTest {
         me.sendMessage(newMessage);
     }
 
-    private static void newConnection(Agent me) {
+    private static void newConnection(Agent me)
+    {
         System.out.println("What is the IP address of the portal to connect to?");
         String ipAddressOfPeer = gets();
         System.out.println("Connecting to " + ipAddressOfPeer);
         me.connectTo(ipAddressOfPeer);
     }
 
-    private static void displayConnectionList(Agent me) {
+    private static void displayConnectionList(Agent me)
+    {
         System.out.println("***");
-        if (me.getPortal() == null) {
+        if (me.getPortal() == null)
+        {
             System.out.println("No Portal Connected");
-        } else {
+        }
+        else
+        {
             System.out.println(me.getPortal());
         }
         System.out.println("***");
     }
 
-    private static String gets() {
+    private static String gets()
+    {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
-    private static void connectToDir(ChatNode me) {
+    private static void connectToDir(ChatNode me)
+    {
         me.connectTo("152.105.67.116");
     }
 }

@@ -95,7 +95,7 @@ public class Portal extends ChatNode
                 {
                     LinkedList<Connection> connections = new LinkedList(portals.values());
                     connections.addAll(agents.values());
-                    
+
                     for (Connection c : connections)
                     {
                         try
@@ -118,12 +118,12 @@ public class Portal extends ChatNode
                                     for (Connection con : portals.values())
                                     {
                                         System.out.println("---trying socket " + con.socket.toString());
-                                         
+
                                         con.sendMessage(receivedMessage);
                                     }
                                 }
                             }
-                            
+
                         }
                         catch (IOException ex)
                         {
@@ -131,7 +131,7 @@ public class Portal extends ChatNode
                                     .getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    
+
 //                    for (Connection c : portals.values())
 //                    {
 //                        try
@@ -231,13 +231,13 @@ public class Portal extends ChatNode
                             }
                             else
                             {
-                                
+
                                 for (Connection c : portals.values())
                                 {
                                     Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
-                                    
-                                    Matcher m = ipPattern.matcher(c.socket.toString());                                   
-                                    
+
+                                    Matcher m = ipPattern.matcher(c.socket.toString());
+
                                     if (m.group().equals(ip))
                                     {
                                         newConnection = false;
@@ -267,9 +267,8 @@ public class Portal extends ChatNode
 
         helloThread.start();
 
-    
     }
-    
+
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
@@ -397,7 +396,7 @@ public class Portal extends ChatNode
             portals.put(c.getHandle(), c);
         }
     }
-    
+
     private void addAgent(Connection c)
     {
         synchronized (lock)
@@ -465,7 +464,7 @@ public class Portal extends ChatNode
 
         return Collections.unmodifiableList(agentHandleList);
     }
-    
+
     public void removePortals()
     {
         portals = new HashMap<>();
@@ -482,12 +481,12 @@ public class Portal extends ChatNode
         portals = new HashMap<>();
         agents = new HashMap<>();
     }
-    
+
     public boolean hasPortals()
     {
         return !portals.isEmpty();
     }
-    
+
     public boolean hasAgents()
     {
         return !agents.isEmpty();

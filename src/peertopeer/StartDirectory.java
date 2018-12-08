@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class StartDirectory
 {
+
     public static void main(String[] args)
     {
         String myHandle = "dir";
@@ -28,7 +29,7 @@ public class StartDirectory
 
         try
         {
-           dir.begin();
+            dir.begin();
 
             while (true)
             {
@@ -46,7 +47,7 @@ public class StartDirectory
                         break;
                     case "2":
                         dir.removeConnections();
-                        break;     
+                        break;
                     default:
                         System.err.println("Invalid option.");
                 }
