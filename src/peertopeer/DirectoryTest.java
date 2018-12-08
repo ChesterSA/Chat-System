@@ -6,7 +6,6 @@
 package peertopeer;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author s6089488
  */
-public class StartDirectory
+public class DirectoryTest
 {
 
     public static void main(String[] args)
@@ -56,7 +55,7 @@ public class StartDirectory
         }
         catch (IOException ex)
         {
-            Logger.getLogger(StartDirectory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DirectoryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -64,13 +63,13 @@ public class StartDirectory
     {
         if (!me.hasConnections())
         {
-            System.out.println("\n* No peers connected *\n");
+            System.out.println("\n* No portals connected *\n");
             return;
         }
 
         System.out.println(
                 String.format(
-                        "Connected peer handles\n\n%s\n\n",
+                        "Connected portal handles\n%s\n",
                         String.join(", ", me.getConnectionHandles())
                 )
         );

@@ -104,23 +104,23 @@ public class Portal extends ChatNode
                             {
                                 Message receivedMessage = c.receiveMessage();
 
-                                System.out.println("---Portal: " + handle + " has received message");
+                                //System.out.println("---Portal: " + handle + " has received message");
 
                                 if (agents.containsKey(receivedMessage.getTo()))
                                 {
-                                    System.out.println("---Message is to local agent of portal " + handle);
+                                    //System.out.println("---Message is to local agent of portal " + handle);
                                     sendMessage(receivedMessage);
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
                                 {
-                                    System.out.println("---No local agents, contacting external portals");
-                                    System.out.println("---portals size = " + portals.values().size());
+                                    //System.out.println("---No local agents, contacting external portals");
+                                    //System.out.println("---portals size = " + portals.values().size());
                                     for (Connection con : portals.values())
                                     {
-                                        System.out.println("---trying socket " + con.socket.toString());
-
+                                        //System.out.println("---trying socket " + con.socket.toString());
                                         con.sendMessage(receivedMessage);
                                     }
+                                            
                                 }
                             }
 
@@ -131,35 +131,6 @@ public class Portal extends ChatNode
                                     .getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-
-//                    for (Connection c : portals.values())
-//                    {
-//                        try
-//                        {
-//                            if (c.hasMessage())
-//                            {
-//                                Message receivedMessage = c.receiveMessage();
-//
-//                                System.out.println("---Portal: " + handle + " has received message");
-//
-//                                if (agents.containsKey(receivedMessage.getTo()))
-//                                {
-//                                    System.out.println("---Message is to local agent of portal " + handle);
-//                                    sendMessage(receivedMessage);
-//                                }
-//                                else
-//                                {
-//                                    System.out.println("---Agent not present at portal " + handle);
-//                                }
-//                            }
-//                            
-//                        }
-//                        catch (IOException ex)
-//                        {
-//                            Logger.getLogger(ChatNode.class
-//                                    .getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                    }
                 }
             }
         }
@@ -207,13 +178,13 @@ public class Portal extends ChatNode
 
                     if (receivedMessage.isHelloAckMessage())
                     {
-                        System.out.println("---Hello Ack Message received from " + partialConnection.toString());
+                        //System.out.println("---Hello Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addPortal(partialConnection);
                     }
                     if (receivedMessage.isPortalAckMessage())
                     {
-                        System.out.println("---Portal Ack Message received from " + partialConnection.toString());
+                        //System.out.println("---Portal Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addPortal(partialConnection);
                     }
@@ -333,7 +304,7 @@ public class Portal extends ChatNode
                     }
                     else if (receivedMessage.isAgentsMessage())
                     {
-                        System.out.println("---Agent connecting to me");
+                        //System.out.println("---Agent connecting to me");
                         final String newConnectionHandle = receivedMessage.getFrom();
 
                         if (newConnectionHandle != null)
@@ -392,7 +363,7 @@ public class Portal extends ChatNode
                 System.err.println("[" + c.getHandle() + "] is already an established connection.");
                 return;
             }
-            System.out.println("---Adding portal " + c.toString() + " to " + handle);
+            //System.out.println("---Adding portal " + c.toString() + " to " + handle);
             portals.put(c.getHandle(), c);
         }
     }
@@ -406,7 +377,7 @@ public class Portal extends ChatNode
                 System.err.println("[" + c.getHandle() + "] is already an established connection.");
                 return;
             }
-            System.out.println("---Adding agent " + c.toString() + " to " + handle);
+            //System.out.println("---Adding agent " + c.toString() + " to " + handle);
             agents.put(c.getHandle(), c);
         }
     }

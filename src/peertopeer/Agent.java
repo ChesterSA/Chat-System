@@ -6,17 +6,12 @@
 package peertopeer;
 
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.util.Pair;
 
 /**
@@ -50,7 +45,7 @@ public class Agent extends ChatNode
     @Override
     public void sendMessage(Message message)
     {
-        System.out.println("---Agent is sending message");
+        //System.out.println("---Agent is sending message");
         synchronized (lock)
         {
             if (message.isBroadcast())
@@ -61,15 +56,15 @@ public class Agent extends ChatNode
             }
             else
             {
-                System.out.println("---Message has a set receiver");
+                ///System.out.println("---Message has a set receiver");
                 if (portal != null)
                 {
-                    System.out.println("---Portal: " + portal.getKey() + " ... " + portal.getValue() + " is handling message");
+                    //System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
                     portal.getValue().sendMessage(message);
                 }
                 else
                 {
-                    System.out.println("Portal is null...");
+                    System.out.println("Portal is null");
                 }
             }
         }
@@ -243,7 +238,7 @@ public class Agent extends ChatNode
         synchronized (lock)
         {
             portal = new Pair<>(connection.getHandle(), connection);
-            System.out.println("---Connected to portal " + portal.getKey() + " ... " + portal.getValue());
+            //System.out.println("---Connected to portal " + portal.getKey() + " ... " + portal.getValue());
         }
     }
 

@@ -59,8 +59,8 @@ class Connection
 
     public void sendMessage(Message message)
     {
-        System.out.println("---connection sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent());
-        System.out.println("---" + this.socket.toString());
+        //System.out.println("---connection sending message From:" + message.getFrom() + " To:" + message.getTo() + " Content:" + message.getContent());
+        //System.out.println("---" + this.socket.toString());
         clientPrintWriter.println(message.toString());
     }
 

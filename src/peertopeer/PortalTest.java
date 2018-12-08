@@ -105,7 +105,7 @@ public class PortalTest
 
     private static void displayAgentList(Portal me)
     {
-        System.out.println("Amount of portals = " + me.getAgentHandles().size());
+        System.out.println("Amount of agents = " + me.getAgentHandles().size());
 
         System.out.println(
                 String.format(
