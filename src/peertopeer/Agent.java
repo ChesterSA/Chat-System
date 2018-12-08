@@ -260,7 +260,10 @@ public class Agent extends ChatNode
 
     public String getPortal()
     {
-        return portal.getKey();
+        if (portal != null)
+            return portal.getKey();
+        else
+           return null;
     }
 
     @Override
