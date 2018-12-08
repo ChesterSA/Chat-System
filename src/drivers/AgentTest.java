@@ -29,9 +29,7 @@ public class AgentTest
         System.out.println("Agent Handle?");
         String myHandle = gets();
 
-        // TODO code application logic here
-        //Change 0.0.0.0 to a more specific ip address range or
-        //specific ip address.
+        //0.0.0.0 would be changed to reflect the company's ip
         Agent agent = new Agent(myHandle, "0.0.0.0");
 
         try

@@ -29,9 +29,8 @@ public class PortalTest
         System.out.println("Portal Handle?");
         String myHandle = gets();
 
-        // TODO code application logic here
-        //Change 0.0.0.0 to a more specific ip address range or
-        //specific ip address.
+        //0.0.0.0 would be changed to reflect the company's ip
+        
         Portal portal = new Portal(myHandle, "0.0.0.0");
 
         try
