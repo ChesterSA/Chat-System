@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import peertopeer.ChatNode;
-import peertopeer.Message;
-import peertopeer.MessageType;
-import peertopeer.Portal;
+import middleware.ChatNode;
+import middleware.Message;
+import middleware.MessageType;
+import middleware.Portal;
 
 /**
  *

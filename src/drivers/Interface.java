@@ -13,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.*;
-import peertopeer.Agent;
-import peertopeer.ChatNode;
-import peertopeer.Portal;
+import middleware.Agent;
+import middleware.ChatNode;
+import middleware.Portal;
 
 /**
  *
