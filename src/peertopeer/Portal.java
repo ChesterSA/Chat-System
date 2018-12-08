@@ -66,7 +66,7 @@ public class Portal extends ChatNode
             {
                 if (agents.containsKey(message.getTo()))
                 {
-                    System.out.println("Message is to local agent");
+                    //System.out.println("---Message is to local agent");
                     agents.get(message.getTo()).sendMessage(message);
                 }
                 else
@@ -267,8 +267,7 @@ public class Portal extends ChatNode
                     //will do, anything else will be ignored.
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
-                    System.out.println("Message Recieved");
-                    System.out.println("Message Content: " + receivedMessage.toString());
+                    System.out.println("Message Recieved - " + receivedMessage.toString());
 
                     if (receivedMessage.isPortalMessage())
                     {
