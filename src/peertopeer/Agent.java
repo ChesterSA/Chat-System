@@ -149,7 +149,7 @@ public class Agent extends ChatNode
                 {
                     try
                     {
-                        if (portal.getValue().hasMessage())
+                        if (portal != null && portal.getValue().hasMessage())
                         {
                             System.out.println(portal.getValue().receiveMessage());
                         }
