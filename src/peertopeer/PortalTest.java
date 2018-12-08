@@ -93,7 +93,7 @@ public class PortalTest
     private static void displayPortalList(Portal me)
     {
 
-        System.out.println("Amount of portals = " + me.getPortalHandles().size());
+        System.out.println("\nAmount of portals = " + me.getPortalHandles().size());
 
         System.out.println(
                 String.format(
@@ -105,7 +105,7 @@ public class PortalTest
 
     private static void displayAgentList(Portal me)
     {
-        System.out.println("Amount of agents = " + me.getAgentHandles().size());
+        System.out.println("\nAmount of agents = " + me.getAgentHandles().size());
 
         System.out.println(
                 String.format(
