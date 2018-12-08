@@ -269,6 +269,7 @@ public class Portal extends ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
+                    System.out.println("---" + receivedMessage.getType());
                     switch (receivedMessage.getType())
                     {                          
                         case PORTAL:
