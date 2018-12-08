@@ -104,13 +104,14 @@ public class Message
         //
         //Very simple message format for transmission...
         //
-        return String.format("FROM:#%s#,TO:#%s#,CONTENT:#%s#",
+        return String.format("FROM:#%s#,TO:#%s#,CONTENT:#%s#,TYPE:#%s#",
                 from,
                 String.join(",", to),
-                content);
+                content,
+                type);
     }
 
-    static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.*)#$");
+    static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.*)#,TYPE:#(.*)#$");
 
     public static Message parseMessage(String rawMessage)
     {
