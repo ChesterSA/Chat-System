@@ -64,7 +64,7 @@ public class Directory extends ChatNode
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    System.out.println("Awaiting HELLO message from new connection");
+                    System.out.println("Awaiting PORTAL message from new connection");
 
                     while (!newConnection.hasMessage())
                     {
