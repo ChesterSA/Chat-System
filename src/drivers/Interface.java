@@ -11,10 +11,13 @@ import java.util.logging.Logger;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import middleware.Agent;
 import middleware.ChatNode;
+import middleware.Message;
+import middleware.MessageType;
 import middleware.Portal;
 
 /**
@@ -110,8 +113,16 @@ public class Interface
             {
                 // close first Frame
                 backing.dispose();
-                // gets handler name
-                handler();
+                try
+                {
+                    String myHandle = handler();
+                    agent.setHandle(myHandle);
+                    agent.begin();
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(AgentTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 // sets the frame to be visible
                 agentFrame.setVisible(true);
             }
@@ -125,10 +136,10 @@ public class Interface
             {
                 // close first Frame
                 backing.dispose();
-                // gets handler name
-
+                
                 try
                 {
+                    // gets handler name
                     String myHandle = handler();
                     portal.setHandle(myHandle);
                     portal.begin();
@@ -224,17 +235,47 @@ public class Interface
         JLabel agantOptions = new JLabel("Agent Options ", SwingConstants.CENTER);
         addComponentToGridBag(agentFrame, agantOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
-        JButton agantNewConnections = new JButton("New Connections");
-        addComponentToGridBag(agentFrame, agantNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        JButton agentNewConnections = new JButton("New Connections");
+        addComponentToGridBag(agentFrame, agentNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentNewConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
 
-        JButton agantshowPortal = new JButton("Show Portal");
-        addComponentToGridBag(agentFrame, agantshowPortal, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+                newAgentConnection(agent);
 
-        JButton agantConnectdir = new JButton("Connect To directory");
-        addComponentToGridBag(agentFrame, agantConnectdir, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+            }
+        });
+        
+        JButton agentSendMessage= new JButton("Send Message");
+        addComponentToGridBag(agentFrame, agentSendMessage, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentSendMessage.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
 
-        JButton agantRemoveConnections = new JButton("Remove Connections");
-        addComponentToGridBag(agentFrame, agantRemoveConnections, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+                agentSendMessage(agent);
+
+            }
+        });
+
+        JButton agentShowPortal = new JButton("Show Portal");
+        addComponentToGridBag(agentFrame, agentShowPortal, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentShowPortal.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                displayAgentConnectionList(agent);
+
+            }
+        });
+
+        JButton agentConnectdir = new JButton("Connect To directory");
+        addComponentToGridBag(agentFrame, agentConnectdir, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton agentRemoveConnections = new JButton("Remove Connections");
+        addComponentToGridBag(agentFrame, agentRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         // end of agent buttons
 
     }
@@ -266,7 +307,12 @@ public class Interface
 
     private static void newPortalConnection(Portal me)
     {
-        System.out.println("What is the IP address of the peer to connect to?");
+        String ipAddressOfPeer = newConnection();
+        me.connectTo(ipAddressOfPeer);
+    }
+    
+    private static void newAgentConnection(Agent me)
+    {
         String ipAddressOfPeer = newConnection();
         me.connectTo(ipAddressOfPeer);
     }
@@ -281,6 +327,18 @@ public class Interface
 
         List<String> connections = me.getPortalHandles();
         JOptionPane.showMessageDialog(null, connections);
+    }
+    
+    private static void displayAgentConnectionList(Agent me) 
+    {
+        if (me.getPortal() == null) {
+            JOptionPane.showMessageDialog(null, "No Portal Connections!");
+            return;
+        } else {
+            String connection = me.getPortal();
+            JOptionPane.showMessageDialog(null, connection);
+        }
+        System.out.println();
     }
 
     private static void PortalconnectToDir(ChatNode me)
@@ -299,5 +357,52 @@ public class Interface
         List<String> connections = me.getAgentHandles();
         JOptionPane.showMessageDialog(null, connections);
 
+    }
+    
+    private static void agentSendMessage(Agent me)
+    {
+        Object[] msgOptions = { "Standard", "Broadcast"};
+        
+        int n = JOptionPane.showOptionDialog(null,
+                            "What message type are you sending?",
+                            "Send Message",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE, null,
+                            msgOptions, msgOptions[0]);
+        
+        String handle;
+        
+        if (n == 0) 
+        {
+            //System.out.println("Current connections:");
+            List <String> contacts = new ArrayList();
+            for (String c : me.getContacts())
+            {
+                contacts.add(c);
+            }
+            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?");
+        }
+        
+        else
+        {
+            handle = "all";
+        }
+
+        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle);
+
+        Message newMessage;
+        
+        if (handle.equals("all"))
+        {
+            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
+            newMessage.append(messageContent);
+        }
+        else
+        {
+            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
+            newMessage.append(messageContent);
+        }
+
+        me.sendMessage(newMessage);
     }
 }

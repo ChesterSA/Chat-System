@@ -280,5 +280,9 @@ public class Agent extends ChatNode
     {
         return contacts;
     }
-
+    
+    public void setHandle(String handle)
+    {
+        this.handle = handle;
+    }
 }
