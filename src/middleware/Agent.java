@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
@@ -22,6 +23,7 @@ public class Agent extends ChatNode
 {
 
     Pair<String, Connection> portal;
+    LinkedList<String> contacts = new LinkedList<>();
 
     public Agent(String handle)
     {
@@ -48,24 +50,15 @@ public class Agent extends ChatNode
         //System.out.println("---Agent is sending message");
         synchronized (lock)
         {
-            if (message.getType().equals(MessageType.BROADCAST))
+            //System.out.println("---Message has a set receiver");
+            if (portal != null)
             {
-                //
-                // Not handling broadcast messages presently...
-                //
+                //System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
+                portal.getValue().sendMessage(message);
             }
             else
             {
-                //System.out.println("---Message has a set receiver");
-                if (portal != null)
-                {
-                    //System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
-                    portal.getValue().sendMessage(message);
-                }
-                else
-                {
-                    System.out.println("Portal is null");
-                }
+                System.out.println("Portal is null");
             }
         }
     }
@@ -111,6 +104,10 @@ public class Agent extends ChatNode
                     if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
                         partialConnection.setHandle(receivedMessage.getFrom());
+                        if (portal != null)
+                        {
+                            sendMessage(new Message(handle, portal.getKey(),MessageType.AGENTREMOVE));
+                        }
                         addConnection(partialConnection);
                     }
                 }
@@ -145,7 +142,10 @@ public class Agent extends ChatNode
                     {
                         if (portal != null && portal.getValue().hasMessage())
                         {
-                            System.out.println(portal.getValue().receiveMessage());
+                            Message m = portal.getValue().receiveMessage();
+                            contacts.add(m.getFrom());
+                            System.out.println(m);
+
                         }
                     }
                     catch (IOException ex)
@@ -274,6 +274,11 @@ public class Agent extends ChatNode
     {
         startPeerReceiver();
         receiveThread.start();
+    }
+
+    public LinkedList<String> getContacts()
+    {
+        return contacts;
     }
 
 }

@@ -79,17 +79,30 @@ public class AgentTest
 
     private static void sendMessage(Agent me)
     {
+        System.out.println("Current connections:");
+        for (String c : me.getContacts())
+        {
+            System.out.print(c + " ");
+            System.out.println();
+        }
         System.out.println("Who would you like to send a message to?");
-        final String peerHandle = gets();
+        final String handle = gets();
 
-        System.out.println("What message would you like to send to " + peerHandle + "?");
+        System.out.println("What message would you like to send to " + handle + "?");
 
-        Message newMessage = new Message(me.getHandle(), peerHandle, MessageType.STANDARD);
+        Message newMessage;
+        if (handle.equals("all"))
+        {
+            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
+        }
+        else
+        {
+            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
+        }
 
         newMessage.append(gets());
 
         //System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
-
         me.sendMessage(newMessage);
     }
 
@@ -103,16 +116,16 @@ public class AgentTest
 
     private static void displayConnectionList(Agent me)
     {
-        System.out.println("***");
+        System.out.println();
         if (me.getPortal() == null)
         {
             System.out.println("No Portal Connected");
         }
         else
         {
-            System.out.println(me.getPortal());
+            System.out.println("Current Portal handle is: " + me.getPortal());
         }
-        System.out.println("***");
+        System.out.println();
     }
 
     private static String gets()

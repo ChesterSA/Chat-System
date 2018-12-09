@@ -58,9 +58,17 @@ public class Portal extends ChatNode
         {
             if (message.getType().equals(MessageType.BROADCAST))
             {
-                //
-                // Not handling broadcast messages presently...
-                //
+                for (Connection c : agents.values())
+                {
+                    c.sendMessage(message);
+                }
+                if (agents.containsKey(message.getFrom()))
+                {
+                    for (Connection c : portals.values())
+                    {
+                        c.sendMessage(message);
+                    }
+                }
             }
             else
             {
@@ -105,14 +113,14 @@ public class Portal extends ChatNode
                                 Message receivedMessage = c.receiveMessage();
 
                                 //System.out.println("---Portal: " + handle + " has received message");
-
-                                if (agents.containsKey(receivedMessage.getTo()))
+                                if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
                                     //System.out.println("---Message is to local agent of portal " + handle);
                                     sendMessage(receivedMessage);
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
                                 {
+                                    //Only send message if it's from one of your agents, stops infinite loop issues
                                     //System.out.println("---No local agents, contacting external portals");
                                     //System.out.println("---portals size = " + portals.values().size());
                                     for (Connection con : portals.values())
@@ -120,7 +128,7 @@ public class Portal extends ChatNode
                                         //System.out.println("---trying socket " + con.socket.toString());
                                         con.sendMessage(receivedMessage);
                                     }
-                                            
+
                                 }
                             }
 
@@ -263,82 +271,82 @@ public class Portal extends ChatNode
                         // should probably handle timeouts...
                     }
 
-                    //At this point in the connection process, only a HELLO message
-                    //will do, anything else will be ignored.
-                    //
+                    //Wait for a PORTAL, AGENT, or AGENTREMOVE message
                     final Message receivedMessage = newConnection.receiveMessage();
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
                     //System.out.println("---" + receivedMessage.getType());
                     switch (receivedMessage.getType())
-                    {                          
+                    {
                         case PORTAL:
+                        {
+                            final String newConnectionHandle = receivedMessage.getFrom();
+                            if (newConnectionHandle != null)
                             {
-                                final String newConnectionHandle = receivedMessage.getFrom();
-                                if (newConnectionHandle != null)
+                                synchronized (lock)
                                 {
-                                    synchronized (lock)
+
+                                    if (portals.get(newConnectionHandle) == null)
                                     {
-                                        
-                                        if (portals.get(newConnectionHandle) == null)
-                                        {
-                                            //Complete the connection by setting its handle.
-                                            //this is essential as we use the handle to send
-                                            //messages to our peers.
-                                            //
-                                            newConnection.setHandle(newConnectionHandle);
-                                            
-                                            //update our register of peer connections
-                                            //
-                                            addPortal(newConnection);
-                                            
-                                            //The HELLOACK allows the peer to know our handle
-                                            //
-                                            newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.PORTALACK));
-                                        }
-                                        else
-                                        {
-                                            System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
-                                        }
+                                        newConnection.setHandle(newConnectionHandle);
+                                        addPortal(newConnection);
+                                        newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.PORTALACK));
                                     }
-                                }       break;
+                                    else
+                                    {
+                                        System.err.println("Already connected to a peer with name: '" + newConnectionHandle + "'");
+                                    }
+                                }
                             }
+                            break;
+                        }
                         case AGENT:
+                        {
+                            //System.out.println("---Agent connecting to me");
+                            final String newConnectionHandle = receivedMessage.getFrom();
+                            if (newConnectionHandle != null)
                             {
-                                //System.out.println("---Agent connecting to me");
-                                final String newConnectionHandle = receivedMessage.getFrom();
-                                if (newConnectionHandle != null)
+                                synchronized (lock)
                                 {
-                                    synchronized (lock)
+
+                                    if (agents.get(newConnectionHandle) == null)
                                     {
-                                        
-                                        if (agents.get(newConnectionHandle) == null)
-                                        {
-                                            //Complete the connection by setting its handle.
-                                            //this is essential as we use the handle to send
-                                            //messages to our peers.
-                                            //
-                                            newConnection.setHandle(newConnectionHandle);
-                                            
-                                            //update our register of peer connections
-                                            //
-                                            addAgent(newConnection);
-                                            
-                                            //The HELLOACK allows the peer to know our handle
-                                            //
-                                            newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
-                                        }
-                                        else
-                                        {
-                                            System.err.println("Already connected to an agent with name: '" + newConnectionHandle + "'");
-                                        }
+                                        newConnection.setHandle(newConnectionHandle);
+                                        addAgent(newConnection);
+                                        newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
                                     }
-                                }       break;
+                                    else
+                                    {
+                                        System.err.println("Already connected to an agent with name: '" + newConnectionHandle + "'");
+                                    }
+                                }
                             }
+                            break;
+
+                        }
+                        case AGENTREMOVE:
+                        {
+                            final String handle = receivedMessage.getFrom();
+                            if (handle != null)
+                            {
+                                synchronized (lock)
+                                {
+                                    if (agents.get(handle) != null)
+                                    {
+                                        removeAgent(handle);
+                                    }
+                                    else
+                                    {
+                                        System.err.println("Not connected to an agent with name: '" + handle + "'");
+                                    }
+                                }
+                            }
+                            break;
+                        }
                         default:
                             System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
                             break;
-                    // Check for HELLO message with client name.
+                        // Check for HELLO message with client name.
                     }
                 }
                 catch (IOException ex)
@@ -438,7 +446,7 @@ public class Portal extends ChatNode
     {
         portals = new HashMap<>();
     }
-    
+
     public void removePortal(String key)
     {
         if (portals.containsKey(key))
@@ -451,7 +459,7 @@ public class Portal extends ChatNode
     {
         agents = new HashMap<>();
     }
-    
+
     public void removeAgent(String key)
     {
         if (agents.containsKey(key))

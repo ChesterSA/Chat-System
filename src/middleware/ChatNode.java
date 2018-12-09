@@ -42,7 +42,14 @@ public abstract class ChatNode
 
     public ChatNode(String handle, String receiveIp, int receivePort)
     {
-        this.handle = handle;
+        if (!handle.equals("null") && !handle.equals("all"))
+        {
+            this.handle = handle;
+        }
+        else 
+        {
+            System.err.println("Invalid message handle, cannot be 'null' or 'all'");
+        }
         this.receiveIp = receiveIp;
         this.receivePort = receivePort;
     }
