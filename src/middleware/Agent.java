@@ -106,7 +106,7 @@ public class Agent extends ChatNode
                         partialConnection.setHandle(receivedMessage.getFrom());
                         if (portal != null)
                         {
-                            sendMessage(new Message(handle, portal.getKey(),MessageType.AGENTREMOVE));
+                            sendMessage(new Message(handle, portal.getKey(), MessageType.AGENTREMOVE));
                         }
                         addConnection(partialConnection);
                     }
@@ -143,7 +143,11 @@ public class Agent extends ChatNode
                         if (portal != null && portal.getValue().hasMessage())
                         {
                             Message m = portal.getValue().receiveMessage();
-                            contacts.add(m.getFrom());
+                            String from = m.getFrom();
+                            if (!contacts.contains(from) && !from.equals(handle))
+                            {
+                                contacts.add(from);
+                            }
                             System.out.println(m);
 
                         }

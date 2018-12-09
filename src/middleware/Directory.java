@@ -64,7 +64,7 @@ public class Directory extends ChatNode
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    System.out.println("Awaiting HELLO message from new connection");
+                    System.out.println("Awaiting PORTAL message from new connection");
 
                     while (!newConnection.hasMessage())
                     {
@@ -79,9 +79,9 @@ public class Directory extends ChatNode
 
                     System.out.println("Message received: " + receivedMessage.toString());
 
-                    if (!(receivedMessage.getType().equals(MessageType.HELLO)))
+                    if (!(receivedMessage.getType().equals(MessageType.PORTAL)))
                     {
-                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                        System.err.println("Invalid Portal connect message, connection attempt will be dropped.");
                     }
                     else
                     {

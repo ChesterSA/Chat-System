@@ -112,8 +112,27 @@ public class Portal extends ChatNode
                             {
                                 Message receivedMessage = c.receiveMessage();
 
+                                if (receivedMessage.getType().equals(MessageType.AGENTREMOVE))
+                                {
+                                    final String handle = receivedMessage.getFrom();
+                                    if (handle != null)
+                                    {
+                                        synchronized (lock)
+                                        {
+                                            if (agents.containsKey(handle))
+                                            {
+                                                System.out.println("Removing agent " + handle);
+                                                removeAgent(handle);
+                                            }
+                                            else
+                                            {
+                                                System.err.println("Not connected to an agent with name: '" + handle + "'");
+                                            }
+                                        }
+                                    }   
+                                }
                                 //System.out.println("---Portal: " + handle + " has received message");
-                                if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
+                                else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
                                     //System.out.println("---Message is to local agent of portal " + handle);
                                     sendMessage(receivedMessage);
@@ -128,7 +147,6 @@ public class Portal extends ChatNode
                                         //System.out.println("---trying socket " + con.socket.toString());
                                         con.sendMessage(receivedMessage);
                                     }
-
                                 }
                             }
 
@@ -331,8 +349,9 @@ public class Portal extends ChatNode
                             {
                                 synchronized (lock)
                                 {
-                                    if (agents.get(handle) != null)
+                                    if (agents.containsKey(handle))
                                     {
+                                        System.out.println("Removing agent " + handle);
                                         removeAgent(handle);
                                     }
                                     else
