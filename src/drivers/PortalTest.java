@@ -20,7 +20,7 @@ import middleware.Portal;
  */
 public class PortalTest
 {
-
+    static String ipBase = "152.105.67.";
     /**
      * @param args the command line arguments
      */
@@ -81,8 +81,9 @@ public class PortalTest
     private static void newConnection(Portal me)
     {
         System.out.println("What is the IP address of the peer to connect to?");
+        System.out.print(ipBase);
         String ipAddressOfPeer = gets();
-        me.connectTo(ipAddressOfPeer);
+        me.connectTo(ipBase + ipAddressOfPeer);
     }
 
     private static void manageAgents(Portal me)

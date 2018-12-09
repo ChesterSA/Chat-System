@@ -20,12 +20,13 @@ import middleware.MessageType;
  */
 public class AgentTest
 {
-
+    static String ipBase = "152.105.67.";
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
+        
         System.out.println("Agent Handle?");
         String myHandle = gets();
 
@@ -109,9 +110,9 @@ public class AgentTest
     private static void newConnection(Agent me)
     {
         System.out.println("What is the IP address of the portal to connect to?");
+        System.out.print(ipBase);
         String ipAddressOfPeer = gets();
-        System.out.println("Connecting to " + ipAddressOfPeer);
-        me.connectTo(ipAddressOfPeer);
+        me.connectTo(ipBase + ipAddressOfPeer);
     }
 
     private static void displayConnectionList(Agent me)
