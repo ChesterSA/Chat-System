@@ -79,9 +79,9 @@ public class Directory extends ChatNode
 
                     System.out.println("Message received: " + receivedMessage.toString());
 
-                    if (!(receivedMessage.getType().equals(MessageType.HELLO)))
+                    if (!(receivedMessage.getType().equals(MessageType.PORTAL)))
                     {
-                        System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                        System.err.println("Invalid Portal connect message, connection attempt will be dropped.");
                     }
                     else
                     {
