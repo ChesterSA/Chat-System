@@ -240,6 +240,7 @@ public class Portal extends ChatNode implements Connectable
                         {
                             boolean newConnection = true;
 
+                            System.out.println(Inet4Address.getLocalHost().getHostAddress() + "       " + ip);
                             if (ip.equals(Inet4Address.getLocalHost().getHostAddress()))
                             {
                                 newConnection = false;
