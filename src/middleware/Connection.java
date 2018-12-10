@@ -23,23 +23,28 @@ class Connection
      * Identifying string of connection.
      */
     private String handle;
+    
     /**
      * Socket used by connection.
      */
     public final Socket socket;
+    
     /**
      * Stream of data (in bytes) to be processed through connection.
      */
     private final InputStream clientSocketInputStream;
+    
     /**
      * Reader object to parse InputStream byte data into character data.
      */
     private final InputStreamReader clientSocketInputStreamReader;
+    
     /**
      * Reader object wrapping InputStreamReader, buffering the data being read
      * by the reader, increasing efficiency of the reading process.
      */
     private final BufferedReader clientSocketBufferedReader;
+    
     /**
      * Sends data to stream of text, used to send messages through connection.
      */
@@ -47,6 +52,7 @@ class Connection
 
     /**
      * Creates partial connection, where handle is not known.
+     *
      * @param socket Socket of connection.
      * @throws IOException Handles errors of input-output.
      */
@@ -56,7 +62,9 @@ class Connection
     }
 
     /**
-     * Creates connection, giving an identifying string and socket of connection.
+     * Creates connection, giving an identifying string and socket of
+     * connection.
+     *
      * @param handle String handle of connection
      * @param socket Socket of connection.
      * @throws IOException Handles errors of input-output.
@@ -75,6 +83,7 @@ class Connection
     /**
      * Sets handle of connection, when the current handle is null and new handle
      * is given.
+     *
      * @param handle New handle of connection.
      */
     public void setHandle(final String handle)
@@ -87,6 +96,7 @@ class Connection
 
     /**
      * Gets handle of connection.
+     *
      * @return String handle of connection.
      */
     public String getHandle()
@@ -97,6 +107,7 @@ class Connection
     /**
      * Sends message through connection by sending message through connection's
      * PrintWriter object.
+     *
      * @param message Message being sent.
      */
     public void sendMessage(Message message)
@@ -109,6 +120,7 @@ class Connection
     /**
      * Recieves message through connection by reading data from connection's
      * BufferedReader object.
+     *
      * @return Message recieved.
      * @throws IOException Handles errors of input-output.
      */
@@ -121,6 +133,7 @@ class Connection
 
     /**
      * Checks whether the connection has a message to be processed.
+     *
      * @return If message is present.
      * @throws IOException Handles errors of input-output.
      */
@@ -132,6 +145,7 @@ class Connection
     /**
      * Checks whether connection has specified IP address as host address in
      * socket.
+     *
      * @param ipAddress IP to be checked.
      * @return If connection has IP address.
      */
