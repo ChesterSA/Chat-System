@@ -293,14 +293,14 @@ public class Interface
 
     public static String handler()
     {
-        String handler = JOptionPane.showInputDialog("Enter handler Name");
-        System.out.println("your handler name is: " + handler);
-        return handler;
+        String handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+        System.out.println("your handler name is: " + handle);
+        return handle;
     }
 
     public static String newConnection()
     {
-        String ip = JOptionPane.showInputDialog("Enter IP Adress");
+        String ip = JOptionPane.showInputDialog("Enter IP Adress", "IP Address");
         System.out.println("The IP Adress is: " + ip);
         return ip;
     }
@@ -321,7 +321,7 @@ public class Interface
     {
         if (!me.hasPortals())
         {
-            JOptionPane.showMessageDialog(null, "No Portal Connections!");
+            JOptionPane.showMessageDialog(null, "No Portal Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -332,11 +332,11 @@ public class Interface
     private static void displayAgentConnectionList(Agent me) 
     {
         if (me.getPortal() == null) {
-            JOptionPane.showMessageDialog(null, "No Portal Connections!");
+            JOptionPane.showMessageDialog(null, "No Portal Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
             String connection = me.getPortal();
-            JOptionPane.showMessageDialog(null, connection);
+            JOptionPane.showMessageDialog(null, connection, "Connections", JOptionPane.INFORMATION_MESSAGE);
         }
         System.out.println();
     }
@@ -350,12 +350,12 @@ public class Interface
     {
         if (!me.hasAgents())
         {
-            JOptionPane.showMessageDialog(null, "No Agent Connections!");
+            JOptionPane.showMessageDialog(null, "No Agent Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         List<String> connections = me.getAgentHandles();
-        JOptionPane.showMessageDialog(null, connections);
+        JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
 
     }
     
@@ -380,7 +380,7 @@ public class Interface
             {
                 contacts.add(c);
             }
-            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?");
+            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
         }
         
         else
@@ -388,7 +388,7 @@ public class Interface
             handle = "all";
         }
 
-        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle);
+        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle, "Send Message");
 
         Message newMessage;
         
