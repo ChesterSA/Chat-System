@@ -15,12 +15,16 @@ import middleware.MessageType;
 import middleware.Portal;
 
 /**
- *
+ * Driver to create a portal class for testing
  * @author s6089488
  */
 public class PortalTest
 {
+    /**
+     * The first three groups of the ip, used to remove some user effort
+     */
     static String ipBase = "152.105.67.";
+    
     /**
      * @param args the command line arguments
      */
@@ -30,7 +34,6 @@ public class PortalTest
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        
         Portal portal = new Portal(myHandle, "0.0.0.0");
 
         try
@@ -78,6 +81,10 @@ public class PortalTest
         }
     }
 
+    /**
+     * Gets the ip to connect the portal to, and then call the connectTo method 
+     * @param me the portal being used
+     */
     private static void newConnection(Portal me)
     {
         System.out.println("What is the IP address of the peer to connect to?");
@@ -86,6 +93,10 @@ public class PortalTest
         me.connectTo(ipBase + ipAddressOfPeer);
     }
 
+    /**
+     * Method for managing agent details
+     * @param me 
+     */
     private static void manageAgents(Portal me)
     {
         System.out.println("Agent Management:");
@@ -186,22 +197,6 @@ public class PortalTest
     private static void connectToDir(Portal p)
     {
         p.connectTo("152.105.67.116");
-    }
-
-    private static void sendMessage(Portal me)
-    {
-        System.out.println("Who would you like to send a message to?");
-        final String peerHandle = gets();
-
-        System.out.println("What message would you like to send to " + peerHandle + "?");
-
-        Message newMessage = new Message(me.getHandle(), peerHandle, MessageType.STANDARD);
-
-        newMessage.append(gets());
-
-        System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
-
-        me.sendMessage(newMessage);
     }
 
 }
