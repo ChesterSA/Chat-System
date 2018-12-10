@@ -17,7 +17,7 @@ import javafx.util.Pair;
 
 /**
  *
- * @author v8269590
+ * @author Group B
  */
 public class Agent extends ChatNode
 {
@@ -25,25 +25,41 @@ public class Agent extends ChatNode
     Pair<String, Connection> portal;
     LinkedList<String> contacts = new LinkedList<>();
 
+    /**
+     * Calls ChatNode constructor with a handle
+     * @param handle
+     */
     public Agent(String handle)
     {
         super(handle);
     }
 
+    /**
+     * Calls ChatNode constructor with a handle and an ip
+     * @param handle
+     * @param receiveIp
+     */
     public Agent(String handle, String receiveIp)
     {
         super(handle, receiveIp);
     }
 
+    /**
+     * Calls ChatNode constructor with a handle, ip, and port
+     * @param handle
+     * @param receiveIp
+     * @param receivePort
+     */
     public Agent(String handle, String receiveIp, int receivePort)
     {
         super(handle, receiveIp, receivePort);
     }
 
-    /*
-     * @param peer The peer that the message is being sent to 
-     * @param message The message to send to all peers
+    /**
+     * Passes message to an agents portal. If portal is null print to output.
+     * @param message object containing message attributes.
      */
+
     @Override
     public void sendMessage(Message message)
     {
@@ -60,6 +76,12 @@ public class Agent extends ChatNode
         }
     }
 
+    /**
+     * Connect to a portal through ip.
+     * If hello acknowledge message received from portal, add connection.
+     * @param remoteIpAddress
+     * @param remotePort
+     */
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
@@ -166,6 +188,9 @@ public class Agent extends ChatNode
     }
     );
 
+    /**
+     * 
+     */
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
@@ -231,6 +256,10 @@ public class Agent extends ChatNode
     }
     );
 
+    /**
+     * set agents portal connection.
+     * @param connection
+     */
     protected void addConnection(final Connection connection)
     {
         synchronized (lock)
@@ -239,6 +268,11 @@ public class Agent extends ChatNode
         }
     }
 
+    /**
+     * set serverSocket and ip to allow messages to be received.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
@@ -250,6 +284,10 @@ public class Agent extends ChatNode
         }
     }
 
+    /**
+     * get and agents portal.
+     * @return portal object.
+     */
     public String getPortal()
     {
         if (portal != null)
@@ -262,12 +300,19 @@ public class Agent extends ChatNode
         }
     }
 
+    /**
+     * remove an agents portal.
+     */
     @Override
     public void removeConnections()
     {
         portal = null;
     }
 
+    /**
+     * Starts accept and receive thread.
+     * @throws IOException
+     */
     @Override
     public void begin() throws IOException
     {
@@ -275,11 +320,19 @@ public class Agent extends ChatNode
         receiveThread.start();
     }
 
+    /**
+     * Returns portal handle.
+     * @return
+     */
     public LinkedList<String> getContacts()
     {
         return contacts;
     }
 
+    /**
+     * Set the handle of an agent.
+     * @param handle
+     */
     public void setHandle(String handle)
     {
         this.handle = handle;
