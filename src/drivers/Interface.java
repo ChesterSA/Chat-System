@@ -34,10 +34,17 @@ public class Interface {
      */
     private static final Insets insetsData = new Insets(2, 2, 2, 2);
 
+    /**
+     * this calls the interface class that starts the interface
+     * @param args
+     */
     public static void main(String[] args) {
         Interface();
     }
 
+    /**
+     * this is what controls the program and allows users to have all the options for agent portal or directory
+     */
     public static void Interface() {
         //Initialise ChatNodes
         Portal portal = new Portal("", "0.0.0.0");
@@ -289,28 +296,44 @@ public class Interface {
         container.add(component, gridBagConstraints);
     }
 
+    /**
+     *
+     * @return 
+     * @returns handle name for the agents and the portals
+     */
     public static String handler() {
         String handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
         System.out.println("your handler name is: " + handle);
         return handle;
     }
 
+    /**
+     * joption pane message that asks foe the ip
+     * @return IP for the the connection to the new directory or the portals
+     */
     public static String newConnection() {
         String ip = JOptionPane.showInputDialog("Enter IP Adress", "IP Address");
         System.out.println("The IP Adress is: " + ip);
         return ip;
     }
-
+    /**
+     * joption pane message that asks foe the ip
+     * @return IP for the the connection to the new directory or the portals
+     */
     private static void newPortalConnection(Portal me) {
         String ipAddressOfPeer = newConnection();
         me.connectTo(ipAddressOfPeer);
     }
-
+    /**
+     *This gets the ip for the new connection then calls the connect method to connect them to the new directory
+     */
     private static void newAgentConnection(Agent me) {
         String ipAddressOfPeer = newConnection();
         me.connectTo(ipAddressOfPeer);
     }
-
+    /**
+     * this out puts a gui window thats get all the handle names that re connected to that portal
+     */
     private static void displayPortalConnectionList(Portal me) {
         if (!me.hasPortals()) {
             JOptionPane.showMessageDialog(null, "No Portal Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
@@ -320,7 +343,10 @@ public class Interface {
         List<String> connections = me.getPortalHandles();
         JOptionPane.showMessageDialog(null, connections);
     }
-
+      /**
+     * this will display all the connections the are linked to the agent
+     * @return connections or null
+     */
     private static void displayAgentConnectionList(Agent me) {
         if (me.getPortal() == null) {
             JOptionPane.showMessageDialog(null, "No Portal Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
@@ -331,11 +357,17 @@ public class Interface {
         }
         System.out.println();
     }
-
+     /**
+     * this connects a portal to the directory
+     */
     private static void connectToDir(ChatNode me) {
         me.connectTo("152.105.67.116");
     }
-
+    
+      /**
+     * this will show the user the connections to the agents
+     * @return null or handle names
+     */
     private static void displayAgentList(Portal me) {
         if (!me.hasAgents()) {
             JOptionPane.showMessageDialog(null, "No Agent Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
@@ -346,7 +378,9 @@ public class Interface {
         JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
 
     }
-
+    /**
+     * this will sned a  message for the agent this will broadcast the messgae throw the portals and to all the other agents and then to the clients
+     */
     private static void agentSendMessage(Agent me) {
         Object[] msgOptions = {"Standard", "Broadcast"};
 
@@ -384,17 +418,15 @@ public class Interface {
 
         me.sendMessage(newMessage);
     }
-
+      /**
+     * this will show the agents that have been connected to the directory
+     *@return  this will show a gui with the handle names
+     */
     private static void DirectorydisplayConnectionList(Directory me) {
         if (!me.hasConnections()) {
             System.out.println("\n* No portals connected *\n");
             return;
         }
-
-        
-        
-        
         JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
-     
     }
 }
