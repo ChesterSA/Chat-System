@@ -135,8 +135,8 @@ public class AgentTest
         return sc.nextLine();
     }
 
-    private static void connectToDir(ChatNode me)
+    private static void connectToDir(Agent a)
     {
-        me.connectTo("152.105.67.116");
+        a.connectTo("152.105.67.116");
     }
 }

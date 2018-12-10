@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  * Class used for message throughput from agent to agent, or agent to portal to agent
  * @author s6089488
  */
-public class Portal extends ChatNode
+public class Portal extends ChatNode implements Connectable
 {
     /**
      * Hashmap containing handle and connection of all connected portals
@@ -539,5 +539,11 @@ public class Portal extends ChatNode
     public void setHandle(String handle)
     {
         this.handle = handle;
+    }
+
+    @Override
+    public void connectTo(String remoteIpAddress) 
+    {
+        this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
 }

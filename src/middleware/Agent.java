@@ -19,7 +19,7 @@ import javafx.util.Pair;
  *
  * @author Group B
  */
-public class Agent extends ChatNode
+public class Agent extends ChatNode implements Connectable
 {
 
     Pair<String, Connection> portal;
@@ -333,5 +333,15 @@ public class Agent extends ChatNode
     public void setHandle(String handle)
     {
         this.handle = handle;
+    }
+
+    /**
+     * Conn
+     * @param remoteIpAddress 
+     */
+    @Override
+    public void connectTo(String remoteIpAddress) 
+    {
+        this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
 }

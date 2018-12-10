@@ -93,22 +93,6 @@ public abstract class ChatNode {
     protected abstract void startPeerReceiver() throws UnknownHostException, IOException;
     
     /**
-     * 
-     * @param remoteIpAddress
-     */
-    public void connectTo(final String remoteIpAddress) {
-        this.connectTo(remoteIpAddress, DEFAULT_PORT);
-    }
-
-    /**
-     *
-     * @param remoteIpAddress
-     * @param remotePort
-     */
-    public abstract void connectTo(final String remoteIpAddress, final int remotePort);
-
-    
-    /**
      * cannot declare abstract, but needs to be overriden
      * @param ipAddress the ip address to be checked
      * @return

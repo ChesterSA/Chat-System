@@ -367,8 +367,8 @@ public class Interface {
      /**
      * this connects a portal to the directory
      */
-    private static void connectToDir(ChatNode me) {
-        me.connectTo("152.105.67.116");
+    private static void connectToDir(Portal p) {
+        p.connectTo("152.105.67.116");
     }
     
       /**
