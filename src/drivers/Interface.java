@@ -371,6 +371,10 @@ public class Interface {
         p.connectTo("152.105.67.116");
     }
     
+    private static void connectToDir(Agent a) {
+        a.connectTo("152.105.67.116");
+    }
+    
       /**
      * this will show the user the connections to the agents
      * @return null or handle names
