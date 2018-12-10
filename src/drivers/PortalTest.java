@@ -183,9 +183,9 @@ public class PortalTest
         return sc.nextLine();
     }
 
-    private static void connectToDir(ChatNode me)
+    private static void connectToDir(Portal p)
     {
-        me.connectTo("152.105.67.116");
+        p.connectTo("152.105.67.116");
     }
 
     private static void sendMessage(Portal me)

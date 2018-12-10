@@ -313,16 +313,4 @@ public class Directory extends ChatNode
         }
         return output;
     }
-
-    /**
-     * 
-     * @param remoteIpAddress
-     * @param remotePort
-     */
-    @Override
-    public void connectTo(String remoteIpAddress, int remotePort)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
