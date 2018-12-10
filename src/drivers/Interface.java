@@ -302,7 +302,14 @@ public class Interface {
      * @returns handle name for the agents and the portals
      */
     public static String handle() {
-        String handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+        String handle = null;
+       
+        do
+        {
+            handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+        }
+        while (handle == null);
+        
         System.out.println("your handler name is: " + handle);
         return handle;
     }
@@ -312,7 +319,7 @@ public class Interface {
      * @return IP for the the connection to the new directory or the portals
      */
     public static String newConnection() {
-        String ip = JOptionPane.showInputDialog("Enter IP Adress", "IP Address");
+        String ip = JOptionPane.showInputDialog("Enter IP Adress", "152.105.67.");
         System.out.println("The IP Adress is: " + ip);
         return ip;
     }
@@ -362,6 +369,10 @@ public class Interface {
      */
     private static void connectToDir(Portal p) {
         p.connectTo("152.105.67.116");
+    }
+    
+    private static void connectToDir(Agent a) {
+        a.connectTo("152.105.67.116");
     }
     
       /**
