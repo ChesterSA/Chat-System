@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/ChatNode.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Connection.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/PortalTest.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Directory.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Message.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/AgentTest.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Agent.java</file>
-            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/peertopeer/Portal.java</file>
+            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/middleware/Agent.java</file>
+            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/middleware/MessageType.java</file>
+            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/middleware/ChatNode.java</file>
+            <file>file:/home0/scm-studs/s6089488/NetBeansProjects/chatsystem/src/middleware/Portal.java</file>
         </group>
     </open-files>
 </project-private>
