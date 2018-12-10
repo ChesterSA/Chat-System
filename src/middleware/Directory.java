@@ -184,6 +184,7 @@ public class Directory extends ChatNode
 
         }
         m.append(content);
+        System.out.println(m);
         return m;
     }
 
