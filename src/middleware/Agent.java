@@ -188,9 +188,6 @@ public class Agent extends ChatNode
     }
     );
 
-    /**
-     * 
-     */
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
