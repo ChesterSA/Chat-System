@@ -302,7 +302,14 @@ public class Interface {
      * @returns handle name for the agents and the portals
      */
     public static String handle() {
-        String handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+        String handle = null;
+       
+        do
+        {
+            handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+        }
+        while (handle == null);
+        
         System.out.println("your handler name is: " + handle);
         return handle;
     }
