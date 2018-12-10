@@ -112,7 +112,7 @@ public class Portal extends ChatNode
                             {
                                 Message receivedMessage = c.receiveMessage();
 
-                                if (receivedMessage.getType().equals(MessageType.AGENTREMOVE))
+                                if (receivedMessage.getType().equals(MessageType.AGENT))
                                 {
                                     final String handle = receivedMessage.getFrom();
                                     if (handle != null)
@@ -154,7 +154,7 @@ public class Portal extends ChatNode
                         catch (IOException ex)
                         {
                             Logger.getLogger(ChatNode.class
-                                    .getName()).log(Level.SEVERE, null, ex);
+                                  .getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
@@ -341,26 +341,6 @@ public class Portal extends ChatNode
                             }
                             break;
 
-                        }
-                        case AGENTREMOVE:
-                        {
-                            final String handle = receivedMessage.getFrom();
-                            if (handle != null)
-                            {
-                                synchronized (lock)
-                                {
-                                    if (agents.containsKey(handle))
-                                    {
-                                        System.out.println("Removing agent " + handle);
-                                        removeAgent(handle);
-                                    }
-                                    else
-                                    {
-                                        System.err.println("Not connected to an agent with name: '" + handle + "'");
-                                    }
-                                }
-                            }
-                            break;
                         }
                         default:
                             System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");

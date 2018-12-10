@@ -19,24 +19,20 @@ import javafx.util.Pair;
  *
  * @author v8269590
  */
-public class Agent extends ChatNode
-{
+public class Agent extends ChatNode {
 
     Pair<String, Connection> portal;
     LinkedList<String> contacts = new LinkedList<>();
 
-    public Agent(String handle)
-    {
+    public Agent(String handle) {
         super(handle);
     }
 
-    public Agent(String handle, String receiveIp)
-    {
+    public Agent(String handle, String receiveIp) {
         super(handle, receiveIp);
     }
 
-    public Agent(String handle, String receiveIp, int receivePort)
-    {
+    public Agent(String handle, String receiveIp, int receivePort) {
         super(handle, receiveIp, receivePort);
     }
 
@@ -45,31 +41,24 @@ public class Agent extends ChatNode
      * @param message The message to send to all peers
      */
     @Override
-    public void sendMessage(Message message)
-    {
+    public void sendMessage(Message message) {
         //System.out.println("---Agent is sending message");
-        synchronized (lock)
-        {
+        synchronized (lock) {
             //System.out.println("---Message has a set receiver");
-            if (portal != null)
-            {
+            if (portal != null) {
                 //System.out.println("---Portal: " + portal.getKey() + " - " + portal.getValue() + " is handling message");
                 portal.getValue().sendMessage(message);
-            }
-            else
-            {
+            } else {
                 System.out.println("Portal is null");
             }
         }
     }
 
     @Override
-    public void connectTo(final String remoteIpAddress, final int remotePort)
-    {
+    public void connectTo(final String remoteIpAddress, final int remotePort) {
         // check if we're already connected, perhaps the remote device
         // instigated a connection previously.
-        if (isalreadyConnected(remoteIpAddress))
-        {
+        if (isalreadyConnected(remoteIpAddress)) {
             //System.err.println(String.format("Already connected to the peer with IP: '%s'", remoteIpAddress));
             return;
         }
@@ -77,22 +66,18 @@ public class Agent extends ChatNode
         //Create a thread to instigate the HELLO handshake between this peer
         //and the remote peer
         Thread helloThread = new Thread(
-                new Runnable()
-        {
+                new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 InetAddress bindAddress;
-                try
-                {
+                try {
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
                     partialConnection.sendMessage(new Message(handle, MessageType.AGENT));
 
                     //Wait for a response from this connection.
-                    while (!partialConnection.hasMessage())
-                    {
+                    while (!partialConnection.hasMessage()) {
                         // ... Do nothing ...
                         // assumes it will eventually connect... probably not a good idea...
                     }
@@ -101,22 +86,17 @@ public class Agent extends ChatNode
                     //the handle of the remote peer
                     final Message receivedMessage = partialConnection.receiveMessage();
 
-                    if (receivedMessage.getType().equals(MessageType.HELLOACK))
-                    {
+                    if (receivedMessage.getType().equals(MessageType.HELLOACK)) {
                         partialConnection.setHandle(receivedMessage.getFrom());
-                        if (portal != null)
-                        {
-                            sendMessage(new Message(handle, portal.getKey(), MessageType.AGENTREMOVE));
+                        //As you're changing portal, notify old portal to remove you
+                        if (portal != null) {
+                            sendMessage(new Message(handle, portal.getKey(), MessageType.AGENT));
                         }
                         addConnection(partialConnection);
                     }
-                }
-                catch (UnknownHostException ex)
-                {
+                } catch (UnknownHostException ex) {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -129,31 +109,25 @@ public class Agent extends ChatNode
     }
 
     private final Thread receiveThread = new Thread(
-            new Runnable()
-    {
+            new Runnable() {
         @Override
-        public void run()
-        {
-            while (true)
-            {
-                synchronized (lock)
-                {
-                    try
-                    {
-                        if (portal != null && portal.getValue().hasMessage())
-                        {
+        public void run() {
+            while (true) {
+                synchronized (lock) {
+                    try {
+                        if (portal != null && portal.getValue().hasMessage()) {
                             Message m = portal.getValue().receiveMessage();
                             String from = m.getFrom();
-                            if (!contacts.contains(from) && !from.equals(handle))
-                            {
+                            if (!contacts.contains(from) && !from.equals(handle)) {
                                 contacts.add(from);
                             }
-                            System.out.println(m);
+                            //Only display message if it is standard or broadcast type
+                            if (m.getType().equals(MessageType.STANDARD) || m.getType().equals(MessageType.BROADCAST)) {
+                                System.out.println(m);
+                            }
 
                         }
-                    }
-                    catch (IOException ex)
-                    {
+                    } catch (IOException ex) {
                         Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -164,15 +138,11 @@ public class Agent extends ChatNode
     );
 
     protected Thread acceptThread = new Thread(
-            new Runnable()
-    {
+            new Runnable() {
         @Override
-        public void run()
-        {
-            while (true)
-            {
-                try
-                {
+        public void run() {
+            while (true) {
+                try {
                     final Socket newClientSocket = serverSocket.accept();
 
                     //Create a partial connection
@@ -180,8 +150,7 @@ public class Agent extends ChatNode
 
                     System.out.println("Awaiting HELLO message from new connection");
 
-                    while (!newConnection.hasMessage())
-                    {
+                    while (!newConnection.hasMessage()) {
                         // wait for a message from the new connection...
                         // should probably handle timeouts...
                     }
@@ -193,18 +162,13 @@ public class Agent extends ChatNode
 
                     System.out.println("Message received: " + receivedMessage.toString());
 
-                    if (!receivedMessage.getType().equals(MessageType.HELLO))
-                    {
+                    if (!receivedMessage.getType().equals(MessageType.HELLO)) {
                         System.err.println("Invalid message type, connection attempt will be dropped.");
-                    }
-                    else
-                    {
+                    } else {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
-                        if (newConnectionHandle != null)
-                        {
-                            synchronized (lock)
-                            {
+                        if (newConnectionHandle != null) {
+                            synchronized (lock) {
 
                                 //Complete the connection by setting its handle.
                                 //this is essential as we use the handle to send
@@ -224,9 +188,7 @@ public class Agent extends ChatNode
                     }
                     // Check for HELLO message with client name.
 
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -235,58 +197,46 @@ public class Agent extends ChatNode
     }
     );
 
-    protected void addConnection(final Connection connection)
-    {
-        synchronized (lock)
-        {
+    protected void addConnection(final Connection connection) {
+        synchronized (lock) {
             portal = new Pair<>(connection.getHandle(), connection);
             //System.out.println("---Connected to portal " + portal.getKey() + " ... " + portal.getValue());
         }
     }
 
     @Override
-    protected void startPeerReceiver() throws UnknownHostException, IOException
-    {
-        if (serverSocket == null)
-        {
+    protected void startPeerReceiver() throws UnknownHostException, IOException {
+        if (serverSocket == null) {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
             acceptThread.start();
         }
     }
 
-    public String getPortal()
-    {
-        if (portal != null)
-        {
+    public String getPortal() {
+        if (portal != null) {
             return portal.getKey();
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
     @Override
-    public void removeConnections()
-    {
+    public void removeConnections() {
         portal = null;
     }
 
     @Override
-    public void begin() throws IOException
-    {
+    public void begin() throws IOException {
         startPeerReceiver();
         receiveThread.start();
     }
 
-    public LinkedList<String> getContacts()
-    {
+    public LinkedList<String> getContacts() {
         return contacts;
     }
-    
-    public void setHandle(String handle)
-    {
+
+    public void setHandle(String handle) {
         this.handle = handle;
     }
 }
