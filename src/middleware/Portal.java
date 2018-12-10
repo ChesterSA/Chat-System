@@ -19,36 +19,61 @@ import java.util.logging.Logger;
  */
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class used for message throughput from agent to agent, or agent to portal to agent
+ * @author s6089488
+ */
 public class Portal extends ChatNode
 {
-
+    /**
+     * Hashmap containing handle and connection of all connected portals
+     */
     protected HashMap<String, Connection> portals = new HashMap<>();
+    
+    /**
+     * Hashmap containing handle and connection of all connected portals
+     */
     protected HashMap<String, Connection> agents = new HashMap<>();
 
+    /**
+     * Creates a new portal from the handle given
+     * @param handle The unique identifier of the portal
+     */
     public Portal(String handle)
     {
         super(handle);
     }
 
+    /**
+     * Creates a new portal from the handle and ip
+     * @param handle the unique identifier of the portal
+     * @param receiveIp the ip range that this portal can receive requests from
+     */
     public Portal(String handle, String receiveIp)
     {
         super(handle, receiveIp);
     }
 
+    /**
+     * Creates a new portal from the handle and ip
+     * @param handle the unique identifier of the portal
+     * @param receiveIp the ip range that this portal can receive requests from
+     * @param receivePort the port that this portal can receive requests from
+     */
     public Portal(String handle, String receiveIp, int receivePort)
     {
         super(handle, receiveIp, receivePort);
     }
 
-    /*
-     * @param peer The peer that the message is being sent to 
-     * @param message The message to send to all peers
+    /**
+     * Sends a message from this portal to the receiver specified in message
+     * @param message the message to be sent
      */
     @Override
     public void sendMessage(Message message)
@@ -83,13 +108,15 @@ public class Portal extends ChatNode
                     {
                         c.sendMessage(message);
                     }
-                    //System.err.println("'" + receiver + "' is an unknown peer");
                 }
 
             }
         }
     }
 
+    /**
+     * Thread to receive messages from other chatnodes
+     */
     protected final Thread receiveThread = new Thread(
             new Runnable()
     {
@@ -156,6 +183,11 @@ public class Portal extends ChatNode
         }
     });
 
+    /**
+     * Connects this portal to the specified address
+     * @param remoteIpAddress the ip address to connect to
+     * @param remotePort the port to connect to
+     */
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
@@ -164,7 +196,7 @@ public class Portal extends ChatNode
             return;
         }
 
-//        Create a thread to startt handshake between this peer and remote peer
+//        Create a thread to start handshake between this peer and remote peer
 //        Portals can only connect to each other, not to agents
         Thread helloThread = new Thread(
                 new Runnable()
@@ -254,6 +286,9 @@ public class Portal extends ChatNode
 
     }
 
+    /**
+     *  The thread running to handle new connections from other chatnodes
+     */
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
@@ -344,6 +379,10 @@ public class Portal extends ChatNode
     }
     );
 
+    /**
+     * 
+     * @param c 
+     */
     private void addPortal(Connection c)
     {
         String handle = c.getHandle();
@@ -372,6 +411,11 @@ public class Portal extends ChatNode
         }
     }
 
+    /**
+     *
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
@@ -383,6 +427,10 @@ public class Portal extends ChatNode
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Override
     public void begin() throws IOException
     {
@@ -390,6 +438,10 @@ public class Portal extends ChatNode
         receiveThread.start();
     }
 
+    /**
+     *
+     * @return
+     */
     public synchronized List<String> getAgentHandles()
     {
         List<String> handles = new LinkedList<>();
@@ -397,11 +449,18 @@ public class Portal extends ChatNode
         return handles;
     }
 
+    /**
+     *
+     */
     public void removeAgents()
     {
         agents = new HashMap<>();
     }
 
+    /**
+     *
+     * @param key
+     */
     public void removeAgent(String key)
     {
         if (agents.containsKey(key))
@@ -410,16 +469,28 @@ public class Portal extends ChatNode
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasAgents()
     {
         return !agents.isEmpty();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasPortals()
     {
         return !portals.isEmpty();
     }
     
+    /**
+     *
+     * @return
+     */
     public synchronized List<String> getPortalHandles()
     {
         List<String> handles = new LinkedList<>();
@@ -427,11 +498,18 @@ public class Portal extends ChatNode
         return handles;
     }
 
+    /**
+     *
+     */
     public void removePortals()
     {
         portals = new HashMap<>();
     }
 
+    /**
+     *
+     * @param key
+     */
     public void removePortal(String key)
     {
         if (portals.containsKey(key))
@@ -440,6 +518,9 @@ public class Portal extends ChatNode
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeConnections()
     {
@@ -447,6 +528,10 @@ public class Portal extends ChatNode
         agents = new HashMap<>();
     }
 
+    /**
+     *
+     * @param handle
+     */
     public void setHandle(String handle)
     {
         this.handle = handle;

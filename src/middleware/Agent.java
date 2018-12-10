@@ -101,6 +101,7 @@ public class Agent extends ChatNode
                     if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
                         partialConnection.setHandle(receivedMessage.getFrom());
+                        
                         //As you're changing portal, notify old portal to remove you
                         if (portal != null)
                         {
@@ -235,7 +236,6 @@ public class Agent extends ChatNode
         synchronized (lock)
         {
             portal = new Pair<>(connection.getHandle(), connection);
-            //System.out.println("---Connected to portal " + portal.getKey() + " ... " + portal.getValue());
         }
     }
 
