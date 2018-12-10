@@ -18,8 +18,12 @@ import middleware.Directory;
 public class DirectoryTest
 {
 
+    /**
+     * @param args Command line arguments.
+     */
     public static void main(String[] args)
     {
+        // Always the handle of a directory.
         String myHandle = "dir";
 
         // TODO code application logic here
@@ -60,6 +64,10 @@ public class DirectoryTest
         }
     }
 
+    /**
+     * Display list of current connection handle strings for a given directory.
+     * @param me Directory to be searched.
+     */
     private static void displayConnectionList(Directory me)
     {
         if (!me.hasConnections())
@@ -76,6 +84,10 @@ public class DirectoryTest
         );
     }
 
+    /**
+     * Gets string from user.
+     * @return Entered string.
+     */
     private static String gets()
     {
         Scanner sc = new Scanner(System.in);

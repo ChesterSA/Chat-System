@@ -13,6 +13,8 @@
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>recieve</word>
+            <word>recieved</word>
+            <word>Recieves</word>
         </spellchecker-wordlist>
     </configuration>
 </project>

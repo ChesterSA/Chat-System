@@ -26,7 +26,7 @@ public class AgentTest
     static String ipBase = "152.105.67.";
     
     /**
-     * @param args the command line arguments
+     * @param args Command line arguments.
      */
     public static void main(String[] args)
     {
@@ -118,7 +118,7 @@ public class AgentTest
 
     /**
      * Displays to the user what is needed to add a new connection to the agent.
-     * @param me 
+     * @param me Agent to be added to.
      */
     private static void newConnection(Agent me)
     {
@@ -130,7 +130,7 @@ public class AgentTest
 
     /**
      * Displays current portal handle of agent.
-     * @param me 
+     * @param me Agent to be searched.
      */
     private static void displayConnectionList(Agent me)
     {
