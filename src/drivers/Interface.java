@@ -391,11 +391,10 @@ public class Interface {
             return;
         }
 
-        System.out.println(
-                String.format(
-                        "Connected portal handles\n%s\n",
-                        String.join(", ", me.getConnectionHandles())
-                )
-        );
+        
+        
+        
+        JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
+     
     }
 }
