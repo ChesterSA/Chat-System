@@ -40,8 +40,8 @@ public class Interface {
 
     public static void Interface() {
         //Initialise ChatNodes
-        //Portal portal = new Portal("", "0.0.0.0");
-        //Agent agent = new Agent("", "0.0.0.0");
+        Portal portal = new Portal("", "0.0.0.0");
+        Agent agent = new Agent("", "0.0.0.0");
         String myHandle = "dir";
         Directory dir = new Directory(myHandle, "0.0.0.0");
         //main frame
