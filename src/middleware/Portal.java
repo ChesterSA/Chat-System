@@ -380,39 +380,7 @@ public class Portal extends ChatNode
     );
 
     /**
-     * 
-     * @param c 
-     */
-    private void addPortal(Connection c)
-    {
-        String handle = c.getHandle();
-        synchronized (lock)
-        {
-            if (portals.containsKey(handle))
-            {
-                System.err.println("[" + handle + "] is already an established connection.");
-                return;
-            }
-            portals.put(handle, c);
-        }
-    }
-
-    private void addAgent(Connection c)
-    {
-        String handle = c.getHandle();
-        synchronized (lock)
-        {
-            if (agents.containsKey(handle))
-            {
-                System.err.println("[" + handle + "] is already an established connection.");
-                return;
-            }
-            agents.put(handle, c);
-        }
-    }
-
-    /**
-     *
+     * Open this portal to receive new connections from the network
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -428,7 +396,7 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
+     * Starts this thread so it can receive messages from connections
      * @throws IOException
      */
     @Override
@@ -439,8 +407,35 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
-     * @return
+     * method to check if this portal has any agent
+     * @return a boolean representing if this has agents
+     */
+    public boolean hasAgents()
+    {
+        return !agents.isEmpty();
+    }
+    
+    /**
+     * Adds a new agent to this portal
+     * @param c the connection details of the portal to add
+     */
+    private void addAgent(Connection c)
+    {
+        String handle = c.getHandle();
+        synchronized (lock)
+        {
+            if (agents.containsKey(handle))
+            {
+                System.err.println("[" + handle + "] is already an established connection.");
+                return;
+            }
+            agents.put(handle, c);
+        }
+    }
+    
+    /**
+     * Gets the handles of all agents connected to this portal
+     * @return A list of agent handles
      */
     public synchronized List<String> getAgentHandles()
     {
@@ -450,7 +445,7 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
+     * Removes all agents connected to the portal
      */
     public void removeAgents()
     {
@@ -458,8 +453,8 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
-     * @param key
+     * Removes a specified agent from the portal
+     * @param key the handle of the agent to remove
      */
     public void removeAgent(String key)
     {
@@ -470,17 +465,8 @@ public class Portal extends ChatNode
     }
     
     /**
-     *
-     * @return
-     */
-    public boolean hasAgents()
-    {
-        return !agents.isEmpty();
-    }
-    
-    /**
-     *
-     * @return
+     * Returns a boolean representing if any portals are connected
+     * @return true if any portals are connected, false otherwise
      */
     public boolean hasPortals()
     {
@@ -488,8 +474,26 @@ public class Portal extends ChatNode
     }
     
     /**
-     *
-     * @return
+     * Adds a new portal to the portals map
+     * @param c the connection information of the portal to add
+     */
+    private void addPortal(Connection c)
+    {
+        String handle = c.getHandle();
+        synchronized (lock)
+        {
+            if (portals.containsKey(handle))
+            {
+                System.err.println("[" + handle + "] is already an established connection.");
+                return;
+            }
+            portals.put(handle, c);
+        }
+    }
+    
+    /**
+     * Returns a list of all the handles of connected portals
+     * @return all connected portal's handles in a list
      */
     public synchronized List<String> getPortalHandles()
     {
@@ -499,7 +503,7 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
+     * Remove all connected portals
      */
     public void removePortals()
     {
@@ -507,8 +511,8 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
-     * @param key
+     * Removes a specified portal from the map
+     * @param key the handle of the portal to remove
      */
     public void removePortal(String key)
     {
@@ -519,7 +523,7 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
+     * Removes all connected portals and agents from the portal
      */
     @Override
     public void removeConnections()
@@ -529,8 +533,8 @@ public class Portal extends ChatNode
     }
 
     /**
-     *
-     * @param handle
+     * Set the handle of the portal
+     * @param handle the new handle of the portal
      */
     public void setHandle(String handle)
     {
