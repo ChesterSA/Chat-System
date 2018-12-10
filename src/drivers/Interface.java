@@ -319,7 +319,7 @@ public class Interface {
      * @return IP for the the connection to the new directory or the portals
      */
     public static String newConnection() {
-        String ip = JOptionPane.showInputDialog("Enter IP Adress", "IP Address");
+        String ip = JOptionPane.showInputDialog("Enter IP Adress", "152.105.67.");
         System.out.println("The IP Adress is: " + ip);
         return ip;
     }
