@@ -123,6 +123,10 @@ public class PortalTest
         }
     }
 
+    /**
+     * Displays a list of agents connected to the portal
+     * @param me the portal whose agents are to be displayed
+     */
     private static void displayAgentList(Portal me)
     {
         System.out.println("\nAmount of agents = " + me.getAgentHandles().size());
@@ -135,6 +139,10 @@ public class PortalTest
         );
     }
 
+    /**
+     * Removes a specified agent from the portal
+     * @param me the portal where the agent is connected
+     */
     private static void removeAgent(Portal me)
     {
         System.out.println("What is the handle of the agent to remove?");
@@ -142,6 +150,10 @@ public class PortalTest
         me.removeAgent(handle);
     }
 
+    /**
+     * Method used to handle different portal based actions
+     * @param me the portal to be managed
+     */
     private static void managePortals(Portal me)
     {
         System.out.println("Portal Management:");
@@ -168,6 +180,10 @@ public class PortalTest
         }
     }
 
+    /**
+     * Displays a list of portals connected to the portal
+     * @param me the portal whose portals are to be displayed
+     */
     private static void displayPortalList(Portal me)
     {
 
@@ -181,6 +197,10 @@ public class PortalTest
         );
     }
 
+    /**
+     * Removes a specified agent from the portal
+     * @param me the portal where the agent is connected
+     */
     private static void removePortal(Portal me)
     {
         System.out.println("What is the handle of the portal to remove?");
@@ -188,12 +208,21 @@ public class PortalTest
         me.removePortal(handle);
     }
 
+    /**
+     * gets the last value the user typed in
+     * @return a string containing the last value the user typed in
+     */
     private static String gets()
     {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
+    /**
+     * Connects to a hardcoded directory, needs to be updated for each directory
+     * Currently mostly in for testing ease, there may be issues in deployment
+     * @param p the Portal to be connected to the directory
+     */
     private static void connectToDir(Portal p)
     {
         p.connectTo("152.105.67.116");
