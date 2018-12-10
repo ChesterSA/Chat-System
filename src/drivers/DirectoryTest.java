@@ -26,7 +26,6 @@ public class DirectoryTest
         // Always the handle of a directory.
         String myHandle = "dir";
 
-        // TODO code application logic here
         //Change 0.0.0.0 to a more specific ip address range or
         //specific ip address.
         Directory dir = new Directory(myHandle, "0.0.0.0");

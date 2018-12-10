@@ -215,8 +215,7 @@ public class Portal extends ChatNode implements Connectable
                     //Wait for a response from this connection.
                     while (!partialConnection.hasMessage())
                     {
-                        // ... Do nothing ...
-                        // assumes it will eventually connect... probably not a good idea...
+                        
                     }
 
                     //Message comes in, the type will be assessed

@@ -6,8 +6,16 @@
 package middleware;
 
 /**
- *
- * @author s6089488
+ * Enum for the message type
+ * Hello - Standard handshake initiator
+ * HelloAck - Acknowledgement of the handshake
+ * Portal - Portal handshake initiator
+ * PortalAck - Acknowledgement of the portal handshake
+ * Agent - Agent's handshake initiator
+ * Dir - Directory message, contains list of ips to connect to
+ * Broadcast - Message to be sent to every agent and portal
+ * Standard - Standard message from a node to another node
+* @author Group B
  */
 public enum MessageType
 {

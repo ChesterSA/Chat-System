@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author steven
+ * group b 
  */
 public class Message
 {
@@ -20,11 +20,22 @@ public class Message
     private String content = "";
     private MessageType type;
 
+    /**
+     *
+     * @param from who is sending the message
+     * @param type the type of message
+     */
     public Message(String from, MessageType type)
     {
         this(from, null, type);
     }
 
+    /**
+     *
+     * @param from this is the sender of the message
+     * @param to this is the destination of the message
+     * @param type type of message that is being sent
+     */
     public Message(String from, String to, MessageType type)
     {
         this.from = from;
@@ -32,6 +43,10 @@ public class Message
         this.type = type;
     }
 
+    /**
+     * this adds to the end of the contents of the message
+     * @param appendWith 
+     */
     public void append(String appendWith)
     {
         if (appendWith != null && appendWith.length() > 0)
@@ -40,21 +55,37 @@ public class Message
         }
     }
 
+    /**
+     * gets the destination of the message
+     * @return  the destination of the message
+     */
     public String getTo()
     {
         return to;
     }
 
+    /**
+     * this gets the sender of the message
+     * @return the handle that sent the message
+     */
     public String getFrom()
     {
         return from;
     }
 
+    /**
+     * gets the contents of the message 
+     * @return the message
+     */
     public String getContent()
     {
         return content;
     }
 
+    /**
+     * gets the type of message that is sent
+     * @return the type that is being sent
+     */
     public MessageType getType()
     {
         return type;
@@ -75,6 +106,11 @@ public class Message
 
     static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.*)#,TYPE:#(.*)#$");
 
+    /**
+     *
+     * @param rawMessage
+     * @return the message that is going to be sent
+     */
     public static Message parseMessage(String rawMessage)
     {
         System.out.println("Raw Message - " + rawMessage);

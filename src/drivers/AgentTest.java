@@ -23,7 +23,7 @@ public class AgentTest
     /**
      * The IP elements all connections inside the system share.
      */
-    static String ipBase = "152.105.67.";
+    static String ipBase = "192.168.5.";
     
     /**
      * @param args Command line arguments.

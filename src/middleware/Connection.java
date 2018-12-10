@@ -46,7 +46,7 @@ class Connection
     private final PrintWriter clientPrintWriter;
 
     /**
-     * Creates partially-known connection, where handle is not known.
+     * Creates partial connection, where handle is not known.
      * @param socket Socket of connection.
      * @throws IOException Handles errors of input-output.
      */
@@ -57,7 +57,7 @@ class Connection
 
     /**
      * Creates connection, giving an identifying string and socket of connection.
-     * @param handle String of connection
+     * @param handle String handle of connection
      * @param socket Socket of connection.
      * @throws IOException Handles errors of input-output.
      */
@@ -107,7 +107,7 @@ class Connection
     }
 
     /**
-     * Recieves message through connection by reading text from connection's
+     * Recieves message through connection by reading data from connection's
      * BufferedReader object.
      * @return Message recieved.
      * @throws IOException Handles errors of input-output.
