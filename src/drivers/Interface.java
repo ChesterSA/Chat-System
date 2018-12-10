@@ -190,7 +190,7 @@ public class Interface
             public void actionPerformed(ActionEvent e)
             {
 
-                PortalconnectToDir(portal);
+                connectToDir(portal);
 
             }
         });
@@ -219,7 +219,8 @@ public class Interface
             }
         });
 
-// end of portal settings
+        // end of portal settings
+        
         //start of the directory buttons
         JLabel directoryOptions = new JLabel("Directory Options", SwingConstants.CENTER);
         addComponentToGridBag(DirectoryFrame, directoryOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
@@ -271,11 +272,27 @@ public class Interface
             }
         });
 
-        JButton agentConnectdir = new JButton("Connect To directory");
-        addComponentToGridBag(agentFrame, agentConnectdir, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        JButton agentConnectDir = new JButton("Connect To directory");
+        addComponentToGridBag(agentFrame, agentConnectDir, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentConnectDir.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                connectToDir(agent);
+            }
+        });
 
         JButton agentRemoveConnections = new JButton("Remove Connections");
         addComponentToGridBag(agentFrame, agentRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentRemoveConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                agent.removeConnections();
+            }
+        });
         // end of agent buttons
 
     }
@@ -341,7 +358,7 @@ public class Interface
         System.out.println();
     }
 
-    private static void PortalconnectToDir(ChatNode me)
+    private static void connectToDir(ChatNode me)
     {
         me.connectTo("152.105.67.116");
     }
