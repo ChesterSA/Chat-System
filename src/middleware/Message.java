@@ -68,7 +68,7 @@ public class Message
         //
         return String.format("FROM:#%s#,TO:#%s#,CONTENT:#%s#,TYPE:#%s#",
                 from,
-                String.join(",", to),
+                to,
                 content,
                 type);
     }

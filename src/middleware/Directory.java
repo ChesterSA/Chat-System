@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,20 +159,9 @@ public class Directory extends ChatNode
 
     public synchronized List<String> getConnectionHandles()
     {
-        List<String> peerGroupHandleList = new ArrayList<>();
-        connections.
-                values().
-                stream().
-                forEach(
-                        (connection) ->
-                {
-                    peerGroupHandleList.add(connection.getHandle());
-                }
-                );
-
-        Collections.sort(peerGroupHandleList);
-
-        return Collections.unmodifiableList(peerGroupHandleList);
+        List<String> handles = new LinkedList<>();
+        handles.addAll(connections.keySet());
+        return handles;
     }
 
     @Override
@@ -208,7 +198,6 @@ public class Directory extends ChatNode
                 return true;
             }
         }
-
         return false;
     }
 

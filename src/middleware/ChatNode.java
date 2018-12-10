@@ -13,8 +13,7 @@ import java.net.UnknownHostException;
  *
  * @author u0012604
  */
-public abstract class ChatNode
-{
+public abstract class ChatNode {
 
     protected final Object lock = new Object();
 
@@ -30,49 +29,36 @@ public abstract class ChatNode
 
     public abstract void removeConnections();
 
-    public ChatNode(String handle)
-    {
+    public ChatNode(String handle) {
         this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
 
-    public ChatNode(String handle, String receiveIp)
-    {
+    public ChatNode(String handle, String receiveIp) {
         this(handle, receiveIp, DEFAULT_PORT);
     }
 
-    public ChatNode(String handle, String receiveIp, int receivePort)
-    {
-//        if (!handle.equals("null") && !handle.equals("all"))
-//        {
-            this.handle = handle;
-//        }
-//        else 
-//        {
-//            System.err.println("Invalid message handle, cannot be 'null' or 'all'");
-//        }
+    public ChatNode(String handle, String receiveIp, int receivePort) {
+        this.handle = handle;
         this.receiveIp = receiveIp;
         this.receivePort = receivePort;
     }
 
     abstract public void begin() throws IOException;
 
-    public String getHandle()
-    {
+    public String getHandle() {
         return handle;
     }
 
     protected abstract void startPeerReceiver() throws UnknownHostException, IOException;
 
-    public void connectTo(final String remoteIpAddress)
-    {
+    public void connectTo(final String remoteIpAddress) {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
 
     public abstract void connectTo(final String remoteIpAddress, final int remotePort);
 
     //cannot declare abstract, but needs to be overriden
-    protected synchronized boolean isalreadyConnected(final String ipAddress)
-    {
+    protected synchronized boolean isalreadyConnected(final String ipAddress) {
         return false;
     }
 

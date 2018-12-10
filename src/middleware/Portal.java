@@ -19,36 +19,61 @@ import java.util.logging.Logger;
  */
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class used for message throughput from agent to agent, or agent to portal to agent
+ * @author s6089488
+ */
 public class Portal extends ChatNode
 {
-
+    /**
+     * Hashmap containing handle and connection of all connected portals
+     */
     protected HashMap<String, Connection> portals = new HashMap<>();
+    
+    /**
+     * Hashmap containing handle and connection of all connected portals
+     */
     protected HashMap<String, Connection> agents = new HashMap<>();
 
+    /**
+     * Creates a new portal from the handle given
+     * @param handle The unique identifier of the portal
+     */
     public Portal(String handle)
     {
         super(handle);
     }
 
+    /**
+     * Creates a new portal from the handle and ip
+     * @param handle the unique identifier of the portal
+     * @param receiveIp the ip range that this portal can receive requests from
+     */
     public Portal(String handle, String receiveIp)
     {
         super(handle, receiveIp);
     }
 
+    /**
+     * Creates a new portal from the handle and ip
+     * @param handle the unique identifier of the portal
+     * @param receiveIp the ip range that this portal can receive requests from
+     * @param receivePort the port that this portal can receive requests from
+     */
     public Portal(String handle, String receiveIp, int receivePort)
     {
         super(handle, receiveIp, receivePort);
     }
 
-    /*
-     * @param peer The peer that the message is being sent to 
-     * @param message The message to send to all peers
+    /**
+     * Sends a message from this portal to the receiver specified in message
+     * @param message the message to be sent
      */
     @Override
     public void sendMessage(Message message)
@@ -74,7 +99,6 @@ public class Portal extends ChatNode
             {
                 if (agents.containsKey(message.getTo()))
                 {
-                    //System.out.println("---Message is to local agent");
                     agents.get(message.getTo()).sendMessage(message);
                 }
                 else
@@ -84,13 +108,15 @@ public class Portal extends ChatNode
                     {
                         c.sendMessage(message);
                     }
-                    //System.err.println("'" + receiver + "' is an unknown peer");
                 }
 
             }
         }
     }
 
+    /**
+     * Thread to receive messages from other chatnodes
+     */
     protected final Thread receiveThread = new Thread(
             new Runnable()
     {
@@ -129,22 +155,17 @@ public class Portal extends ChatNode
                                                 System.err.println("Not connected to an agent with name: '" + handle + "'");
                                             }
                                         }
-                                    }   
+                                    }
                                 }
-                                //System.out.println("---Portal: " + handle + " has received message");
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
-                                    //System.out.println("---Message is to local agent of portal " + handle);
                                     sendMessage(receivedMessage);
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
                                 {
                                     //Only send message if it's from one of your agents, stops infinite loop issues
-                                    //System.out.println("---No local agents, contacting external portals");
-                                    //System.out.println("---portals size = " + portals.values().size());
                                     for (Connection con : portals.values())
                                     {
-                                        //System.out.println("---trying socket " + con.socket.toString());
                                         con.sendMessage(receivedMessage);
                                     }
                                 }
@@ -154,7 +175,7 @@ public class Portal extends ChatNode
                         catch (IOException ex)
                         {
                             Logger.getLogger(ChatNode.class
-                                  .getName()).log(Level.SEVERE, null, ex);
+                                    .getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
@@ -162,19 +183,20 @@ public class Portal extends ChatNode
         }
     });
 
+    /**
+     * Connects this portal to the specified address
+     * @param remoteIpAddress the ip address to connect to
+     * @param remotePort the port to connect to
+     */
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
-        // check if we're already connected, perhaps the remote device
-        // instigated a connection previously.
         if (isalreadyConnected(remoteIpAddress))
         {
-            //System.err.println(String.format("Already connected to the peer with IP: '%s'", remoteIpAddress));
             return;
         }
 
-//        Create a thread to instigate the HELLO handshake between this peer
-//        and the remote peer
+//        Create a thread to start handshake between this peer and remote peer
 //        Portals can only connect to each other, not to agents
         Thread helloThread = new Thread(
                 new Runnable()
@@ -197,25 +219,22 @@ public class Portal extends ChatNode
                         // assumes it will eventually connect... probably not a good idea...
                     }
 
-                    //We should have a HELLOACK message, which will have
-                    //the handle of the remote peer
+                    //Message comes in, the type will be assessed
                     final Message receivedMessage = partialConnection.receiveMessage();
-                    //Message ackMessage = partialConnection.receiveMessage();
 
                     if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
-                        //System.out.println("---Hello Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addPortal(partialConnection);
                     }
                     if (receivedMessage.getType().equals(MessageType.PORTALACK))
                     {
-                        //System.out.println("---Portal Ack Message received from " + partialConnection.toString());
                         partialConnection.setHandle(receivedMessage.getFrom());
                         addPortal(partialConnection);
                     }
                     else if (receivedMessage.getType().equals(MessageType.DIR))
                     {
+                        //Split the dir message into its respective IPs
                         String[] ips = receivedMessage.getContent().split(",");
 
                         for (String ip : ips)
@@ -231,6 +250,7 @@ public class Portal extends ChatNode
 
                                 for (Connection c : portals.values())
                                 {
+                                    //regex to select the ip from a socket output
                                     Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
 
                                     Matcher m = ipPattern.matcher(c.socket.toString());
@@ -266,6 +286,9 @@ public class Portal extends ChatNode
 
     }
 
+    /**
+     *  The thread running to handle new connections from other chatnodes
+     */
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
@@ -293,7 +316,6 @@ public class Portal extends ChatNode
                     final Message receivedMessage = newConnection.receiveMessage();
                     System.out.println("Message Recieved - " + receivedMessage.toString());
 
-                    //System.out.println("---" + receivedMessage.getType());
                     switch (receivedMessage.getType())
                     {
                         case PORTAL:
@@ -303,7 +325,7 @@ public class Portal extends ChatNode
                             {
                                 synchronized (lock)
                                 {
-
+                                    //if not already connected, set the connection up then respond with an ack message
                                     if (portals.get(newConnectionHandle) == null)
                                     {
                                         newConnection.setHandle(newConnectionHandle);
@@ -320,13 +342,12 @@ public class Portal extends ChatNode
                         }
                         case AGENT:
                         {
-                            //System.out.println("---Agent connecting to me");
                             final String newConnectionHandle = receivedMessage.getFrom();
                             if (newConnectionHandle != null)
                             {
                                 synchronized (lock)
                                 {
-
+                                    //if not already connected, set the connection up then respond with an ack message
                                     if (agents.get(newConnectionHandle) == null)
                                     {
                                         newConnection.setHandle(newConnectionHandle);
@@ -343,9 +364,8 @@ public class Portal extends ChatNode
 
                         }
                         default:
-                            System.err.println("Malformed peer HELLO message, connection attempt will be dropped.");
+                            System.err.println("Invalid HELLO message, connection attempt will be dropped.");
                             break;
-                        // Check for HELLO message with client name.
                     }
                 }
                 catch (IOException ex)
@@ -359,34 +379,43 @@ public class Portal extends ChatNode
     }
     );
 
+    /**
+     * 
+     * @param c 
+     */
     private void addPortal(Connection c)
     {
+        String handle = c.getHandle();
         synchronized (lock)
         {
-            if (portals.containsKey(c.getHandle()))
+            if (portals.containsKey(handle))
             {
-                System.err.println("[" + c.getHandle() + "] is already an established connection.");
+                System.err.println("[" + handle + "] is already an established connection.");
                 return;
             }
-            //System.out.println("---Adding portal " + c.toString() + " to " + handle);
-            portals.put(c.getHandle(), c);
+            portals.put(handle, c);
         }
     }
 
     private void addAgent(Connection c)
     {
+        String handle = c.getHandle();
         synchronized (lock)
         {
-            if (agents.containsKey(c.getHandle()))
+            if (agents.containsKey(handle))
             {
-                System.err.println("[" + c.getHandle() + "] is already an established connection.");
+                System.err.println("[" + handle + "] is already an established connection.");
                 return;
             }
-            //System.out.println("---Adding agent " + c.toString() + " to " + handle);
-            agents.put(c.getHandle(), c);
+            agents.put(handle, c);
         }
     }
 
+    /**
+     *
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     @Override
     protected void startPeerReceiver() throws UnknownHostException, IOException
     {
@@ -398,6 +427,10 @@ public class Portal extends ChatNode
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Override
     public void begin() throws IOException
     {
@@ -405,47 +438,78 @@ public class Portal extends ChatNode
         receiveThread.start();
     }
 
+    /**
+     *
+     * @return
+     */
     public synchronized List<String> getAgentHandles()
     {
-        List<String> agentHandleList = new ArrayList<>();
-        agents.
-                values().
-                stream().
-                forEach(
-                        (connection) ->
-                {
-                    agentHandleList.add(connection.getHandle());
-                }
-                );
-
-        Collections.sort(agentHandleList);
-
-        return Collections.unmodifiableList(agentHandleList);
+        List<String> handles = new LinkedList<>();
+        handles.addAll(agents.keySet());
+        return handles;
     }
 
+    /**
+     *
+     */
+    public void removeAgents()
+    {
+        agents = new HashMap<>();
+    }
+
+    /**
+     *
+     * @param key
+     */
+    public void removeAgent(String key)
+    {
+        if (agents.containsKey(key))
+        {
+            agents.remove(key);
+        }
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public boolean hasAgents()
+    {
+        return !agents.isEmpty();
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public boolean hasPortals()
+    {
+        return !portals.isEmpty();
+    }
+    
+    /**
+     *
+     * @return
+     */
     public synchronized List<String> getPortalHandles()
     {
-        List<String> agentHandleList = new ArrayList<>();
-        portals.
-                values().
-                stream().
-                forEach(
-                        (connection) ->
-                {
-                    agentHandleList.add(connection.getHandle());
-                }
-                );
-
-        Collections.sort(agentHandleList);
-
-        return Collections.unmodifiableList(agentHandleList);
+        List<String> handles = new LinkedList<>();
+        handles.addAll(portals.keySet());
+        return handles;
     }
 
+    /**
+     *
+     */
     public void removePortals()
     {
         portals = new HashMap<>();
     }
 
+    /**
+     *
+     * @param key
+     */
     public void removePortal(String key)
     {
         if (portals.containsKey(key))
@@ -454,19 +518,9 @@ public class Portal extends ChatNode
         }
     }
 
-    public void removeAgents()
-    {
-        agents = new HashMap<>();
-    }
-
-    public void removeAgent(String key)
-    {
-        if (agents.containsKey(key))
-        {
-            agents.remove(key);
-        }
-    }
-
+    /**
+     *
+     */
     @Override
     public void removeConnections()
     {
@@ -474,16 +528,10 @@ public class Portal extends ChatNode
         agents = new HashMap<>();
     }
 
-    public boolean hasPortals()
-    {
-        return !portals.isEmpty();
-    }
-
-    public boolean hasAgents()
-    {
-        return !agents.isEmpty();
-    }
-
+    /**
+     *
+     * @param handle
+     */
     public void setHandle(String handle)
     {
         this.handle = handle;
