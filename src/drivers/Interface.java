@@ -121,7 +121,7 @@ public class Interface {
                 // close first Frame
                 backing.dispose();
                 try {
-                    String myHandle = handler();
+                    String myHandle = handle();
                     agent.setHandle(myHandle);
                     agent.begin();
                 } catch (IOException ex) {
@@ -141,7 +141,7 @@ public class Interface {
 
                 try {
                     // gets handler name
-                    String myHandle = handler();
+                    String myHandle = handle();
                     portal.setHandle(myHandle);
                     portal.begin();
                 } catch (IOException ex) {
@@ -297,11 +297,11 @@ public class Interface {
     }
 
     /**
-     *
+     * Gets input for a ChatNodes handle.
      * @return 
      * @returns handle name for the agents and the portals
      */
-    public static String handler() {
+    public static String handle() {
         String handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
         System.out.println("your handler name is: " + handle);
         return handle;
