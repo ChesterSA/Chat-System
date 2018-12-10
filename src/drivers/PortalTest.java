@@ -23,7 +23,7 @@ public class PortalTest
     /**
      * The first three groups of the ip, used to remove some user effort
      */
-    static String ipBase = "152.105.67.";
+    static String ipBase = "192.168.5.";
     
     /**
      * @param args the command line arguments

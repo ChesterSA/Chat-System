@@ -10,8 +10,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -141,8 +139,12 @@ public class Directory extends ChatNode
                                     connections.remove(newConnectionHandle);
                                     newConnection.setHandle(newConnectionHandle);
                                     addConnection(newConnection);
-                                    newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
-                                    System.out.println("reconnected: '" + newConnectionHandle + "'");
+                                    for (Connection c : connections.values())
+                                    {
+                                        c.sendMessage(createDirMessage(handle, c.getHandle()));
+                                    }
+                                    //newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
+                                    
                                 }
                             }
                         }
