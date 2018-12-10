@@ -20,7 +20,11 @@ import middleware.MessageType;
  */
 public class AgentTest
 {
+    /**
+     * The IP elements all connections inside the system share.
+     */
     static String ipBase = "152.105.67.";
+    
     /**
      * @param args the command line arguments
      */
@@ -78,6 +82,11 @@ public class AgentTest
         }
     }
 
+    /**
+     * Displays to the user the steps needed to send a message to a connection
+     * in the system.
+     * @param me The agent sending the message.
+     */
     private static void sendMessage(Agent me)
     {
         System.out.println("Current connections:");
@@ -107,6 +116,10 @@ public class AgentTest
         me.sendMessage(newMessage);
     }
 
+    /**
+     * Displays to the user what is needed to add a new connection to the agent.
+     * @param me 
+     */
     private static void newConnection(Agent me)
     {
         System.out.println("What is the IP address of the portal to connect to?");
@@ -115,6 +128,10 @@ public class AgentTest
         me.connectTo(ipBase + ipAddressOfPeer);
     }
 
+    /**
+     * Displays current portal handle of agent.
+     * @param me 
+     */
     private static void displayConnectionList(Agent me)
     {
         System.out.println();
@@ -129,12 +146,20 @@ public class AgentTest
         System.out.println();
     }
 
+    /**
+     * Gets string from user.
+     * @return Entered string.
+     */
     private static String gets()
     {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
+    /**
+     * Connects to current directory inside the system.
+     * @param a Agent to connect.
+     */
     private static void connectToDir(Agent a)
     {
         a.connectTo("152.105.67.116");
