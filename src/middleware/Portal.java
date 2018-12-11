@@ -67,7 +67,7 @@ public class Portal extends ChatNode implements Connectable
     @Override
     public void sendMessage(Message message)
     {
-        System.out.println("Sending message " + message.toString());
+        //System.out.println("Sending message " + message.toString());
         synchronized (lock)
         {
             if (message.getType().equals(MessageType.BROADCAST))
@@ -136,7 +136,7 @@ public class Portal extends ChatNode implements Connectable
                                         {
                                             if (agents.containsKey(handle))
                                             {
-                                                System.out.println("Removing agent " + handle);
+                                                //System.out.println("Removing agent " + handle);
                                                 removeAgent(handle);
                                             }
                                             else
@@ -229,7 +229,6 @@ public class Portal extends ChatNode implements Connectable
                         {
                             boolean newConnection = true;
 
-                            System.out.println(Inet4Address.getLocalHost().getHostAddress() + "       " + ip);
                             if (ip.equals(Inet4Address.getLocalHost().getHostAddress()))
                             {
                                 newConnection = false;
@@ -248,7 +247,6 @@ public class Portal extends ChatNode implements Connectable
                                     {
                                         newConnection = false;
                                     }
-                                    System.out.println(m.group() + "    " + newConnection);
                                 }
                             }
                             if (newConnection)
@@ -293,7 +291,7 @@ public class Portal extends ChatNode implements Connectable
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    System.out.println("Awaiting HELLO message from new connection");
+                    //System.out.println("Awaiting HELLO message from new connection");
 
                     while (!newConnection.hasMessage())
                     {
@@ -303,7 +301,7 @@ public class Portal extends ChatNode implements Connectable
 
                     //Wait for a PORTAL, AGENT, or AGENTREMOVE message
                     final Message receivedMessage = newConnection.receiveMessage();
-                    System.out.println("Message Recieved - " + receivedMessage.toString());
+                    //System.out.println("Message Recieved - " + receivedMessage.toString());
 
                     switch (receivedMessage.getType())
                     {

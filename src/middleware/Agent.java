@@ -124,10 +124,6 @@ public class Agent extends ChatNode implements Connectable
             {
                 portal.getValue().sendMessage(message);
             }
-            else
-            {
-                System.out.println("Portal is null");
-            }
         }
     }
 
@@ -243,7 +239,7 @@ public class Agent extends ChatNode implements Connectable
                             //Only display message if it is standard or broadcast type
                             if (m.getType().equals(MessageType.STANDARD) || m.getType().equals(MessageType.BROADCAST))
                             {
-                                System.out.println(m);
+                                //System.out.println(m);
                                 if (client != null)
                                 {
                                     client.handleMessage(m);
@@ -280,8 +276,9 @@ public class Agent extends ChatNode implements Connectable
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    System.out.println("Awaiting HELLO message from new connection");
+                    //System.out.println("");
 
+                    //Awaiting HELLO message from new connection
                     while (!newConnection.hasMessage())
                     {
                         // wait for a message from the new connection...
@@ -292,7 +289,7 @@ public class Agent extends ChatNode implements Connectable
                     //will do, anything else will be ignored.
                     final Message receivedMessage = newConnection.receiveMessage();
 
-                    System.out.println("Message received: " + receivedMessage.toString());
+                    //System.out.println("Message received: " + receivedMessage.toString());
 
                     if (!receivedMessage.getType().equals(MessageType.HELLO))
                     {
