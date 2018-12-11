@@ -41,20 +41,24 @@ public class GUI_Builder
     /**
      * The base ip used for autofilling forms
      */
-    private static final String IP_BASE = "152.105.67.";
+    final String IP_BASE = "152.105.67.";
 
     /**
      * Gridlayout feature
      */
-    private static final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
+    final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
+    
+    /**
+     * Initialising empty middleware nodes
+     */
+    Portal portal = new Portal("", "0.0.0.0");
+    Agent agent = new Agent("", "0.0.0.0");
+    String myHandle = "dir";
+    Directory dir = new Directory(myHandle, "0.0.0.0");
         
     public GUI_Builder()
     {
-        //Initialise ChatNodes
-        Portal portal = new Portal("", "0.0.0.0");
-        Agent agent = new Agent("", "0.0.0.0");
-        String myHandle = "dir";
-        Directory dir = new Directory(myHandle, "0.0.0.0");
+
         //main frame
         final JFrame backing = new JFrame("Start Up");
         backing.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -358,9 +362,9 @@ public class GUI_Builder
         });
 
         // end of agent buttons
-}
+    }
 
-    private static void addComponentToGridBag(Container container, Component component, int gridx, int gridy, int gridwidth, int gridheight, int anchor, int fill)
+    private void addComponentToGridBag(Container container, Component component, int gridx, int gridy, int gridwidth, int gridheight, int anchor, int fill)
     {
         GridBagConstraints gridBagConstraints = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, 1.0, 1.0, anchor, fill, INSETS_DATA, 0, 0);
         container.add(component, gridBagConstraints);
@@ -371,7 +375,7 @@ public class GUI_Builder
      *
      * @return handle name for the agents and the portals
      */
-    public static String handle()
+    public String handle()
     {
         String handle = "";
 
@@ -393,7 +397,7 @@ public class GUI_Builder
      *
      * @return IP for the the connection to the new directory or the portals
      */
-    public static String newConnection()
+    public String newConnection()
     {
        {
        Pattern ipPattern = Pattern.compile("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b");
@@ -420,7 +424,7 @@ public class GUI_Builder
      *
      * @return IP for the the connection to the new directory or the portals
      */
-    private static void newPortalConnection(Portal me)
+    private void newPortalConnection(Portal me)
     {
         String ipAddressOfPeer = newConnection();
         me.connectTo(ipAddressOfPeer);
@@ -430,7 +434,7 @@ public class GUI_Builder
      * This gets the ip for the new connection then calls the connect method to
      * connect them to the new directory
      */
-    private static void newAgentConnection(Agent me)
+    private void newAgentConnection(Agent me)
     {
         String ipAddressOfPeer = newConnection();
         me.connectTo(ipAddressOfPeer);
@@ -440,7 +444,7 @@ public class GUI_Builder
      * this out puts a gui window thats get all the handle names that re
      * connected to that portal
      */
-    private static void displayPortalConnectionList(Portal me)
+    private void displayPortalConnectionList(Portal me)
     {
         if (!me.hasPortals())
         {
@@ -457,7 +461,7 @@ public class GUI_Builder
      *
      * @return connections or null
      */
-    private static void displayAgentConnectionList(Agent me)
+    private void displayAgentConnectionList(Agent me)
     {
         if (me.getPortal() == null)
         {
@@ -475,12 +479,12 @@ public class GUI_Builder
     /**
      * this connects a portal to the directory
      */
-    private static void connectToDir(Portal p)
+    private void connectToDir(Portal p)
     {
         p.connectTo(IP_BASE + "116");
     }
 
-    private static void connectToDir(Agent a)
+    private void connectToDir(Agent a)
     {
         a.connectTo(IP_BASE + "116");
     }
@@ -490,7 +494,7 @@ public class GUI_Builder
      *
      * @return null or handle names
      */
-    private static void displayAgentList(Portal me)
+    private void displayAgentList(Portal me)
     {
         if (!me.hasAgents())
         {
@@ -507,7 +511,7 @@ public class GUI_Builder
      * this will sned a message for the agent this will broadcast the messgae
      * throw the portals and to all the other agents and then to the clients
      */
-    private static void agentSendMessage(Agent me)
+    private void agentSendMessage(Agent me)
     {
         Object[] msgOptions =
         {
@@ -561,7 +565,7 @@ public class GUI_Builder
      *
      * @return this will show a gui with the handle names
      */
-    private static void DirectorydisplayConnectionList(Directory me)
+    private void DirectorydisplayConnectionList(Directory me)
     {
         if (!me.hasConnections())
         {
