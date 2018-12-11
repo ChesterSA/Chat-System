@@ -12,4 +12,6 @@ package middleware;
 public interface Contactable
 {
     public void handleMessage(Message m);
+    
+    public void sendMessage(String to, String content);
 }
