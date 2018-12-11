@@ -16,13 +16,19 @@ import java.util.logging.Logger;
 import javafx.util.Pair;
 
 /**
- *
+ * End point in message transmission, all messages pass through a portal then to an agent
  * @author Group B
  */
 public class Agent extends ChatNode implements Connectable
 {
-
+    /**
+     * The Portal this agent is currently connected to
+     */
     Pair<String, Connection> portal;
+    
+    /**
+     * A list of the handles of agents that have previously contacted this portal
+     */
     LinkedList<String> contacts = new LinkedList<>();
 
     /**
@@ -59,7 +65,6 @@ public class Agent extends ChatNode implements Connectable
      * Passes message to an agents portal. If portal is null print to output.
      * @param message object containing message attributes.
      */
-
     @Override
     public void sendMessage(Message message)
     {
@@ -76,6 +81,16 @@ public class Agent extends ChatNode implements Connectable
         }
     }
 
+    /**
+     * Connect this agent to a portal with a default ip
+     * @param remoteIpAddress 
+     */
+    @Override
+    public void connectTo(String remoteIpAddress) 
+    {
+        this.connectTo(remoteIpAddress, DEFAULT_PORT);
+    }
+    
     /**
      * Connect to a portal through ip.
      * If hello acknowledge message received from portal, add connection.
@@ -149,6 +164,9 @@ public class Agent extends ChatNode implements Connectable
 
     }
 
+    /**
+     * The thread running to receive messages from other portals and agents
+     */
     private final Thread receiveThread = new Thread(
             new Runnable()
     {
@@ -188,6 +206,9 @@ public class Agent extends ChatNode implements Connectable
     }
     );
 
+    /**
+     * Thread running to accept new connections from portals and chatnodes
+     */
     protected Thread acceptThread = new Thread(
             new Runnable()
     {
@@ -333,15 +354,5 @@ public class Agent extends ChatNode implements Connectable
     public void setHandle(String handle)
     {
         this.handle = handle;
-    }
-
-    /**
-     * Conn
-     * @param remoteIpAddress 
-     */
-    @Override
-    public void connectTo(String remoteIpAddress) 
-    {
-        this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
 }

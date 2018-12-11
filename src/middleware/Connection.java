@@ -13,8 +13,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
- *
- * @author v8269590
+ * Handles the connection between 2 different ChatNodes over the network
+ * @author Group B
  */
 class Connection
 {
