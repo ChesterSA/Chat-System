@@ -150,7 +150,6 @@ public class Directory extends ChatNode {
         String content = "";
         for (Connection c : connections.values()) {
             Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
-            System.out.println(c.socket.toString());
             
             Matcher match = ipPattern.matcher(c.socket.toString());
             
@@ -171,7 +170,6 @@ public class Directory extends ChatNode {
             }
         }
         m.append(content);
-        System.out.println(m);
         return m;
     }
     
