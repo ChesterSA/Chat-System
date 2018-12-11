@@ -1,0 +1,573 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package external;
+
+import drivers.AgentTest;
+import drivers.DirectoryTest;
+import drivers.PortalTest;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.*;
+import middleware.Agent;
+import middleware.Directory;
+import middleware.Message;
+import middleware.MessageType;
+import middleware.Portal;
+
+/**
+* A GUI used to create directories, agents, or portals and use their actions
+*
+* @author Group B
+*/
+
+public class GUI_Builder
+{
+    /**
+     * The base ip used for autofilling forms
+     */
+    private static final String IP_BASE = "152.105.67.";
+
+    /**
+     * Gridlayout feature
+     */
+    private static final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
+        
+    public GUI_Builder()
+    {
+        //Initialise ChatNodes
+        Portal portal = new Portal("", "0.0.0.0");
+        Agent agent = new Agent("", "0.0.0.0");
+        String myHandle = "dir";
+        Directory dir = new Directory(myHandle, "0.0.0.0");
+        //main frame
+        final JFrame backing = new JFrame("Start Up");
+        backing.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //set layout to your frame
+        backing.setLayout(new GridBagLayout());
+
+        /**
+        * Adding components to the gridBag layout.
+        */
+        final JFrame PortalFrame = new JFrame("Portal");
+        PortalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //set layout to your frame
+        PortalFrame.setLayout(new GridBagLayout());
+        PortalFrame.setBackground(Color.yellow);
+        PortalFrame.setSize(450, 300);
+        PortalFrame.setVisible(false);
+        PortalFrame.setResizable(false);
+
+        final JFrame DirectoryFrame = new JFrame("Directory");
+        DirectoryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //set layout to your frame
+        DirectoryFrame.setLayout(new GridBagLayout());
+        DirectoryFrame.setBackground(Color.yellow);
+        DirectoryFrame.setSize(450, 200);
+        DirectoryFrame.setVisible(false);
+        DirectoryFrame.setResizable(false);
+
+        final JFrame agentFrame = new JFrame("Agent");
+        agentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //set layout to your frame
+        agentFrame.setLayout(new GridBagLayout());
+        agentFrame.setBackground(Color.yellow);
+        agentFrame.setSize(450, 300);
+        agentFrame.setVisible(false);
+        agentFrame.setResizable(false);
+
+        // start of backing options an buttons
+        //adding header
+        JLabel choice = new JLabel("ChatNode or Directory ? ", SwingConstants.CENTER);
+        addComponentToGridBag(backing, choice, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton Directory = new JButton("Direcotory");
+        addComponentToGridBag(backing, Directory, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        Directory.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                // close first Frame
+                backing.dispose();
+                try
+                {
+                    // sets the frame to be visible
+                    dir.begin();
+                    DirectoryFrame.setVisible(true);
+
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(DirectoryTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        JButton exit = new JButton("Exit");
+        addComponentToGridBag(backing, exit, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        exit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                // close first Frame
+                backing.dispose();
+
+            }
+        });
+        JButton agents = new JButton("Agent");
+        addComponentToGridBag(backing, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agents.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                // close first Frame
+                backing.dispose();
+                try
+                {
+                    String myHandle = handle();
+                    agent.setHandle(myHandle);
+                    agent.begin();
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(AgentTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                // sets the frame to be visible
+                agentFrame.setVisible(true);
+            }
+        });
+
+        JButton Portal = new JButton("Portal");
+        addComponentToGridBag(backing, Portal, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        Portal.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                // close first Frame
+                backing.dispose();
+
+                try
+                {
+                    // gets handler name
+                    String myHandle = handle();
+                    portal.setHandle(myHandle);
+                    portal.begin();
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(PortalTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                // sets the frame to be visible
+                PortalFrame.setVisible(true);
+
+            }
+        });
+        backing.setSize(500, 200);
+        backing.setVisible(true);
+        //end of backing options an buttons
+
+        // starting if portal
+        JLabel portalOptions = new JLabel("Portal Options ", SwingConstants.CENTER);
+        addComponentToGridBag(PortalFrame, portalOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton portalNewConnections = new JButton("New Connections");
+        addComponentToGridBag(PortalFrame, portalNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalNewConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                newPortalConnection(portal);
+
+            }
+        });
+        JButton portalshowConnections = new JButton("Show Portals");
+        addComponentToGridBag(PortalFrame, portalshowConnections, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalshowConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                displayPortalConnectionList(portal);
+
+            }
+        });
+        JButton portalConnectdir = new JButton("Connect To directory");
+        addComponentToGridBag(PortalFrame, portalConnectdir, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalConnectdir.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                connectToDir(portal);
+
+            }
+        });
+
+        JButton portalRemoveConnections = new JButton("Remove Connections");
+        addComponentToGridBag(PortalFrame, portalRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalRemoveConnections
+                .addActionListener(new ActionListener()
+                {
+                    public void actionPerformed(ActionEvent e)
+                    {
+
+                        portal.removeConnections();
+
+                    }
+                });
+        JButton portalShowAgents = new JButton("Show Agents");
+        addComponentToGridBag(PortalFrame, portalShowAgents, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalShowAgents.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                displayAgentList(portal);
+
+            }
+        });
+        JButton portalexit= new JButton("Exit");
+        addComponentToGridBag(PortalFrame, portalexit, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalexit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }    
+        });
+        // end of portal settings
+        //start of the directory buttons
+        JLabel directoryOptions = new JLabel("Directory Options", SwingConstants.CENTER);
+        addComponentToGridBag(DirectoryFrame, directoryOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton directoryNewConnections = new JButton("Show Connections");
+        addComponentToGridBag(DirectoryFrame, directoryNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        directoryNewConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                DirectorydisplayConnectionList(dir);
+
+            }
+        });
+        JButton directoryshowConnections = new JButton("Remove Connections");
+        addComponentToGridBag(DirectoryFrame, directoryshowConnections, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        directoryshowConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                dir.removeConnections();
+            }
+        });
+        JButton direxit= new JButton("Exit");
+        addComponentToGridBag(DirectoryFrame, direxit, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        direxit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }  
+        });
+
+        //end of directory buttons
+        // start of agent buttons
+        JLabel agantOptions = new JLabel("Agent Options ", SwingConstants.CENTER);
+        addComponentToGridBag(agentFrame, agantOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton agentNewConnections = new JButton("New Connections");
+        addComponentToGridBag(agentFrame, agentNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentNewConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                newAgentConnection(agent);
+
+            }
+        });
+
+        JButton agentSendMessage = new JButton("Send Message");
+        addComponentToGridBag(agentFrame, agentSendMessage, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentSendMessage.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                agentSendMessage(agent);
+
+            }
+        });
+
+        JButton agentShowPortal = new JButton("Show Portal");
+        addComponentToGridBag(agentFrame, agentShowPortal, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentShowPortal.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                displayAgentConnectionList(agent);
+
+            }
+        });
+
+        JButton agentConnectDir = new JButton("Connect To directory");
+        addComponentToGridBag(agentFrame, agentConnectDir, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentConnectDir.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                connectToDir(agent);
+            }
+        });
+
+        JButton agentRemoveConnections = new JButton("Remove Connections");
+        addComponentToGridBag(agentFrame, agentRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentRemoveConnections.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+
+                agent.removeConnections();
+            }
+        });
+        JButton agentexit= new JButton("Exit");
+        addComponentToGridBag(agentFrame, agentexit, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentexit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }  
+        });
+
+        // end of agent buttons
+}
+
+    private static void addComponentToGridBag(Container container, Component component, int gridx, int gridy, int gridwidth, int gridheight, int anchor, int fill)
+    {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, 1.0, 1.0, anchor, fill, INSETS_DATA, 0, 0);
+        container.add(component, gridBagConstraints);
+    }
+
+    /**
+     * Gets input for a ChatNodes handle.
+     *
+     * @return handle name for the agents and the portals
+     */
+    public static String handle()
+    {
+        String handle = "";
+
+        while ("".equals(handle))
+        {
+            handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+            if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+            {
+             handle = "";            
+            }
+        } 
+
+        System.out.println("your handler name is: " + handle);
+        return handle;
+    }
+
+    /**
+     * JOptionPane message that asks for the ip
+     *
+     * @return IP for the the connection to the new directory or the portals
+     */
+    public static String newConnection()
+    {
+       {
+       Pattern ipPattern = Pattern.compile("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b");
+       boolean find = false;
+       
+       do
+       {
+           String ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
+           Matcher matcher = ipPattern.matcher(ip);
+           
+           if (matcher.find())
+           {
+               find = true;
+               return ip;
+           }
+       }
+       while(find == false);
+       return null;
+   }
+    }
+
+    /**
+     * JOptionPane message that asks for the ip that asks for the ip
+     *
+     * @return IP for the the connection to the new directory or the portals
+     */
+    private static void newPortalConnection(Portal me)
+    {
+        String ipAddressOfPeer = newConnection();
+        me.connectTo(ipAddressOfPeer);
+    }
+
+    /**
+     * This gets the ip for the new connection then calls the connect method to
+     * connect them to the new directory
+     */
+    private static void newAgentConnection(Agent me)
+    {
+        String ipAddressOfPeer = newConnection();
+        me.connectTo(ipAddressOfPeer);
+    }
+
+    /**
+     * this out puts a gui window thats get all the handle names that re
+     * connected to that portal
+     */
+    private static void displayPortalConnectionList(Portal me)
+    {
+        if (!me.hasPortals())
+        {
+            JOptionPane.showMessageDialog(null, "No Portal Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        List<String> connections = me.getPortalHandles();
+        JOptionPane.showMessageDialog(null, connections);
+    }
+
+    /**
+     * this will display all the connections the are linked to the agent
+     *
+     * @return connections or null
+     */
+    private static void displayAgentConnectionList(Agent me)
+    {
+        if (me.getPortal() == null)
+        {
+            JOptionPane.showMessageDialog(null, "No Portal Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        else
+        {
+            String connection = me.getPortal();
+            JOptionPane.showMessageDialog(null, connection, "Connections", JOptionPane.INFORMATION_MESSAGE);
+        }
+        System.out.println();
+    }
+
+    /**
+     * this connects a portal to the directory
+     */
+    private static void connectToDir(Portal p)
+    {
+        p.connectTo(IP_BASE + "116");
+    }
+
+    private static void connectToDir(Agent a)
+    {
+        a.connectTo(IP_BASE + "116");
+    }
+
+    /**
+     * this will show the user the connections to the agents
+     *
+     * @return null or handle names
+     */
+    private static void displayAgentList(Portal me)
+    {
+        if (!me.hasAgents())
+        {
+            JOptionPane.showMessageDialog(null, "No Agent Connections!", "Connections", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        List<String> connections = me.getAgentHandles();
+        JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    /**
+     * this will sned a message for the agent this will broadcast the messgae
+     * throw the portals and to all the other agents and then to the clients
+     */
+    private static void agentSendMessage(Agent me)
+    {
+        Object[] msgOptions =
+        {
+            "Standard", "Broadcast"
+        };
+
+        int n = JOptionPane.showOptionDialog(null,
+                "What message type are you sending?",
+                "Send Message",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE, null,
+                msgOptions, msgOptions[0]);
+
+        String handle;
+
+        if (n == 0)
+        {
+            //System.out.println("Current connections:");
+            List<String> contacts = new ArrayList();
+            for (String c : me.getContacts())
+            {
+                contacts.add(c);
+            }
+            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
+        }
+        else
+        {
+            handle = "all";
+        }
+
+        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle, "Send Message");
+
+        Message newMessage;
+
+        if (handle.equals("all"))
+        {
+            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
+            newMessage.append(messageContent);
+        }
+        else
+        {
+            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
+            newMessage.append(messageContent);
+        }
+
+        me.sendMessage(newMessage);
+    }
+
+    /**
+     * this will show the agents that have been connected to the directory
+     *
+     * @return this will show a gui with the handle names
+     */
+    private static void DirectorydisplayConnectionList(Directory me)
+    {
+        if (!me.hasConnections())
+        {
+            System.out.println("\n* No portals connected *\n");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
