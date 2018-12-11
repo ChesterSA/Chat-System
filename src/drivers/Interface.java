@@ -347,14 +347,15 @@ public class Interface
      */
     public static String handle()
     {
-        String handle = null;
+        String handle = "";
 
-         while (handle.equals(""))
+         while ("".equals(handle))
         {
             handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
-            
-                  
-        
+            if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+            {
+             handle = "";            
+            }
         } 
 
         System.out.println("your handler name is: " + handle);
