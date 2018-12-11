@@ -22,6 +22,9 @@ import middleware.Portal;
  */
 public class Interface
 {
+    /**
+     * The base ip used for autofilling forms
+     */
     private static final String IP_BASE = "152.105.67.";
     /**
      * Insets data ... I don't know what this does
