@@ -2,6 +2,7 @@ package middleware;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  * The message object that is passed along the network by ChatNodes
@@ -121,6 +122,11 @@ public class Message
 //            System.out.println(matcher.group(5));
             newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5)));
             newMessage.append(matcher.group(4));
+            
+            JOptionPane.showMessageDialog(null, "From:  "  + matcher.group(1) + "\n" +
+                                                "To:    " + matcher.group(3) + "\n" +
+                                                "Content:   " + matcher.group(4) + "\n" +
+                                                "Type:  " + matcher.group(5), matcher.group(5), JOptionPane.INFORMATION_MESSAGE);
         }
 
         //append the content
