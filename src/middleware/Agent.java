@@ -21,6 +21,8 @@ import javafx.util.Pair;
  */
 public class Agent extends ChatNode implements Connectable
 {
+    Contactable client;
+    
     /**
      * The Portal this agent is currently connected to
      */
@@ -31,23 +33,26 @@ public class Agent extends ChatNode implements Connectable
      */
     LinkedList<String> contacts = new LinkedList<>();
 
+    
     /**
      * Calls ChatNode constructor with a handle
      * @param handle
+     * @param c
      */
     public Agent(String handle)
     {
-        super(handle);
+        this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
 
     /**
      * Calls ChatNode constructor with a handle and an ip
      * @param handle
      * @param receiveIp
+     * @param c
      */
     public Agent(String handle, String receiveIp)
     {
-        super(handle, receiveIp);
+        this(handle, receiveIp, DEFAULT_PORT);
     }
 
     /**
@@ -55,10 +60,45 @@ public class Agent extends ChatNode implements Connectable
      * @param handle
      * @param receiveIp
      * @param receivePort
+     * @param c
      */
     public Agent(String handle, String receiveIp, int receivePort)
-    {
+    {    
         super(handle, receiveIp, receivePort);
+    }
+    
+    /**
+     * Calls ChatNode constructor with a handle
+     * @param handle
+     * @param c
+     */
+    public Agent(String handle, Contactable c)
+    {
+        this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT, c);
+    }
+
+    /**
+     * Calls ChatNode constructor with a handle and an ip
+     * @param handle
+     * @param receiveIp
+     * @param c
+     */
+    public Agent(String handle, String receiveIp, Contactable c)
+    {
+        this(handle, receiveIp, DEFAULT_PORT, c);
+    }
+
+    /**
+     * Calls ChatNode constructor with a handle, ip, and port
+     * @param handle
+     * @param receiveIp
+     * @param receivePort
+     * @param c
+     */
+    public Agent(String handle, String receiveIp, int receivePort, Contactable c)
+    {    
+        super(handle, receiveIp, receivePort);
+        client = c;
     }
 
     /**
@@ -187,10 +227,12 @@ public class Agent extends ChatNode implements Connectable
                             {
                                 contacts.add(from);
                             }
+                            
                             //Only display message if it is standard or broadcast type
                             if (m.getType().equals(MessageType.STANDARD) || m.getType().equals(MessageType.BROADCAST))
                             {
                                 System.out.println(m);
+                                client.handleMessage(m);
                             }
 
                         }
