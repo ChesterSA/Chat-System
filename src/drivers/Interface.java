@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import middleware.Agent;
 import middleware.Directory;
@@ -347,10 +349,13 @@ public class Interface
     {
         String handle = null;
 
-        do
+         while (handle.equals(""))
         {
             handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
-        } while (handle == null);
+            
+                  
+        
+        } 
 
         System.out.println("your handler name is: " + handle);
         return handle;
@@ -363,9 +368,24 @@ public class Interface
      */
     public static String newConnection()
     {
-        String ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
-        System.out.println("The IP Address is: " + ip);
-        return ip;
+       {
+       Pattern ipPattern = Pattern.compile("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b");
+       boolean find = false;
+       
+       do
+       {
+           String ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
+           Matcher matcher = ipPattern.matcher(ip);
+           
+           if (matcher.find())
+           {
+               find = true;
+               return ip;
+           }
+       }
+       while(find == false);
+       return null;
+   }
     }
 
     /**
