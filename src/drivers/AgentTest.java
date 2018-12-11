@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package drivers;
 
 import java.io.IOException;
@@ -10,13 +5,12 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import middleware.Agent;
-import middleware.ChatNode;
 import middleware.Message;
 import middleware.MessageType;
 
 /**
- *
- * @author s6089488
+ * Driver to create an agent class for testing
+ * @author Group B
  */
 public class AgentTest
 {
@@ -112,7 +106,6 @@ public class AgentTest
 
         newMessage.append(gets());
 
-        //System.out.println("---msg From:" + newMessage.getFrom() + " To:" + newMessage.getTo() + " Content:" + newMessage.getContent());
         me.sendMessage(newMessage);
     }
 
