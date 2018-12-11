@@ -16,26 +16,30 @@ import java.util.logging.Logger;
 import javafx.util.Pair;
 
 /**
- * End point in message transmission, all messages pass through a portal then to an agent
+ * End point in message transmission, all messages pass through a portal then to
+ * an agent
+ *
  * @author Group B
  */
 public class Agent extends ChatNode implements Connectable
 {
+
     Contactable client;
-    
+
     /**
      * The Portal this agent is currently connected to
      */
     Pair<String, Connection> portal;
-    
+
     /**
-     * A list of the handles of agents that have previously contacted this portal
+     * A list of the handles of agents that have previously contacted this
+     * portal
      */
     LinkedList<String> contacts = new LinkedList<>();
 
-    
     /**
      * Calls ChatNode constructor with a handle
+     *
      * @param handle
      * @param c
      */
@@ -46,6 +50,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Calls ChatNode constructor with a handle and an ip
+     *
      * @param handle
      * @param receiveIp
      * @param c
@@ -57,18 +62,20 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Calls ChatNode constructor with a handle, ip, and port
+     *
      * @param handle
      * @param receiveIp
      * @param receivePort
      * @param c
      */
     public Agent(String handle, String receiveIp, int receivePort)
-    {    
+    {
         super(handle, receiveIp, receivePort);
     }
-    
+
     /**
      * Calls ChatNode constructor with a handle
+     *
      * @param handle
      * @param c
      */
@@ -79,6 +86,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Calls ChatNode constructor with a handle and an ip
+     *
      * @param handle
      * @param receiveIp
      * @param c
@@ -90,19 +98,21 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Calls ChatNode constructor with a handle, ip, and port
+     *
      * @param handle
      * @param receiveIp
      * @param receivePort
      * @param c
      */
     public Agent(String handle, String receiveIp, int receivePort, Contactable c)
-    {    
+    {
         super(handle, receiveIp, receivePort);
         client = c;
     }
 
     /**
      * Passes message to an agents portal. If portal is null print to output.
+     *
      * @param message object containing message attributes.
      */
     @Override
@@ -123,17 +133,19 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Connect this agent to a portal with a default ip
-     * @param remoteIpAddress 
+     *
+     * @param remoteIpAddress
      */
     @Override
-    public void connectTo(String remoteIpAddress) 
+    public void connectTo(String remoteIpAddress)
     {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
-    
+
     /**
-     * Connect to a portal through ip.
-     * If hello acknowledge message received from portal, add connection.
+     * Connect to a portal through ip. If hello acknowledge message received
+     * from portal, add connection.
+     *
      * @param remoteIpAddress
      * @param remotePort
      */
@@ -178,7 +190,7 @@ public class Agent extends ChatNode implements Connectable
                     if (receivedMessage.getType().equals(MessageType.HELLOACK))
                     {
                         partialConnection.setHandle(receivedMessage.getFrom());
-                        
+
                         //As you're changing portal, notify old portal to remove you
                         if (portal != null)
                         {
@@ -227,14 +239,16 @@ public class Agent extends ChatNode implements Connectable
                             {
                                 contacts.add(from);
                             }
-                            
+
                             //Only display message if it is standard or broadcast type
                             if (m.getType().equals(MessageType.STANDARD) || m.getType().equals(MessageType.BROADCAST))
                             {
                                 System.out.println(m);
-                                client.handleMessage(m);
+                                if (client != null)
+                                {
+                                    client.handleMessage(m);
+                                }
                             }
-
                         }
                     }
                     catch (IOException ex)
@@ -318,6 +332,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * set agents portal connection.
+     *
      * @param connection
      */
     protected void addConnection(final Connection connection)
@@ -330,6 +345,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * set serverSocket and ip to allow messages to be received.
+     *
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -346,6 +362,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * get and agents portal.
+     *
      * @return portal object.
      */
     public String getPortal()
@@ -371,6 +388,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Starts accept and receive thread.
+     *
      * @throws IOException
      */
     @Override
@@ -382,6 +400,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Returns portal handle.
+     *
      * @return
      */
     public LinkedList<String> getContacts()
@@ -391,6 +410,7 @@ public class Agent extends ChatNode implements Connectable
 
     /**
      * Set the handle of an agent.
+     *
      * @param handle
      */
     public void setHandle(String handle)
