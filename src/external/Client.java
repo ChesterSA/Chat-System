@@ -5,6 +5,10 @@
  */
 package external;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import middleware.Agent;
 import middleware.Contactable;
 import middleware.Message;
 
@@ -14,17 +18,50 @@ import middleware.Message;
  */
 public class Client implements Contactable
 {
-
+    String name;
+    Agent a;
+    
+    public Client(String name)
+    {
+        this.name = name;
+        a = new Agent(name, this);
+        try
+        {
+            a.begin();
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public void handleMessage(Message m)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Client has message");
+        System.out.println("To: " + m.getTo());
+        System.out.println("From: " + m.getFrom());
+        System.out.println("Type: " + m.getType());
+        System.out.println("Content: " + m.getContent());
     }
 
     @Override
     public void sendMessage(String to, String content)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Message m = new Message(a.getHandle(), to);
+        m.append(content);
+        a.sendMessage(m);
+    }
+    
+    @Override
+    public void connectTo(String ip)
+    {
+        a.connectTo(ip);
+    }
+
+    public Agent getAgent()
+    {
+        return a;
     }
 
 }
