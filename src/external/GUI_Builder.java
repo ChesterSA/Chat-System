@@ -25,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import middleware.Agent;
+import middleware.Contactable;
 import middleware.Directory;
 import middleware.Message;
 import middleware.MessageType;
@@ -36,7 +37,7 @@ import middleware.Portal;
 * @author Group B
 */
 
-public class GUI_Builder
+public class GUI_Builder implements  Contactable
 {
     /**
      * The base ip used for autofilling forms
@@ -194,9 +195,8 @@ public class GUI_Builder
         {
             public void actionPerformed(ActionEvent e)
             {
-
-                newPortalConnection(portal);
-
+                String ip = newConnection();
+                connectTo(ip);
             }
         });
         JButton portalshowConnections = new JButton("Show Portals");
@@ -300,9 +300,8 @@ public class GUI_Builder
         {
             public void actionPerformed(ActionEvent e)
             {
-
-                newAgentConnection(agent);
-
+                String ip = newConnection();
+                connectTo(ip);
             }
         });
 
@@ -312,9 +311,9 @@ public class GUI_Builder
         {
             public void actionPerformed(ActionEvent e)
             {
-
-                agentSendMessage(agent);
-
+                String to = getTo();
+                String content = getContent(to);
+                sendMessage(to,content);
             }
         });
 
@@ -399,7 +398,6 @@ public class GUI_Builder
      */
     public String newConnection()
     {
-       {
        Pattern ipPattern = Pattern.compile("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b");
        boolean find = false;
        
@@ -416,7 +414,6 @@ public class GUI_Builder
        }
        while(find == false);
        return null;
-   }
     }
 
     /**
@@ -426,8 +423,8 @@ public class GUI_Builder
      */
     private void newPortalConnection(Portal me)
     {
-        String ipAddressOfPeer = newConnection();
-        me.connectTo(ipAddressOfPeer);
+//        String ipAddress = newConnection();
+//        me.connectTo(ipAddress);
     }
 
     /**
@@ -436,8 +433,8 @@ public class GUI_Builder
      */
     private void newAgentConnection(Agent me)
     {
-        String ipAddressOfPeer = newConnection();
-        me.connectTo(ipAddressOfPeer);
+//        String ipAddressOfPeer = newConnection();
+//        me.connectTo(ipAddressOfPeer);
     }
 
     /**
@@ -513,6 +510,70 @@ public class GUI_Builder
      */
     private void agentSendMessage(Agent me)
     {
+//        Object[] msgOptions =
+//        {
+//            "Standard", "Broadcast"
+//        };
+//
+//        int n = JOptionPane.showOptionDialog(null,
+//                "What message type are you sending?",
+//                "Send Message",
+//                JOptionPane.DEFAULT_OPTION,
+//                JOptionPane.INFORMATION_MESSAGE, null,
+//                msgOptions, msgOptions[0]);
+//
+//        String handle;
+//
+//        if (n == 0)
+//        {
+//            //System.out.println("Current connections:");
+//            List<String> contacts = new ArrayList();
+//            for (String c : me.getContacts())
+//            {
+//                contacts.add(c);
+//            }
+//            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
+//        }
+//        else
+//        {
+//            handle = "all";
+//        }
+//
+//        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle, "Send Message");
+//
+//        Message newMessage;
+//
+//        if (handle.equals("all"))
+//        {
+//            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
+//            newMessage.append(messageContent);
+//        }
+//        else
+//        {
+//            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
+//            newMessage.append(messageContent);
+//        }
+//
+//        me.sendMessage(newMessage);
+    }
+
+    /**
+     * this will show the agents that have been connected to the directory
+     *
+     * @return this will show a gui with the handle names
+     */
+    private void DirectorydisplayConnectionList(Directory me)
+    {
+        if (!me.hasConnections())
+        {
+            System.out.println("\n* No portals connected *\n");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private String getTo()
+    {
         Object[] msgOptions =
         {
             "Standard", "Broadcast"
@@ -531,7 +592,7 @@ public class GUI_Builder
         {
             //System.out.println("Current connections:");
             List<String> contacts = new ArrayList();
-            for (String c : me.getContacts())
+            for (String c : agent.getContacts())
             {
                 contacts.add(c);
             }
@@ -541,37 +602,56 @@ public class GUI_Builder
         {
             handle = "all";
         }
+        
+        return handle;
+    }
+    
+    private String getContent(String to)
+    {
+        String content = JOptionPane.showInputDialog(null, "What message would you like to send to " + to, "Send Message");
 
-        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle, "Send Message");
+        return content;
+    }
 
+    @Override
+    public void handleMessage(Message m)
+    {
+        String content = m.getContent();
+        if (content.isEmpty())
+            {
+                content = "N/A";
+            }
+           
+        JOptionPane.showMessageDialog(null, "From: " + m.getFrom() + "\n" +
+                                            "To: " + m.getTo() + "\n" +
+                                            "Content: " + m.getContent() + "\n" +
+                                            "Type: " + m.getType().toString(), 
+                                            "Message Notification", 
+                                            JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void sendMessage(String to, String content)
+    {
         Message newMessage;
 
-        if (handle.equals("all"))
+        if (to.equals("all"))
         {
-            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
-            newMessage.append(messageContent);
+            newMessage = new Message(agent.getHandle(), to, MessageType.BROADCAST);
+            newMessage.append(content);
         }
         else
         {
-            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
-            newMessage.append(messageContent);
+            newMessage = new Message(agent.getHandle(), to, MessageType.STANDARD);
+            newMessage.append(content);
         }
-
-        me.sendMessage(newMessage);
+        
+        agent.sendMessage(newMessage);
     }
 
-    /**
-     * this will show the agents that have been connected to the directory
-     *
-     * @return this will show a gui with the handle names
-     */
-    private void DirectorydisplayConnectionList(Directory me)
+    @Override
+    public void connectTo(String ip)
     {
-        if (!me.hasConnections())
-        {
-            System.out.println("\n* No portals connected *\n");
-            return;
-        }
-        JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
+        this.connectTo(ip);
     }
 }
