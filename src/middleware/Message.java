@@ -133,7 +133,7 @@ public class Message
      */
     public static Message parseMessage(String rawMessage)
     {
-        System.out.println("Raw Message - " + rawMessage);
+        //System.out.println("Raw Message - " + rawMessage);
         Message newMessage = null;
 
         Matcher matcher = MESSAGE_REGEX_PATTERN.matcher(rawMessage);

@@ -150,7 +150,6 @@ public class Directory extends ChatNode {
         String content = "";
         for (Connection c : connections.values()) {
             Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
-            System.out.println(c.socket.toString());
             
             Matcher match = ipPattern.matcher(c.socket.toString());
             
@@ -162,17 +161,15 @@ public class Directory extends ChatNode {
             }
             else
             {
-                ip = "NOOO";
+                ip = "";
             }
             
-            //Check if the ip is equal to the connection its being sent to, if true don't send
             if (!getIp(connections.get(to).socket).equals(ip))
             {
                 content += match.group();
             }
         }
         m.append(content);
-        System.out.println(m);
         return m;
     }
     
