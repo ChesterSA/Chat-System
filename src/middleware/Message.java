@@ -25,6 +25,26 @@ public class Message
     {
         this(from, null, type);
     }
+    
+    /**
+     *
+     * @param from who is sending the message
+     */
+    public Message(String from)
+    {
+        this(from, null, MessageType.STANDARD);
+    }
+    
+    /**
+     *
+     * @param from this is the sender of the message
+     * @param to this is the destination of the message
+     * @param type type of message that is being sent
+     */
+    public Message(String from, String to)
+    {
+        this(from, to, MessageType.STANDARD);
+    }
 
     /**
      *
@@ -38,6 +58,10 @@ public class Message
         this.to = to;
         this.type = type;
     }
+    
+    
+
+    
 
     /**
      * this adds to the end of the contents of the message
