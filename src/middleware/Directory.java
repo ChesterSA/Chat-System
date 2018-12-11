@@ -149,14 +149,24 @@ public class Directory extends ChatNode {
         Message m = new Message(from, to, MessageType.DIR);
         String content = "";
         for (Connection c : connections.values()) {
-            Pattern ipPattern = Pattern.compile("(?<=\\/)(.*?)(?=,)");
-            Matcher match = ipPattern.matcher(c.socket.toString());
-            String ip = match.group();
+            Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
+            System.out.println(c.socket.toString());
             
-            System.out.println(connections.get(to).socket.getInetAddress() + " . . . . . . . " + ip);
+            Matcher match = ipPattern.matcher(c.socket.toString());
+            
+            String ip;
+            
+            if (match.find())
+            {
+                ip = match.group();
+            }
+            else
+            {
+                ip = "NOOO";
+            }
             
             //Check if the ip is equal to the connection its being sent to, if true don't send
-            //if (connections.get(to).socket.getInetAddress().toString() != ip)
+            if (!getIp(connections.get(to).socket).equals(ip))
             {
                 content += match.group();
             }
@@ -164,6 +174,11 @@ public class Directory extends ChatNode {
         m.append(content);
         System.out.println(m);
         return m;
+    }
+    
+    private String getIp(Socket s)
+    {
+        return s.getInetAddress().toString().substring(1);
     }
 
     /**

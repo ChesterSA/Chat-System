@@ -27,7 +27,7 @@ public class Interface
      */
     private static final String IP_BASE = "152.105.67.";
     /**
-     * Insets data ... I don't know what this does
+     * Gridlayout feature
      */
     private static final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
 
