@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static javafx.application.Platform.exit;
 import javax.swing.*;
 import middleware.Agent;
 import middleware.Directory;
@@ -65,7 +66,7 @@ public class Interface
         //set layout to your frame
         PortalFrame.setLayout(new GridBagLayout());
         PortalFrame.setBackground(Color.yellow);
-        PortalFrame.setSize(500, 200);
+        PortalFrame.setSize(450, 300);
         PortalFrame.setVisible(false);
         PortalFrame.setResizable(false);
 
@@ -74,16 +75,16 @@ public class Interface
         //set layout to your frame
         DirectoryFrame.setLayout(new GridBagLayout());
         DirectoryFrame.setBackground(Color.yellow);
-        DirectoryFrame.setSize(500, 200);
+        DirectoryFrame.setSize(450, 200);
         DirectoryFrame.setVisible(false);
         DirectoryFrame.setResizable(false);
 
-        final JFrame agentFrame = new JFrame("Portal");
+        final JFrame agentFrame = new JFrame("Agent");
         agentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         agentFrame.setLayout(new GridBagLayout());
         agentFrame.setBackground(Color.yellow);
-        agentFrame.setSize(500, 200);
+        agentFrame.setSize(450, 300);
         agentFrame.setVisible(false);
         agentFrame.setResizable(false);
 
@@ -121,6 +122,7 @@ public class Interface
             {
                 // close first Frame
                 backing.dispose();
+                
             }
         });
         JButton agents = new JButton("Agent");
@@ -236,7 +238,15 @@ public class Interface
 
             }
         });
-
+        JButton portalexit= new JButton("Exit");
+        addComponentToGridBag(PortalFrame, portalexit, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalexit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }    
+        });
         // end of portal settings
         //start of the directory buttons
         JLabel directoryOptions = new JLabel("Directory Options", SwingConstants.CENTER);
@@ -261,6 +271,15 @@ public class Interface
             {
                 dir.removeConnections();
             }
+        });
+        JButton direxit= new JButton("Exit");
+        addComponentToGridBag(DirectoryFrame, direxit, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        direxit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }  
         });
 
         //end of directory buttons
@@ -325,6 +344,16 @@ public class Interface
                 agent.removeConnections();
             }
         });
+        JButton agentexit= new JButton("Exit");
+        addComponentToGridBag(agentFrame, agentexit, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentexit.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }  
+        });
+        
         // end of agent buttons
 
     }
@@ -349,7 +378,7 @@ public class Interface
     {
         String handle = "";
 
-         while ("".equals(handle))
+        while ("".equals(handle))
         {
             handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
             if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
