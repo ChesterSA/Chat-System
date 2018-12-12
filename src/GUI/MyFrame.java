@@ -88,7 +88,9 @@ public abstract class MyFrame extends JFrame implements Contactable
             handle = JOptionPane.showInputDialog(null, "Enter handle", "Handle", JOptionPane.QUESTION_MESSAGE);
             if (handle == null)
             {
-                setVisible(true);
+                setVisible(false);
+                //Doesn't error now, but immediately exiting program isn't useful
+                System.exit(0);
             }
             if (!handle.matches("^[^\\d\\s]+$"))
             {
