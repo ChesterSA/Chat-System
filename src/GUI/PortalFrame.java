@@ -5,7 +5,6 @@
  */
 package GUI;
 
-import external.GUI_Builder;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -50,7 +49,7 @@ public final class PortalFrame extends MyFrame
         }
         catch (IOException ex)
         {
-            Logger.getLogger(GUI_Builder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PortalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         addButtons();

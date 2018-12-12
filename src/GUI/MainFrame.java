@@ -5,7 +5,6 @@
  */
 package GUI;
 
-import external.GUI_Builder;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;

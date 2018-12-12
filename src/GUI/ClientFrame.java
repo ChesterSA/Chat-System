@@ -5,25 +5,14 @@
  */
 package GUI;
 
-import external.GUI_Builder;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import middleware.Agent;
 import middleware.Message;
 import middleware.MessageType;
@@ -56,7 +45,7 @@ public final class ClientFrame extends MyFrame
         }
         catch (IOException ex)
         {
-            Logger.getLogger(GUI_Builder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         addButtons();
