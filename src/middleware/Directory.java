@@ -260,7 +260,7 @@ public class Directory extends ChatNode {
      *
      * @param message Message to be sent.
      */
-    @Override
+    //@Override
     public void sendMessage(Message message) {
         synchronized (lock) {
             if (message.getType().equals(MessageType.BROADCAST)) {

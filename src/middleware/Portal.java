@@ -11,20 +11,31 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.LinkedList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class used for message throughput from agent to agent, or agent to portal to agent
+ * Class used for message throughput from agent to agent, or agent to portal to
+ * agent
+ *
  * @author s6089488
  */
 public class Portal extends ChatNode implements Connectable
 {
+
+    /**
+     *
+     */
+    protected BlockingQueue queue = new ArrayBlockingQueue(1024);
+
     /**
      * Hashmap containing handle and connection of all connected portals
      */
     protected HashMap<String, Connection> portals = new HashMap<>();
-    
+
     /**
      * Hashmap containing handle and connection of all connected portals
      */
@@ -32,6 +43,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Creates a new portal from the handle given
+     *
      * @param handle The unique identifier of the portal
      */
     public Portal(String handle)
@@ -41,6 +53,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Creates a new portal from the handle and ip
+     *
      * @param handle the unique identifier of the portal
      * @param receiveIp the ip range that this portal can receive requests from
      */
@@ -51,6 +64,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Creates a new portal from the handle and ip
+     *
      * @param handle the unique identifier of the portal
      * @param receiveIp the ip range that this portal can receive requests from
      * @param receivePort the port that this portal can receive requests from
@@ -62,45 +76,57 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Sends a message from this portal to the receiver specified in message
+     *
      * @param message the message to be sent
      */
-    @Override
-    public void sendMessage(Message message)
+    //@Override
+    public void sendMessage()
     {
         //System.out.println("Sending message " + message.toString());
         synchronized (lock)
         {
-            if (message.getType().equals(MessageType.BROADCAST))
+            try
             {
-                for (Connection c : agents.values())
+                Message message = (Message)queue.take();
+
+                if (message.getType().equals(MessageType.BROADCAST))
                 {
-                    c.sendMessage(message);
-                }
-                if (agents.containsKey(message.getFrom()))
-                {
-                    for (Connection c : portals.values())
+                    for (Connection c : agents.values())
                     {
                         c.sendMessage(message);
                     }
-                }
-            }
-            else
-            {
-                if (agents.containsKey(message.getTo()))
-                {
-                    agents.get(message.getTo()).sendMessage(message);
+                    if (agents.containsKey(message.getFrom()))
+                    {
+                        for (Connection c : portals.values())
+                        {
+                            c.sendMessage(message);
+                        }
+                    }
                 }
                 else
                 {
-
-                    for (Connection c : portals.values())
+                    if (agents.containsKey(message.getTo()))
                     {
-                        c.sendMessage(message);
+                        System.out.println(message);
+                        agents.get(message.getTo()).sendMessage(message);
                     }
-                }
+                    else
+                    {
 
+                        for (Connection c : portals.values())
+                        {
+                            c.sendMessage(message);
+                        }
+                    }
+
+                }
+            }  
+            catch (InterruptedException ex)
+            {
+                Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
 
     /**
@@ -136,7 +162,6 @@ public class Portal extends ChatNode implements Connectable
                                         {
                                             if (agents.containsKey(handle))
                                             {
-                                                //System.out.println("Removing agent " + handle);
                                                 removeAgent(handle);
                                             }
                                             else
@@ -148,7 +173,9 @@ public class Portal extends ChatNode implements Connectable
                                 }
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
-                                    sendMessage(receivedMessage);
+                                    queue.put(receivedMessage);
+                                    sendMessage();
+                                    Thread.sleep(10000);
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
                                 {
@@ -166,6 +193,10 @@ public class Portal extends ChatNode implements Connectable
                             Logger.getLogger(ChatNode.class
                                     .getName()).log(Level.SEVERE, null, ex);
                         }
+                        catch (InterruptedException ex)
+                        {
+                            Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }
@@ -174,6 +205,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Connects this portal to the specified address
+     *
      * @param remoteIpAddress the ip address to connect to
      * @param remotePort the port to connect to
      */
@@ -204,7 +236,7 @@ public class Portal extends ChatNode implements Connectable
                     //Wait for a response from this connection.
                     while (!partialConnection.hasMessage())
                     {
-                        
+
                     }
 
                     //Message comes in, the type will be assessed
@@ -274,7 +306,7 @@ public class Portal extends ChatNode implements Connectable
     }
 
     /**
-     *  The thread running to handle new connections from other chatnodes
+     * The thread running to handle new connections from other chatnodes
      */
     protected Thread acceptThread = new Thread(
             new Runnable()
@@ -292,7 +324,6 @@ public class Portal extends ChatNode implements Connectable
                     final Connection newConnection = new Connection(newClientSocket);
 
                     //System.out.println("Awaiting HELLO message from new connection");
-
                     while (!newConnection.hasMessage())
                     {
                         // wait for a message from the new connection...
@@ -368,6 +399,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Open this portal to receive new connections from the network
+     *
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -384,6 +416,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Starts this thread so it can receive messages from connections
+     *
      * @throws IOException
      */
     @Override
@@ -395,15 +428,17 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * method to check if this portal has any agent
+     *
      * @return a boolean representing if this has agents
      */
     public boolean hasAgents()
     {
         return !agents.isEmpty();
     }
-    
+
     /**
      * Adds a new agent to this portal
+     *
      * @param c the connection details of the portal to add
      */
     private void addAgent(Connection c)
@@ -419,9 +454,10 @@ public class Portal extends ChatNode implements Connectable
             agents.put(handle, c);
         }
     }
-    
+
     /**
      * Gets the handles of all agents connected to this portal
+     *
      * @return A list of agent handles
      */
     public synchronized List<String> getAgentHandles()
@@ -441,6 +477,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Removes a specified agent from the portal
+     *
      * @param key the handle of the agent to remove
      */
     public void removeAgent(String key)
@@ -450,18 +487,20 @@ public class Portal extends ChatNode implements Connectable
             agents.remove(key);
         }
     }
-    
+
     /**
      * Returns a boolean representing if any portals are connected
+     *
      * @return true if any portals are connected, false otherwise
      */
     public boolean hasPortals()
     {
         return !portals.isEmpty();
     }
-    
+
     /**
      * Adds a new portal to the portals map
+     *
      * @param c the connection information of the portal to add
      */
     private void addPortal(Connection c)
@@ -477,9 +516,10 @@ public class Portal extends ChatNode implements Connectable
             portals.put(handle, c);
         }
     }
-    
+
     /**
      * Returns a list of all the handles of connected portals
+     *
      * @return all connected portal's handles in a list
      */
     public synchronized List<String> getPortalHandles()
@@ -499,6 +539,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Removes a specified portal from the map
+     *
      * @param key the handle of the portal to remove
      */
     public void removePortal(String key)
@@ -521,6 +562,7 @@ public class Portal extends ChatNode implements Connectable
 
     /**
      * Set the handle of the portal
+     *
      * @param handle the new handle of the portal
      */
     public void setHandle(String handle)
@@ -529,7 +571,7 @@ public class Portal extends ChatNode implements Connectable
     }
 
     @Override
-    public void connectTo(String remoteIpAddress) 
+    public void connectTo(String remoteIpAddress)
     {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
