@@ -1,11 +1,11 @@
 package drivers;
 
-import external.GUI_Builder;
+import GUI.MainFrame;
 
 public class GUI_Driver
 {
     public static void main(String[] args)
     {
-        new GUI_Builder();
+        new MainFrame();
     }  
 }

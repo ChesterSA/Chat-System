@@ -360,6 +360,7 @@ public class Agent extends ChatNode implements Connectable
         {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
+            //Socket s = new Socket(bindAddress, receivePort)
             acceptThread.start();
         }
     }
