@@ -52,6 +52,21 @@ public final class DirectoryFrame extends MyFrame
         setVisible(true);
     }   
     
+    /**
+     * this will show the agents that have been connected to the directory
+     *
+     * @return this will show a gui with the handle names
+     */
+    private void displayConnectionList()
+    {
+        if (!dir.hasConnections())
+        {
+            JOptionPane.showMessageDialog(null, "No connections", "Connections", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, dir.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void addButtons()
     {
         //start of the directory buttons
@@ -60,49 +75,23 @@ public final class DirectoryFrame extends MyFrame
 
         JButton directoryNewConnections = new JButton("Show Connections");
         addComponentToGridBag(this, directoryNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        directoryNewConnections.addActionListener(new ActionListener()
+        directoryNewConnections.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                displayConnectionList(dir);
-
-            }
+            displayConnectionList();
         });
+        
         JButton directoryshowConnections = new JButton("Remove Connections");
         addComponentToGridBag(this, directoryshowConnections, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        directoryshowConnections.addActionListener(new ActionListener()
+        directoryshowConnections.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                dir.removeConnections();
-            }
+            dir.removeConnections();
         });
+        
         JButton direxit = new JButton("Exit");
         addComponentToGridBag(this, direxit, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        direxit.addActionListener(new ActionListener()
+        direxit.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                System.exit(0);
-            }
+            System.exit(0);
         });
-
-        //end of directory buttons
-    }
-    
-    /**
-     * this will show the agents that have been connected to the directory
-     *
-     * @return this will show a gui with the handle names
-     */
-    private void displayConnectionList(Directory me)
-    {
-        if (!me.hasConnections())
-        {
-            JOptionPane.showMessageDialog(null, "No connections", "Connections", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -30,7 +30,7 @@ public final class ClientFrame extends MyFrame
     public ClientFrame()
     {
         super("Client");
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         setBackground(Color.yellow);
@@ -47,78 +47,13 @@ public final class ClientFrame extends MyFrame
         {
             Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         addButtons();
-        
+
         // sets the frame to be visible
         setVisible(true);
     }
 
-    
-   private void addButtons()
-   {
-       JLabel agentOptions = new JLabel("Client Options ", SwingConstants.CENTER);
-        addComponentToGridBag(this, agentOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-
-        JButton agentNewConnections = new JButton("Connect to Portal");
-        addComponentToGridBag(this, agentNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentNewConnections.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                String ip = getIpAddress();
-                connectTo(ip);
-            }
-        });
-
-        JButton agentSendMessage = new JButton("Send Message");
-        addComponentToGridBag(this, agentSendMessage, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentSendMessage.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                String to = getTo();
-                String content = getContent(to);
-                sendMessage(to, content);
-            }
-        });
-
-        JButton agentShowPortal = new JButton("Show Portal");
-        addComponentToGridBag(this, agentShowPortal, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentShowPortal.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                displayConnections(agent);
-
-            }
-        });
-
-        JButton agentRemoveConnections = new JButton("Remove Connections");
-        addComponentToGridBag(this, agentRemoveConnections, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentRemoveConnections.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                agent.removeConnections();
-            }
-        });
-
-        JButton agentexit = new JButton("Exit");
-        addComponentToGridBag(this, agentexit, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentexit.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                System.exit(0);
-            }
-        });
-   }
-
-    
-    
     @Override
     public void connectTo(String ip)
     {
@@ -185,17 +120,61 @@ public final class ClientFrame extends MyFrame
         return handle;
     }
 
-    private void displayConnections(Agent me)
+    private void displayConnections()
     {
-        if (me.getPortal() == null)
+        if (agent.getPortal() == null)
         {
             JOptionPane.showMessageDialog(null, "No Agents Connected", "Connections", JOptionPane.ERROR_MESSAGE);
             return;
         }
         else
         {
-            String connection = me.getPortal();
+            String connection = agent.getPortal();
             JOptionPane.showMessageDialog(null, connection, "Connections", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    private void addButtons()
+    {
+        JLabel agentOptions = new JLabel("Client Options ", SwingConstants.CENTER);
+        addComponentToGridBag(this, agentOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton agentNewConnections = new JButton("Connect to Portal");
+        addComponentToGridBag(this, agentNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentNewConnections.addActionListener((ActionEvent e) ->
+        {
+            String ip = getIpAddress();
+            connectTo(ip);
+        });
+
+        JButton agentSendMessage = new JButton("Send Message");
+        addComponentToGridBag(this, agentSendMessage, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentSendMessage.addActionListener((ActionEvent e) ->
+        {
+            String to = getTo();
+            String content = getContent(to);
+            sendMessage(to, content);
+        });
+
+        JButton agentShowPortal = new JButton("Show Portal");
+        addComponentToGridBag(this, agentShowPortal, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentShowPortal.addActionListener((ActionEvent e) ->
+        {
+            displayConnections();
+        });
+
+        JButton agentRemoveConnections = new JButton("Remove Connections");
+        addComponentToGridBag(this, agentRemoveConnections, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentRemoveConnections.addActionListener((ActionEvent e) ->
+        {
+            agent.removeConnections();
+        });
+
+        JButton agentexit = new JButton("Exit");
+        addComponentToGridBag(this, agentexit, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        agentexit.addActionListener((ActionEvent e) ->
+        {
+            System.exit(0);
+        });
     }
 }

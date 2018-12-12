@@ -38,7 +38,6 @@ public final class PortalFrame extends MyFrame
         setLayout(new GridBagLayout());
         setBackground(Color.yellow);
         setSize(450, 300);
-        setVisible(false);
         setResizable(false);
         
         try
@@ -53,84 +52,7 @@ public final class PortalFrame extends MyFrame
         }
         
         addButtons();
-        
-        // sets the frame to be visible
         setVisible(true);
-    }
-    
-    private void addButtons()
-    {
-        JLabel portalOptions = new JLabel("Portal Options ", SwingConstants.CENTER);
-        addComponentToGridBag(this, portalOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-
-        JButton portalNewConnections = new JButton("New Connections");
-        addComponentToGridBag(this, portalNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        portalNewConnections.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                String ip = getIpAddress();
-                connectTo(ip);
-            }
-        });
-        JButton portalshowConnections = new JButton("Show Portals");
-        addComponentToGridBag(this, portalshowConnections, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        portalshowConnections.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                displayPortalConnectionList();
-
-            }
-        });
-        JButton portalConnectdir = new JButton("Connect To directory");
-        addComponentToGridBag(this, portalConnectdir, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        portalConnectdir.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                connectTo(DIR_IP);
-
-            }
-        });
-
-        JButton portalRemoveConnections = new JButton("Remove Connections");
-        addComponentToGridBag(this, portalRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        portalRemoveConnections
-                .addActionListener(new ActionListener()
-                {
-                    public void actionPerformed(ActionEvent e)
-                    {
-
-                        portal.removeConnections();
-
-                    }
-                });
-        
-        JButton portalShowAgents = new JButton("Show Client");
-        addComponentToGridBag(this, portalShowAgents, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        portalShowAgents.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                displayAgentList();
-
-            }
-        });
-
-        JButton portalexit = new JButton("Exit");
-        addComponentToGridBag(this, portalexit, 0, 7, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        portalexit.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                System.exit(0);
-            }
-        });
-        // end of portal settings
     }
     
     @Override
@@ -166,6 +88,56 @@ public final class PortalFrame extends MyFrame
 
         List<String> connections = portal.getAgentHandles();
         JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void addButtons()
+    {
+        JLabel portalOptions = new JLabel("Portal Options ", SwingConstants.CENTER);
+        addComponentToGridBag(this, portalOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+
+        JButton portalNewConnections = new JButton("New Connections");
+        addComponentToGridBag(this, portalNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalNewConnections.addActionListener((ActionEvent e) ->
+        {
+            String ip = getIpAddress();
+            connectTo(ip);
+        });
+        
+        JButton portalshowConnections = new JButton("Show Portals");
+        addComponentToGridBag(this, portalshowConnections, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalshowConnections.addActionListener((ActionEvent e) ->
+        {
+            displayPortalConnectionList();
+        });
+        
+        JButton portalConnectdir = new JButton("Connect to Directory");
+        addComponentToGridBag(this, portalConnectdir, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalConnectdir.addActionListener((ActionEvent e) ->
+        {
+            connectTo(DIR_IP);
+        });
+
+        JButton portalRemoveConnections = new JButton("Remove Connections");
+        addComponentToGridBag(this, portalRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalRemoveConnections
+                .addActionListener((ActionEvent e) ->
+        {
+            portal.removeConnections();
+        });
+        
+        JButton portalShowAgents = new JButton("Show Client");
+        addComponentToGridBag(this, portalShowAgents, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalShowAgents.addActionListener((ActionEvent e) ->
+        {
+            displayAgentList();
+        });
+
+        JButton portalexit = new JButton("Exit");
+        addComponentToGridBag(this, portalexit, 0, 7, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        portalexit.addActionListener((ActionEvent e) ->
+        {
+            System.exit(0);
+        });
     }
     
 }

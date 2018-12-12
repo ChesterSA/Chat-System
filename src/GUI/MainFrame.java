@@ -5,22 +5,9 @@
  */
 package GUI;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import middleware.Message;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  *
@@ -28,14 +15,12 @@ import middleware.Message;
  */
 public final class MainFrame extends MyFrame
 {
-
-
     /**
      * Initialising empty middleware nodes
      */
     DirectoryFrame directoryFrame;
     PortalFrame portalFrame;
-    ClientFrame agentFrame;
+    ClientFrame clientFrame;
 
     public MainFrame()
     {
@@ -43,7 +28,7 @@ public final class MainFrame extends MyFrame
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
-        this.setSize(500, 200);
+        this.setSize(300, 200);
         
         addButtons();
         this.setVisible(true);
@@ -56,47 +41,35 @@ public final class MainFrame extends MyFrame
 
         JButton Portal = new JButton("Portal");
         addComponentToGridBag(this, Portal, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        Portal.addActionListener(new ActionListener()
+        Portal.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                // close first Frame
-                setVisible(false);
-                portalFrame = new PortalFrame();
-            }
+            // close first Frame
+            setVisible(false);
+            portalFrame = new PortalFrame();
         });
         
         JButton agents = new JButton("Client");
         addComponentToGridBag(this, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agents.addActionListener(new ActionListener()
+        agents.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                setVisible(false);
-                agentFrame = new ClientFrame();
-            }
+            setVisible(false);
+            clientFrame = new ClientFrame();
         });
         
         JButton Directory = new JButton("Directory");
         addComponentToGridBag(this, Directory, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        Directory.addActionListener(new ActionListener()
+        Directory.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                setVisible(false);
-                directoryFrame = new DirectoryFrame();
-            }
+            setVisible(false);
+            directoryFrame = new DirectoryFrame();
         });
         
         JButton exit = new JButton("Exit");
         addComponentToGridBag(this, exit, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        exit.addActionListener(new ActionListener()
+        exit.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                // close first Frame
-                dispose();
-            }
+            // close first Frame
+            dispose();
         });
     }
 }
