@@ -1,6 +1,7 @@
 package drivers;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,6 @@ public class AgentTest extends Driver
 
         //0.0.0.0 would be changed to reflect the company's ip
         a = new Agent(myHandle, "0.0.0.0");
-
         try
         {
             a.begin();

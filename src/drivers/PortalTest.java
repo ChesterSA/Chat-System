@@ -25,6 +25,7 @@ public class PortalTest extends Driver
         p = new Portal(myHandle, "0.0.0.0");
         
         System.out.println("Do you want a NodeMonitor on this portal? (true/false)");
+        
         boolean ifNodeMonitor = Boolean.parseBoolean(gets());
         if(ifNodeMonitor)
         {

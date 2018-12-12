@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -327,18 +326,27 @@ public class Portal extends ChatNode implements Connectable
                 try
                 {
                     final Socket newClientSocket = serverSocket.accept();
+                    
 
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
+                    int timeout = 0;
+                    
+                    newConnection.socket.setSoTimeout(5000);
                     while (!newConnection.hasMessage())
                     {
-                        // wait for a message from the new connection...
-                        // should probably handle timeouts...
+                        timeout++;
+//                        waits 25,000,000 [units] (roughly 10 seconds) and then times out
+                        if (timeout >= 25000000)
+                        {
+                            newClientSocket.close();
+                        }
                     }
-
+                    
                     //Wait for a PORTAL, AGENT, or AGENTREMOVE message
                     final Message receivedMessage = newConnection.receiveMessage();
+                    System.out.println(receivedMessage);
                     if(nodeMonitor != null)
                     {
                         nodeMonitor.handleMessage(receivedMessage);
@@ -398,8 +406,9 @@ public class Portal extends ChatNode implements Connectable
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(ChatNode.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Connection timeout");
+//                    Logger.getLogger(ChatNode.class
+//                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
