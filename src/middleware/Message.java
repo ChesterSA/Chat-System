@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * The message object that is passed along the network by ChatNodes
+ *
  * @Author Group B
  */
 public class Message
@@ -24,7 +25,7 @@ public class Message
     {
         this(from, null, type);
     }
-    
+
     /**
      *
      * @param from who is sending the message
@@ -33,7 +34,7 @@ public class Message
     {
         this(from, null, MessageType.STANDARD);
     }
-    
+
     /**
      *
      * @param from this is the sender of the message
@@ -57,14 +58,11 @@ public class Message
         this.to = to;
         this.type = type;
     }
-    
-    
-
-    
 
     /**
      * this adds to the end of the contents of the message
-     * @param appendWith 
+     *
+     * @param appendWith
      */
     public void append(String appendWith)
     {
@@ -76,7 +74,8 @@ public class Message
 
     /**
      * gets the destination of the message
-     * @return  the destination of the message
+     *
+     * @return the destination of the message
      */
     public String getTo()
     {
@@ -85,6 +84,7 @@ public class Message
 
     /**
      * this gets the sender of the message
+     *
      * @return the handle that sent the message
      */
     public String getFrom()
@@ -93,7 +93,8 @@ public class Message
     }
 
     /**
-     * gets the contents of the message 
+     * gets the contents of the message
+     *
      * @return the message
      */
     public String getContent()
@@ -103,6 +104,7 @@ public class Message
 
     /**
      * gets the type of message that is sent
+     *
      * @return the type that is being sent
      */
     public MessageType getType()
@@ -144,13 +146,13 @@ public class Message
 //            System.out.println(matcher.group(5));
             newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5)));
             newMessage.append(matcher.group(4));
-            
+
             String content = matcher.group(4);
-            if (content.equals(null))
-                {
-                    content = "N/A";
-                }
-            
+            if (content.equals(""))
+            {
+                content = "N/A";
+            }
+
 //            JOptionPane.showMessageDialog(null, "From:      " + matcher.group(1) + "\n" +
 //                                                "To:        " + matcher.group(3) + "\n" +
 //                                                "Content:   " + matcher.group(4) + "\n" +
