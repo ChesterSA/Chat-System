@@ -333,7 +333,6 @@ public class Portal extends ChatNode implements Connectable
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    //System.out.println("Awaiting HELLO message from new connection");
                     while (!newConnection.hasMessage())
                     {
                         // wait for a message from the new connection...
@@ -342,7 +341,10 @@ public class Portal extends ChatNode implements Connectable
 
                     //Wait for a PORTAL, AGENT, or AGENTREMOVE message
                     final Message receivedMessage = newConnection.receiveMessage();
-                    //System.out.println("Message Recieved - " + receivedMessage.toString());
+                    if(nodeMonitor != null)
+                    {
+                        nodeMonitor.handleMessage(receivedMessage);
+                    }
 
                     switch (receivedMessage.getType())
                     {
@@ -572,11 +574,12 @@ public class Portal extends ChatNode implements Connectable
     
     /**
      * Adds new node monitor to portal
+     * @param portalHandle
      * @param location Name of monitoring file
      */
-    public void addNodeMonitor(String location)
+    public void addNodeMonitor()
     {
-        nodeMonitor = new NodeMonitor(location);
+        nodeMonitor = new NodeMonitor(this.handle);
     }
     
     /**

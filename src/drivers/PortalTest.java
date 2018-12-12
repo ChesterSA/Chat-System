@@ -28,9 +28,7 @@ public class PortalTest extends Driver
         boolean ifNodeMonitor = Boolean.parseBoolean(gets());
         if(ifNodeMonitor)
         {
-            System.out.println("What text file should the NodeMonitor write to?");
-            String fileLocation = gets();
-            p.addNodeMonitor(fileLocation);
+            p.addNodeMonitor();
         }
 
         try

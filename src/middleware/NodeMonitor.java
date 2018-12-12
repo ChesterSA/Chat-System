@@ -17,18 +17,18 @@ import java.io.PrintWriter;
  */
 public class NodeMonitor {
     
-    String fileLocation;
+    String portalHandle;
     PrintWriter nodeMonitor;
     
-    NodeMonitor(String fL)
+    NodeMonitor(String pH)
     {
-        fileLocation = fL;
+        portalHandle = pH;
         
     }    
         
     public void handleMessage(Message m)
     {
-        File monitor = new File(fileLocation);
+        File monitor = new File(portalHandle + "-Log.txt");
         try
         {
             FileWriter fw = new FileWriter(monitor, true);
@@ -43,11 +43,10 @@ public class NodeMonitor {
             System.err.println("There has been an input/output error");
         }
         
-        System.out.println("Node monitor writing to file");
-        nodeMonitor.print("From: " + m.getFrom() + "  ");
-        nodeMonitor.print("To: " + m.getTo() + "  ");
-        nodeMonitor.print("Content: " + m.getContent() + "  ");
-        nodeMonitor.print("Type: " + m.getType());
+        nodeMonitor.print("From: " + m.getFrom() + "\t");
+        nodeMonitor.print("To: " + m.getTo() + "\t");
+        nodeMonitor.print("Type: " + m.getType() + "\t");
+        nodeMonitor.print("Content: " + m.getContent());
         nodeMonitor.println();
         
         nodeMonitor.close();
