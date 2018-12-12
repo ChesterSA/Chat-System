@@ -22,7 +22,7 @@ public class PortalTest extends Driver
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        Portal portal = new Portal(myHandle, "0.0.0.0");
+        p = new Portal(myHandle, "0.0.0.0");
         
         System.out.println("Do you want a NodeMonitor on this portal? (true/false)");
         boolean ifNodeMonitor = Boolean.parseBoolean(gets());
@@ -30,7 +30,7 @@ public class PortalTest extends Driver
         {
             System.out.println("What text file should the NodeMonitor write to?");
             String fileLocation = gets();
-            portal.addNodeMonitor(fileLocation);
+            p.addNodeMonitor(fileLocation);
         }
 
         try
