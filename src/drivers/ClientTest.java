@@ -18,7 +18,6 @@ public class ClientTest extends Driver
 
     public static void main(String[] args)
     {
-        
         System.out.println("Client Handle?");
         String myHandle = gets();
 
@@ -28,7 +27,6 @@ public class ClientTest extends Driver
 
         while (true)
         {
-
             System.out.println("Client Options:");
             System.out.println("1. Connect to a portal");
             if (connected)

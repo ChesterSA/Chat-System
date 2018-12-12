@@ -32,7 +32,6 @@ public class AgentTest extends Driver
 
             while (true)
             {
-
                 System.out.println("Agent Options:");
                 System.out.println("1. New Connection");
                 System.out.println("2. Send Message");

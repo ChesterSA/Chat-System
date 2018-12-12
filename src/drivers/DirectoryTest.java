@@ -31,7 +31,6 @@ public class DirectoryTest extends Driver
 
             while (true)
             {
-
                 System.out.println("Options:");
                 System.out.println("1. Show connections");
                 System.out.println("2. Remove connections");

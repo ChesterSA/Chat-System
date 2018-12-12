@@ -115,7 +115,7 @@ public class Agent extends ChatNode implements Connectable
      *
      * @param message object containing message attributes.
      */
-    @Override
+    //@Override
     public void sendMessage(Message message)
     {
         synchronized (lock)
