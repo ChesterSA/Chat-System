@@ -328,21 +328,21 @@ public class Portal extends ChatNode implements Connectable
                 try
                 {
                     final Socket newClientSocket = serverSocket.accept();
+                    
 
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    System.out.println("---connected");
                     int timeout = 0;
+                    
+                    newConnection.socket.setSoTimeout(5000);
                     while (!newConnection.hasMessage())
                     {
                         timeout++;
-                        //waits 25,000,000 [units] (roughly 10 seconds) and then times out
+//                        waits 25,000,000 [units] (roughly 10 seconds) and then times out
                         if (timeout >= 25000000)
                         {
-                            System.out.println("---connection time out");
-                            Thread.currentThread().interrupt();
-                            return;
+                            newClientSocket.close();
                         }
                     }
                     
@@ -408,8 +408,9 @@ public class Portal extends ChatNode implements Connectable
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(ChatNode.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Connection timeout");
+//                    Logger.getLogger(ChatNode.class
+//                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
