@@ -133,7 +133,6 @@ public class Message
      */
     public static Message parseMessage(String rawMessage)
     {
-        //System.out.println("Raw Message - " + rawMessage);
         Message newMessage = null;
 
         Matcher matcher = MESSAGE_REGEX_PATTERN.matcher(rawMessage);
@@ -153,10 +152,10 @@ public class Message
                     content = "N/A";
                 }
             
-            JOptionPane.showMessageDialog(null, "From:      " + matcher.group(1) + "\n" +
-                                                "To:        " + matcher.group(3) + "\n" +
-                                                "Content:   " + matcher.group(4) + "\n" +
-                                                "Type:      " + matcher.group(5), matcher.group(5), JOptionPane.INFORMATION_MESSAGE);
+//            JOptionPane.showMessageDialog(null, "From:      " + matcher.group(1) + "\n" +
+//                                                "To:        " + matcher.group(3) + "\n" +
+//                                                "Content:   " + matcher.group(4) + "\n" +
+//                                                "Type:      " + matcher.group(5), matcher.group(5), JOptionPane.INFORMATION_MESSAGE);
         }
 
         //append the content

@@ -21,8 +21,7 @@ import javafx.util.Pair;
  *
  * @author Group B
  */
-public class Agent extends ChatNode implements Connectable
-{
+public class Agent extends ChatNode implements Connectable {
 
     Contactable client;
 
@@ -43,8 +42,7 @@ public class Agent extends ChatNode implements Connectable
      * @param handle
      * @param c
      */
-    public Agent(String handle)
-    {
+    public Agent(String handle) {
         this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
 
@@ -55,8 +53,7 @@ public class Agent extends ChatNode implements Connectable
      * @param receiveIp
      * @param c
      */
-    public Agent(String handle, String receiveIp)
-    {
+    public Agent(String handle, String receiveIp) {
         this(handle, receiveIp, DEFAULT_PORT);
     }
 
@@ -68,8 +65,7 @@ public class Agent extends ChatNode implements Connectable
      * @param receivePort
      * @param c
      */
-    public Agent(String handle, String receiveIp, int receivePort)
-    {
+    public Agent(String handle, String receiveIp, int receivePort) {
         super(handle, receiveIp, receivePort);
     }
 
@@ -79,8 +75,7 @@ public class Agent extends ChatNode implements Connectable
      * @param handle
      * @param c
      */
-    public Agent(String handle, Contactable c)
-    {
+    public Agent(String handle, Contactable c) {
         this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT, c);
     }
 
@@ -91,8 +86,7 @@ public class Agent extends ChatNode implements Connectable
      * @param receiveIp
      * @param c
      */
-    public Agent(String handle, String receiveIp, Contactable c)
-    {
+    public Agent(String handle, String receiveIp, Contactable c) {
         this(handle, receiveIp, DEFAULT_PORT, c);
     }
 
@@ -104,8 +98,7 @@ public class Agent extends ChatNode implements Connectable
      * @param receivePort
      * @param c
      */
-    public Agent(String handle, String receiveIp, int receivePort, Contactable c)
-    {
+    public Agent(String handle, String receiveIp, int receivePort, Contactable c) {
         super(handle, receiveIp, receivePort);
         client = c;
     }
@@ -116,12 +109,9 @@ public class Agent extends ChatNode implements Connectable
      * @param message object containing message attributes.
      */
     @Override
-    public void sendMessage(Message message)
-    {
-        synchronized (lock)
-        {
-            if (portal != null)
-            {
+    public void sendMessage(Message message) {
+        synchronized (lock) {
+            if (portal != null) {
                 portal.getValue().sendMessage(message);
             }
         }
@@ -133,8 +123,7 @@ public class Agent extends ChatNode implements Connectable
      * @param remoteIpAddress
      */
     @Override
-    public void connectTo(String remoteIpAddress)
-    {
+    public void connectTo(String remoteIpAddress) {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
 
@@ -146,12 +135,10 @@ public class Agent extends ChatNode implements Connectable
      * @param remotePort
      */
     @Override
-    public void connectTo(final String remoteIpAddress, final int remotePort)
-    {
+    public void connectTo(final String remoteIpAddress, final int remotePort) {
         // check if we're already connected, perhaps the remote device
         // instigated a connection previously.
-        if (isalreadyConnected(remoteIpAddress))
-        {
+        if (isalreadyConnected(remoteIpAddress)) {
             //System.err.println(String.format("Already connected to the peer with IP: '%s'", remoteIpAddress));
             return;
         }
@@ -159,22 +146,18 @@ public class Agent extends ChatNode implements Connectable
         //Create a thread to instigate the HELLO handshake between this peer
         //and the remote peer
         Thread helloThread = new Thread(
-                new Runnable()
-        {
+                new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 InetAddress bindAddress;
-                try
-                {
+                try {
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
                     partialConnection.sendMessage(new Message(handle, MessageType.AGENT));
 
                     //Wait for a response from this connection.
-                    while (!partialConnection.hasMessage())
-                    {
+                    while (!partialConnection.hasMessage()) {
                         // ... Do nothing ...
                         // assumes it will eventually connect... probably not a good idea...
                     }
@@ -183,24 +166,21 @@ public class Agent extends ChatNode implements Connectable
                     //the handle of the remote peer
                     final Message receivedMessage = partialConnection.receiveMessage();
 
-                    if (receivedMessage.getType().equals(MessageType.HELLOACK))
-                    {
+                    if (receivedMessage.getType().equals(MessageType.HELLOACK)) {
                         partialConnection.setHandle(receivedMessage.getFrom());
 
                         //As you're changing portal, notify old portal to remove you
-                        if (portal != null)
-                        {
+                        if (portal != null) {
                             sendMessage(new Message(handle, portal.getKey(), MessageType.AGENT));
+                        }
+                        if (client != null) {
+                            client.handleMessage(receivedMessage);
                         }
                         addConnection(partialConnection);
                     }
-                }
-                catch (UnknownHostException ex)
-                {
+                } catch (UnknownHostException ex) {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -216,39 +196,28 @@ public class Agent extends ChatNode implements Connectable
      * The thread running to receive messages from other portals and agents
      */
     private final Thread receiveThread = new Thread(
-            new Runnable()
-    {
+            new Runnable() {
         @Override
-        public void run()
-        {
-            while (true)
-            {
-                synchronized (lock)
-                {
-                    try
-                    {
-                        if (portal != null && portal.getValue().hasMessage())
-                        {
+        public void run() {
+            while (true) {
+                synchronized (lock) {
+                    try {
+                        if (portal != null && portal.getValue().hasMessage()) {
                             Message m = portal.getValue().receiveMessage();
                             String from = m.getFrom();
-                            if (!contacts.contains(from) && !from.equals(handle))
-                            {
+                            if (!contacts.contains(from) && !from.equals(handle)) {
                                 contacts.add(from);
                             }
 
                             //Only display message if it is standard or broadcast type
-                            if (m.getType().equals(MessageType.STANDARD) || m.getType().equals(MessageType.BROADCAST))
-                            {
+                            if (m.getType().equals(MessageType.STANDARD) || m.getType().equals(MessageType.BROADCAST)) {
                                 //System.out.println(m);
-                                if (client != null)
-                                {
+                                if (client != null) {
                                     client.handleMessage(m);
                                 }
                             }
                         }
-                    }
-                    catch (IOException ex)
-                    {
+                    } catch (IOException ex) {
                         Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -262,25 +231,19 @@ public class Agent extends ChatNode implements Connectable
      * Thread running to accept new connections from portals and chatnodes
      */
     protected Thread acceptThread = new Thread(
-            new Runnable()
-    {
+            new Runnable() {
         @Override
-        public void run()
-        {
-            while (true)
-            {
-                try
-                {
+        public void run() {
+            while (true) {
+                try {
                     final Socket newClientSocket = serverSocket.accept();
 
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
                     //System.out.println("");
-
                     //Awaiting HELLO message from new connection
-                    while (!newConnection.hasMessage())
-                    {
+                    while (!newConnection.hasMessage()) {
                         // wait for a message from the new connection...
                         // should probably handle timeouts...
                     }
@@ -290,19 +253,13 @@ public class Agent extends ChatNode implements Connectable
                     final Message receivedMessage = newConnection.receiveMessage();
 
                     //System.out.println("Message received: " + receivedMessage.toString());
-
-                    if (!receivedMessage.getType().equals(MessageType.HELLO))
-                    {
+                    if (!receivedMessage.getType().equals(MessageType.HELLO)) {
                         System.err.println("Invalid message type, connection attempt will be dropped.");
-                    }
-                    else
-                    {
+                    } else {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
-                        if (newConnectionHandle != null)
-                        {
-                            synchronized (lock)
-                            {
+                        if (newConnectionHandle != null) {
+                            synchronized (lock) {
 
                                 //Set the connection handle so it can be used
                                 newConnection.setHandle(newConnectionHandle);
@@ -316,9 +273,7 @@ public class Agent extends ChatNode implements Connectable
                         }
                     }
 
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -332,10 +287,8 @@ public class Agent extends ChatNode implements Connectable
      *
      * @param connection
      */
-    protected void addConnection(final Connection connection)
-    {
-        synchronized (lock)
-        {
+    protected void addConnection(final Connection connection) {
+        synchronized (lock) {
             portal = new Pair<>(connection.getHandle(), connection);
         }
     }
@@ -347,10 +300,8 @@ public class Agent extends ChatNode implements Connectable
      * @throws IOException
      */
     @Override
-    protected void startPeerReceiver() throws UnknownHostException, IOException
-    {
-        if (serverSocket == null)
-        {
+    protected void startPeerReceiver() throws UnknownHostException, IOException {
+        if (serverSocket == null) {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
             acceptThread.start();
@@ -362,14 +313,10 @@ public class Agent extends ChatNode implements Connectable
      *
      * @return portal object.
      */
-    public String getPortal()
-    {
-        if (portal != null)
-        {
+    public String getPortal() {
+        if (portal != null) {
             return portal.getKey();
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -378,8 +325,7 @@ public class Agent extends ChatNode implements Connectable
      * remove an agents portal.
      */
     @Override
-    public void removeConnections()
-    {
+    public void removeConnections() {
         portal = null;
     }
 
@@ -389,8 +335,7 @@ public class Agent extends ChatNode implements Connectable
      * @throws IOException
      */
     @Override
-    public void begin() throws IOException
-    {
+    public void begin() throws IOException {
         startPeerReceiver();
         receiveThread.start();
     }
@@ -400,8 +345,7 @@ public class Agent extends ChatNode implements Connectable
      *
      * @return
      */
-    public LinkedList<String> getContacts()
-    {
+    public LinkedList<String> getContacts() {
         return contacts;
     }
 
@@ -410,8 +354,7 @@ public class Agent extends ChatNode implements Connectable
      *
      * @param handle
      */
-    public void setHandle(String handle)
-    {
+    public void setHandle(String handle) {
         this.handle = handle;
     }
 }
