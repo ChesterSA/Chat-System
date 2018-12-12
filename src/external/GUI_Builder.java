@@ -4,6 +4,7 @@
  */
 package external;
 
+
 import drivers.AgentTest;
 import drivers.DirectoryTest;
 import drivers.PortalTest;
@@ -86,7 +87,7 @@ public class GUI_Builder implements  Contactable
         DirectoryFrame.setVisible(false);
         DirectoryFrame.setResizable(false);
 
-        final JFrame agentFrame = new JFrame("Agent");
+        final JFrame agentFrame = new JFrame("Client");
         agentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         agentFrame.setLayout(new GridBagLayout());
@@ -97,7 +98,7 @@ public class GUI_Builder implements  Contactable
 
         // start of backing options an buttons
         //adding header
-        JLabel choice = new JLabel("Agent, Client, or Directory ? ", SwingConstants.CENTER);
+        JLabel choice = new JLabel("Portal, Client, or Directory ? ", SwingConstants.CENTER);
         addComponentToGridBag(backing, choice, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
         JButton Directory = new JButton("Directory");
@@ -132,7 +133,7 @@ public class GUI_Builder implements  Contactable
 
             }
         });
-        JButton agents = new JButton("Agent");
+        JButton agents = new JButton("Client");
         addComponentToGridBag(backing, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agents.addActionListener(new ActionListener()
         {
@@ -241,7 +242,7 @@ public class GUI_Builder implements  Contactable
 
                     }
                 });
-        JButton portalShowAgents = new JButton("Show Agents");
+        JButton portalShowAgents = new JButton("Show Client");
         addComponentToGridBag(PortalFrame, portalShowAgents, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalShowAgents.addActionListener(new ActionListener()
         {
@@ -299,7 +300,7 @@ public class GUI_Builder implements  Contactable
 
         //end of directory buttons
         // start of agent buttons
-        JLabel agantOptions = new JLabel("Agent Options ", SwingConstants.CENTER);
+        JLabel agantOptions = new JLabel("Client Options ", SwingConstants.CENTER);
         addComponentToGridBag(agentFrame, agantOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
         JButton agentNewConnections = new JButton("New Connections");
@@ -336,20 +337,8 @@ public class GUI_Builder implements  Contactable
 
             }
         });
-
-        JButton agentConnectDir = new JButton("Connect To directory");
-        addComponentToGridBag(agentFrame, agentConnectDir, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentConnectDir.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                connectToDir(agent);
-            }
-        });
-
         JButton agentRemoveConnections = new JButton("Remove Connections");
-        addComponentToGridBag(agentFrame, agentRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        addComponentToGridBag(agentFrame, agentRemoveConnections, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agentRemoveConnections.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -359,7 +348,7 @@ public class GUI_Builder implements  Contactable
             }
         });
         JButton agentexit= new JButton("Exit");
-        addComponentToGridBag(agentFrame, agentexit, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        addComponentToGridBag(agentFrame, agentexit, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agentexit.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -386,7 +375,7 @@ public class GUI_Builder implements  Contactable
     {
         String handle = "";
 
-        while ("".equals(handle))
+        while (handle.isEmpty())
         {
             handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
             if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
@@ -420,7 +409,7 @@ public class GUI_Builder implements  Contactable
                return ip;
            }
        }
-       while(find == false);
+       while(!find);
        return null;
     }
 
@@ -594,7 +583,7 @@ public class GUI_Builder implements  Contactable
                 JOptionPane.INFORMATION_MESSAGE, null,
                 msgOptions, msgOptions[0]);
 
-        String handle;
+        String handle = "";
 
         if (n == 0)
         {
@@ -604,8 +593,17 @@ public class GUI_Builder implements  Contactable
             {
                 contacts.add(c);
             }
+        
+        while (handle.isEmpty())
+        {
             handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
+            if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+            {
+             handle = "";            
+            }
+        } 
         }
+        
         else
         {
             handle = "all";
