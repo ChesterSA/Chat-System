@@ -19,15 +19,15 @@ import middleware.Message;
 public class Client implements Contactable
 {
     String name;
-    Agent a;
+    Agent agent;
     
     public Client(String name)
     {
         this.name = name;
-        a = new Agent(name, this);
+        agent = new Agent(name, this);
         try
         {
-            a.begin();
+            agent.begin();
         }
         catch (IOException ex)
         {
@@ -49,20 +49,20 @@ public class Client implements Contactable
     @Override
     public void sendMessage(String to, String content)
     {
-        Message m = new Message(a.getHandle(), to);
+        Message m = new Message(agent.getHandle(), to);
         m.append(content);
-        a.sendMessage(m);
+        agent.sendMessage(m);
     }
     
     @Override
     public void connectTo(String ip)
     {
-        a.connectTo(ip);
+        agent.connectTo(ip);
     }
 
     public Agent getAgent()
     {
-        return a;
+        return agent;
     }
 
 }

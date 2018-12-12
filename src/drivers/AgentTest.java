@@ -1,9 +1,6 @@
 package drivers;
 
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +14,7 @@ import middleware.MessageType;
  */
 public class AgentTest extends Driver
 {
-    static Agent a;
+    static Agent agent;
     /**
      * @param args Command line arguments.
      */
@@ -28,11 +25,11 @@ public class AgentTest extends Driver
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        a = new Agent(myHandle, "0.0.0.0");
+        agent = new Agent(myHandle, "0.0.0.0");
 
         try
         {
-            a.begin();
+            agent.begin();
             boolean connected = false;
             while (true)
             {
@@ -60,7 +57,7 @@ public class AgentTest extends Driver
                         displayConnectionList();
                         break;
                     case "4":
-                        a.removeConnections();
+                        agent.removeConnections();
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -82,7 +79,7 @@ public class AgentTest extends Driver
     private static void sendMessage()
     {
         System.out.println("Current connections:");
-        for (String c : a.getContacts())
+        for (String c : agent.getContacts())
         {
             System.out.print(c + " ");
             System.out.println();
@@ -95,16 +92,16 @@ public class AgentTest extends Driver
         Message newMessage;
         if (handle.equals("all"))
         {
-            newMessage = new Message(a.getHandle(), handle, MessageType.BROADCAST);
+            newMessage = new Message(agent.getHandle(), handle, MessageType.BROADCAST);
         }
         else
         {
-            newMessage = new Message(a.getHandle(), handle, MessageType.STANDARD);
+            newMessage = new Message(agent.getHandle(), handle, MessageType.STANDARD);
         }
 
         newMessage.append(gets());
 
-        a.sendMessage(newMessage);
+        agent.sendMessage(newMessage);
     }
 
     /**
@@ -116,7 +113,7 @@ public class AgentTest extends Driver
         System.out.println("What is the IP address of the portal to connect to?");
         System.out.print(ipBase);
         String ipAddressOfPeer = gets();
-        a.connectTo(ipBase + ipAddressOfPeer);
+        agent.connectTo(ipBase + ipAddressOfPeer);
     }
 
     /**
@@ -126,13 +123,13 @@ public class AgentTest extends Driver
     private static void displayConnectionList()
     {
         System.out.println();
-        if (a.getPortal() == null)
+        if (agent.getPortal() == null)
         {
             System.out.println("No Portal Connected");
         }
         else
         {
-            System.out.println("Current Portal handle is: " + a.getPortal());
+            System.out.println("Current Portal handle is: " + agent.getPortal());
         }
         System.out.println();
     }

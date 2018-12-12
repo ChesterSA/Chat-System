@@ -12,7 +12,7 @@ import middleware.Portal;
  */
 public class PortalTest extends Driver
 { 
-    static Portal p;
+    static Portal portal;
     /**
      * @param args the command line arguments
      */
@@ -22,7 +22,7 @@ public class PortalTest extends Driver
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        p = new Portal(myHandle, "0.0.0.0");
+        portal = new Portal(myHandle, "0.0.0.0");
         
         System.out.println("Do you want a NodeMonitor on this portal? (true/false)");
         
@@ -30,12 +30,12 @@ public class PortalTest extends Driver
         if(ifNodeMonitor)
         {
             
-            p.addNodeMonitor();
+            portal.addNodeMonitor();
         }
 
         try
         {
-            p.begin();
+            portal.begin();
 
             while (true)
             {
@@ -61,7 +61,7 @@ public class PortalTest extends Driver
                         managePortals();
                         break;
                     case "4":
-                        p.removeConnections();
+                        portal.removeConnections();
                         System.out.println("All connections removed");
                     case "5":
                         connectToDir();
@@ -87,7 +87,7 @@ public class PortalTest extends Driver
         System.out.println("What is the IP address of the peer to connect to?");
         System.out.print(ipBase);
         String ipAddressOfPeer = gets();
-        p.connectTo(ipBase + ipAddressOfPeer);
+        portal.connectTo(ipBase + ipAddressOfPeer);
     }
 
     /**
@@ -109,7 +109,7 @@ public class PortalTest extends Driver
                 displayAgentList();
                 break;
             case "2":
-                p.removeAgents();
+                portal.removeAgents();
                 System.out.println("All agents removed");
                 break;
             case "3":
@@ -126,12 +126,10 @@ public class PortalTest extends Driver
      */
     private static void displayAgentList()
     {
-        System.out.println("\nAmount of agents = " + p.getAgentHandles().size());
+        System.out.println("\nAmount of agents = " + portal.getAgentHandles().size());
 
-        System.out.println(
-                String.format(
-                        "Connected agents handles\n%s\n",
-                        String.join(", ", p.getAgentHandles())
+        System.out.println(String.format("Connected agents handles\n%s\n",
+                        String.join(", ", portal.getAgentHandles())
                 )
         );
     }
@@ -144,7 +142,7 @@ public class PortalTest extends Driver
     {
         System.out.println("What is the handle of the agent to remove?");
         String handle = gets();
-        p.removeAgent(handle);
+        portal.removeAgent(handle);
     }
 
     /**
@@ -165,7 +163,7 @@ public class PortalTest extends Driver
             case "1":
                 displayPortalList();
             case "2":
-                p.removePortals();
+                portal.removePortals();
                 System.out.println("All portals removed");
                 break;
             case "3":
@@ -183,12 +181,10 @@ public class PortalTest extends Driver
     private static void displayPortalList()
     {
 
-        System.out.println("\nAmount of portals = " + p.getPortalHandles().size());
+        System.out.println("\nAmount of portals = " + portal.getPortalHandles().size());
 
-        System.out.println(
-                String.format(
-                        "Connected portals handles\n%s\n",
-                        String.join(", ", p.getPortalHandles())
+        System.out.println(String.format("Connected portals handles\n%s\n",
+                        String.join(", ", portal.getPortalHandles())
                 )
         );
     }
@@ -201,7 +197,7 @@ public class PortalTest extends Driver
     {
         System.out.println("What is the handle of the portal to remove?");
         String handle = gets();
-        p.removePortal(handle);
+        portal.removePortal(handle);
     }
 
     /**
@@ -221,7 +217,7 @@ public class PortalTest extends Driver
      */
     private static void connectToDir()
     {
-        p.connectTo(dir);
+        portal.connectTo(dir);
     }
 
 }

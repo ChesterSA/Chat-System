@@ -15,14 +15,14 @@ import java.util.Scanner;
  */
 public class ClientTest extends Driver
 {
-    static Client c;
+    static Client client;
     public static void main(String[] args)
     {
         System.out.println("Client Handle?");
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        c = new Client(myHandle);
+        client = new Client(myHandle);
         boolean connected = false;
 
         while (true)
@@ -80,13 +80,13 @@ public class ClientTest extends Driver
         System.out.print("What is the message content: ");
         String content = gets();
 
-        c.sendMessage(to, content);
+        client.sendMessage(to, content);
     }
 
     private static void displayContacts()
     {
         System.out.println("Currently connected to: ");
-        for (String s : c.getAgent().getContacts())
+        for (String s : client.getAgent().getContacts())
         {
             System.out.print(s + " ");
         }
@@ -96,6 +96,6 @@ public class ClientTest extends Driver
     {
         System.out.print("What is the ip to connect to: " + ipBase);
         String ip = gets();
-        c.getAgent().connectTo(ipBase + ip);
+        client.getAgent().connectTo(ipBase + ip);
     }
 }
