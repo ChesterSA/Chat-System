@@ -56,12 +56,15 @@ public class GUI_Builder implements  Contactable
     Agent agent = new Agent("", this);
     String myHandle = "dir";
     Directory dir = new Directory(myHandle, "0.0.0.0");
-        
+    final JFrame DirectoryFrame = new JFrame("Directory");
+    final JFrame backing = new JFrame("Start Up");   
+    final JFrame PortalFrame = new JFrame("Portal");
+    final JFrame agentFrame = new JFrame("Client");
     public GUI_Builder()
     {
 
         //main frame
-        final JFrame backing = new JFrame("Start Up");
+        
         backing.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         backing.setLayout(new GridBagLayout());
@@ -69,7 +72,7 @@ public class GUI_Builder implements  Contactable
         /**
         * Adding components to the gridBag layout.
         */
-        final JFrame PortalFrame = new JFrame("Portal");
+        
         PortalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         PortalFrame.setLayout(new GridBagLayout());
@@ -78,7 +81,7 @@ public class GUI_Builder implements  Contactable
         PortalFrame.setVisible(false);
         PortalFrame.setResizable(false);
 
-        final JFrame DirectoryFrame = new JFrame("Directory");
+       
         DirectoryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         DirectoryFrame.setLayout(new GridBagLayout());
@@ -87,7 +90,7 @@ public class GUI_Builder implements  Contactable
         DirectoryFrame.setVisible(false);
         DirectoryFrame.setResizable(false);
 
-        final JFrame agentFrame = new JFrame("Client");
+        
         agentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         agentFrame.setLayout(new GridBagLayout());
@@ -140,7 +143,7 @@ public class GUI_Builder implements  Contactable
             public void actionPerformed(ActionEvent e)
             {
                 // close first Frame
-                backing.dispose();
+                backing.setVisible(false);
                 try
                 {
                     String myHandle = handle();
@@ -163,7 +166,7 @@ public class GUI_Builder implements  Contactable
             public void actionPerformed(ActionEvent e)
             {
                 // close first Frame
-                backing.dispose();
+                backing.setVisible(false);
                 
                 try
                 {
@@ -378,13 +381,18 @@ public class GUI_Builder implements  Contactable
         while (handle.isEmpty())
         {
             handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+            if(handle == null)
+            {
+                backing.setVisible(true);
+            }
             if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
             {
              handle = "";            
             }
+            
         } 
-
-        System.out.println("your handler name is: " + handle);
+        backing.dispose();
+        
         return handle;
     }
 
