@@ -12,22 +12,22 @@ import middleware.Directory;
  */
 public class DirectoryTest extends Driver
 {
-    static Directory dir;
+    static Directory d;
     /**
      * @param args Command line arguments.
      */
     public static void main(String[] args)
     {
-        // Always the handle of a directory.
+        // Always the handle of a dectory.
         String myHandle = "dir";
 
         //Change 0.0.0.0 to a more specific ip address range or
         //specific ip address.
-        dir = new Directory(myHandle, "0.0.0.0");
+        d = new Directory(myHandle, "0.0.0.0");
 
         try
         {
-            dir.begin();
+            d.begin();
 
             while (true)
             {
@@ -43,7 +43,7 @@ public class DirectoryTest extends Driver
                         displayConnectionList();
                         break;
                     case "2":
-                        dir.removeConnections();
+                        d.removeConnections();
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -63,7 +63,7 @@ public class DirectoryTest extends Driver
      */
     private static void displayConnectionList()
     {
-        if (!dir.hasConnections())
+        if (!d.hasConnections())
         {
             System.out.println("\n* No portals connected *\n");
             return;
@@ -72,7 +72,7 @@ public class DirectoryTest extends Driver
         System.out.println(
                 String.format(
                         "Connected portal handles\n%s\n",
-                        String.join(", ", dir.getConnectionHandles())
+                        String.join(", ", d.getConnectionHandles())
                 )
         );
     }
