@@ -10,13 +10,8 @@ import middleware.Portal;
  * Driver to create a portal class for testing
  * @author Group B
  */
-public class PortalTest
-{
-    /**
-     * The first three groups of the ip, used to remove some user effort
-     */
-    static String ipBase = "192.168.5.";
-    
+public class PortalTest extends Driver
+{ 
     /**
      * @param args the command line arguments
      */

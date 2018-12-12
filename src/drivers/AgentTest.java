@@ -12,13 +12,8 @@ import middleware.MessageType;
  * Driver to create an agent class for testing
  * @author Group B
  */
-public class AgentTest
+public class AgentTest extends Driver
 {
-    /**
-     * The IP elements all connections inside the system share.
-     */
-    static String ipBase = "192.168.5.";
-    
     /**
      * @param args Command line arguments.
      */

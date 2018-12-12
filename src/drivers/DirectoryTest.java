@@ -10,7 +10,7 @@ import middleware.Directory;
  *
  * @author Group B
  */
-public class DirectoryTest
+public class DirectoryTest extends Driver
 {
 
     /**

@@ -13,12 +13,12 @@ import java.util.Scanner;
  *
  * @author s6089488
  */
-public class ClientTest
+public class ClientTest extends Driver
 {
 
     public static void main(String[] args)
     {
-
+        
         System.out.println("Client Handle?");
         String myHandle = gets();
 
@@ -93,8 +93,8 @@ public class ClientTest
 
     private static void connectTo(Client c)
     {
-        System.out.print("What is the ip to connect to: ");
+        System.out.print("What is the ip to connect to: " + ipBase);
         String ip = gets();
-        c.getAgent().connectTo(ip);
+        c.getAgent().connectTo(ipBase + ip);
     }
 }
