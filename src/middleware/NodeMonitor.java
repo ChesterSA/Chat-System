@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
@@ -43,6 +45,9 @@ public class NodeMonitor {
             System.err.println("There has been an input/output error");
         }
         
+        String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        
+        nodeMonitor.print(currentTime + "\t");        
         nodeMonitor.print("From: " + m.getFrom() + "\t");
         nodeMonitor.print("To: " + m.getTo() + "\t");
         nodeMonitor.print("Type: " + m.getType() + "\t");
