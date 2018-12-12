@@ -142,7 +142,7 @@ public class GUI_Builder implements Contactable
                 backing.setVisible(false);
                 try
                 {
-                    String myHandle = handle();
+                    String myHandle = getHandle();
                     agent.setHandle(myHandle);
                     agent.begin();
                 }
@@ -167,9 +167,9 @@ public class GUI_Builder implements Contactable
                 try
                 {
                     // gets handler name
-                    String myHandle = handle();
+                    String myHandle = getHandle();
                     portal.setHandle(myHandle);
-                    int nodeMonitor = JOptionPane.showConfirmDialog((Component) null, "Would you like a node monitor on htis portal",
+                    int nodeMonitor = JOptionPane.showConfirmDialog((Component) null, "Would you like a node monitor on this portal",
                             "alert", JOptionPane.YES_NO_OPTION);
 
                     if (nodeMonitor == 0)
@@ -302,7 +302,7 @@ public class GUI_Builder implements Contactable
         JLabel agantOptions = new JLabel("Client Options ", SwingConstants.CENTER);
         addComponentToGridBag(agentFrame, agantOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
-        JButton agentNewConnections = new JButton("New Connections");
+        JButton agentNewConnections = new JButton("Connect to Portal");
         addComponentToGridBag(agentFrame, agentNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agentNewConnections.addActionListener(new ActionListener()
         {
@@ -370,18 +370,18 @@ public class GUI_Builder implements Contactable
      *
      * @return handle name for the agents and the portals
      */
-    public String handle()
+    public String getHandle()
     {
         String handle = "";
 
         while (handle.isEmpty())
         {
-            handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
+            handle = JOptionPane.showInputDialog(null, "Enter handle", "Handle", JOptionPane.QUESTION_MESSAGE);
             if (handle == null)
             {
                 backing.setVisible(true);
             }
-            if (!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+            if (!handle.matches("^[^\\d\\s]+$"))
             {
                 handle = "";
             }
