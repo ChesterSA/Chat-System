@@ -1,5 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
+/* * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -53,7 +52,7 @@ public class GUI_Builder implements  Contactable
      * Initialising empty middleware nodes
      */
     Portal portal = new Portal("", "0.0.0.0");
-    Agent agent = new Agent("", "0.0.0.0");
+    Agent agent = new Agent("", this);
     String myHandle = "dir";
     Directory dir = new Directory(myHandle, "0.0.0.0");
         
@@ -652,6 +651,6 @@ public class GUI_Builder implements  Contactable
     @Override
     public void connectTo(String ip)
     {
-        this.connectTo(ip);
+        agent.connectTo(ip);
     }
 }

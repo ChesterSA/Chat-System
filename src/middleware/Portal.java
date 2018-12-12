@@ -29,6 +29,11 @@ public class Portal extends ChatNode implements Connectable
      * Hashmap containing handle and connection of all connected portals
      */
     protected HashMap<String, Connection> agents = new HashMap<>();
+    
+    /**
+     * Monitor which when set will keep track of all messages through the portal
+     */
+    protected NodeMonitor nodeMonitor;
 
     /**
      * Creates a new portal from the handle given
@@ -126,6 +131,11 @@ public class Portal extends ChatNode implements Connectable
                             if (c.hasMessage())
                             {
                                 Message receivedMessage = c.receiveMessage();
+                                
+                                if(nodeMonitor != null)
+                                {
+                                    nodeMonitor.handleMessage(receivedMessage);
+                                }
 
                                 if (receivedMessage.getType().equals(MessageType.AGENT))
                                 {
@@ -136,7 +146,6 @@ public class Portal extends ChatNode implements Connectable
                                         {
                                             if (agents.containsKey(handle))
                                             {
-                                                //System.out.println("Removing agent " + handle);
                                                 removeAgent(handle);
                                             }
                                             else
@@ -517,6 +526,23 @@ public class Portal extends ChatNode implements Connectable
     {
         portals = new HashMap<>();
         agents = new HashMap<>();
+    }
+    
+    /**
+     * Adds new node monitor to portal
+     * @param location Name of monitoring file
+     */
+    public void addNodeMonitor(String location)
+    {
+        nodeMonitor = new NodeMonitor(location);
+    }
+    
+    /**
+     * Removes node monitor from portal
+     */
+    public void removeNodeMonitor()
+    {
+        nodeMonitor = null;
     }
 
     /**
