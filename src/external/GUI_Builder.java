@@ -98,10 +98,10 @@ public class GUI_Builder implements  Contactable
 
         // start of backing options an buttons
         //adding header
-        JLabel choice = new JLabel("ChatNode or Directory ? ", SwingConstants.CENTER);
+        JLabel choice = new JLabel("Agent, Client, or Directory ? ", SwingConstants.CENTER);
         addComponentToGridBag(backing, choice, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
-        JButton Directory = new JButton("Direcotory");
+        JButton Directory = new JButton("Directory");
         addComponentToGridBag(backing, Directory, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         Directory.addActionListener(new ActionListener()
         {
