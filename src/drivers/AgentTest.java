@@ -30,14 +30,17 @@ public class AgentTest extends Driver
         try
         {
             a.begin();
-
+            boolean connected = false;
             while (true)
             {
                 System.out.println("Agent Options:");
                 System.out.println("1. New Connection");
+                if (connected)
+                {
                 System.out.println("2. Send Message");
                 System.out.println("3. Show Portal");
                 System.out.println("4. Remove Portal");
+                }
                 System.out.println("> ");
                 final String option = gets();
 
@@ -45,6 +48,7 @@ public class AgentTest extends Driver
                 {
                     case "1":
                         newConnection();
+                        connected = true;
                         break;
                     case "2":
                         sendMessage();
