@@ -25,7 +25,6 @@ public class NodeMonitor {
     NodeMonitor(String pH)
     {
         portalHandle = pH;
-        
     }    
         
     public void handleMessage(Message m)
@@ -49,8 +48,8 @@ public class NodeMonitor {
         
         nodeMonitor.print(currentTime + "\t");        
         nodeMonitor.print("From: " + m.getFrom() + "\t");
-        nodeMonitor.print("To: " + m.getTo() + "\t");
-        nodeMonitor.print("Type: " + m.getType() + "\t");
+        nodeMonitor.print("To: " + m.getTo() + "\t\t");
+        nodeMonitor.print("Type: " + m.getType() + "\t\t");
         nodeMonitor.print("Content: " + m.getContent());
         nodeMonitor.println();
         
