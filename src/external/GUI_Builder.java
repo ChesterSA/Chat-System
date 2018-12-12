@@ -163,13 +163,21 @@ public class GUI_Builder implements  Contactable
             {
                 // close first Frame
                 backing.dispose();
-
+                
                 try
                 {
                     // gets handler name
                     String myHandle = handle();
                     portal.setHandle(myHandle);
-                    portal.begin();
+                 int nodeMonitor = JOptionPane.showConfirmDialog((Component) null, "Would you like a node monitor on htis portal",
+                "alert", JOptionPane.YES_NO_OPTION);
+                
+                if(nodeMonitor == 0)
+                {
+                    portal.addNodeMonitor();       
+                    System.out.println("Node Moniter has started");
+                }    
+                portal.begin();
                 }
                 catch (IOException ex)
                 {
@@ -243,9 +251,10 @@ public class GUI_Builder implements  Contactable
                 displayAgentList(portal);
 
             }
-        });
+        });      
+        
         JButton portalexit= new JButton("Exit");
-        addComponentToGridBag(PortalFrame, portalexit, 0, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        addComponentToGridBag(PortalFrame, portalexit, 0, 7, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalexit.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
