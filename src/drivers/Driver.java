@@ -11,7 +11,6 @@ package drivers;
  */
 public class Driver
 {
-
     protected static String ipBase = "152.105.67.";
 
     protected static String dir = "152.105.67.123";

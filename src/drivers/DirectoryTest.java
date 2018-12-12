@@ -12,7 +12,7 @@ import middleware.Directory;
  */
 public class DirectoryTest extends Driver
 {
-
+    static Directory dir;
     /**
      * @param args Command line arguments.
      */
@@ -23,7 +23,7 @@ public class DirectoryTest extends Driver
 
         //Change 0.0.0.0 to a more specific ip address range or
         //specific ip address.
-        Directory dir = new Directory(myHandle, "0.0.0.0");
+        dir = new Directory(myHandle, "0.0.0.0");
 
         try
         {
@@ -31,7 +31,6 @@ public class DirectoryTest extends Driver
 
             while (true)
             {
-
                 System.out.println("Options:");
                 System.out.println("1. Show connections");
                 System.out.println("2. Remove connections");
@@ -41,7 +40,7 @@ public class DirectoryTest extends Driver
                 switch (option)
                 {
                     case "1":
-                        displayConnectionList(dir);
+                        displayConnectionList();
                         break;
                     case "2":
                         dir.removeConnections();
@@ -62,9 +61,9 @@ public class DirectoryTest extends Driver
      * Display list of current connection handle strings for a given directory.
      * @param me Directory to be searched.
      */
-    private static void displayConnectionList(Directory me)
+    private static void displayConnectionList()
     {
-        if (!me.hasConnections())
+        if (!dir.hasConnections())
         {
             System.out.println("\n* No portals connected *\n");
             return;
@@ -73,7 +72,7 @@ public class DirectoryTest extends Driver
         System.out.println(
                 String.format(
                         "Connected portal handles\n%s\n",
-                        String.join(", ", me.getConnectionHandles())
+                        String.join(", ", dir.getConnectionHandles())
                 )
         );
     }

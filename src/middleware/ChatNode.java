@@ -113,7 +113,7 @@ public abstract class ChatNode {
      * Abstract method to send a message
      * @param message the message to be sent
      */
-    public abstract void sendMessage(Message message);
+    //public abstract void sendMessage(Message message);
     
     /**
      * abstract method to remove connections from the node

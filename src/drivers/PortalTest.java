@@ -12,6 +12,7 @@ import middleware.Portal;
  */
 public class PortalTest extends Driver
 { 
+    static Portal p;
     /**
      * @param args the command line arguments
      */
@@ -34,7 +35,7 @@ public class PortalTest extends Driver
 
         try
         {
-            portal.begin();
+            p.begin();
 
             while (true)
             {
@@ -51,19 +52,19 @@ public class PortalTest extends Driver
                 switch (option)
                 {
                     case "1":
-                        newConnection(portal);
+                        newConnection();
                         break;
                     case "2":
-                        manageAgents(portal);
+                        manageAgents();
                         break;
                     case "3":
-                        managePortals(portal);
+                        managePortals();
                         break;
                     case "4":
-                        portal.removeConnections();
+                        p.removeConnections();
                         System.out.println("All connections removed");
                     case "5":
-                        connectToDir(portal);
+                        connectToDir();
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -81,19 +82,19 @@ public class PortalTest extends Driver
      * Gets the ip to connect the portal to, and then call the connectTo method 
      * @param me the portal being used
      */
-    private static void newConnection(Portal me)
+    private static void newConnection()
     {
         System.out.println("What is the IP address of the peer to connect to?");
         System.out.print(ipBase);
         String ipAddressOfPeer = gets();
-        me.connectTo(ipBase + ipAddressOfPeer);
+        p.connectTo(ipBase + ipAddressOfPeer);
     }
 
     /**
      * Method for managing agent details
      * @param me 
      */
-    private static void manageAgents(Portal me)
+    private static void manageAgents()
     {
         System.out.println("Agent Management:");
         System.out.println("1. Show agents");
@@ -105,14 +106,14 @@ public class PortalTest extends Driver
         switch (option)
         {
             case "1":
-                displayAgentList(me);
+                displayAgentList();
                 break;
             case "2":
-                me.removeAgents();
+                p.removeAgents();
                 System.out.println("All agents removed");
                 break;
             case "3":
-                removeAgent(me);
+                removeAgent();
                 break;
             default:
                 System.err.println("Invalid option.");
@@ -123,14 +124,14 @@ public class PortalTest extends Driver
      * Displays a list of agents connected to the portal
      * @param me the portal whose agents are to be displayed
      */
-    private static void displayAgentList(Portal me)
+    private static void displayAgentList()
     {
-        System.out.println("\nAmount of agents = " + me.getAgentHandles().size());
+        System.out.println("\nAmount of agents = " + p.getAgentHandles().size());
 
         System.out.println(
                 String.format(
                         "Connected agents handles\n%s\n",
-                        String.join(", ", me.getAgentHandles())
+                        String.join(", ", p.getAgentHandles())
                 )
         );
     }
@@ -139,18 +140,18 @@ public class PortalTest extends Driver
      * Removes a specified agent from the portal
      * @param me the portal where the agent is connected
      */
-    private static void removeAgent(Portal me)
+    private static void removeAgent()
     {
         System.out.println("What is the handle of the agent to remove?");
         String handle = gets();
-        me.removeAgent(handle);
+        p.removeAgent(handle);
     }
 
     /**
      * Method used to handle different portal based actions
      * @param me the portal to be managed
      */
-    private static void managePortals(Portal me)
+    private static void managePortals()
     {
         System.out.println("Portal Management:");
         System.out.println("1. Show portals");
@@ -162,14 +163,13 @@ public class PortalTest extends Driver
         switch (option)
         {
             case "1":
-                displayPortalList(me);
-                break;
+                displayPortalList();
             case "2":
-                me.removePortals();
+                p.removePortals();
                 System.out.println("All portals removed");
                 break;
             case "3":
-                removePortal(me);
+                removePortal();
                 break;
             default:
                 System.err.println("Invalid option.");
@@ -180,15 +180,15 @@ public class PortalTest extends Driver
      * Displays a list of portals connected to the portal
      * @param me the portal whose portals are to be displayed
      */
-    private static void displayPortalList(Portal me)
+    private static void displayPortalList()
     {
 
-        System.out.println("\nAmount of portals = " + me.getPortalHandles().size());
+        System.out.println("\nAmount of portals = " + p.getPortalHandles().size());
 
         System.out.println(
                 String.format(
                         "Connected portals handles\n%s\n",
-                        String.join(", ", me.getPortalHandles())
+                        String.join(", ", p.getPortalHandles())
                 )
         );
     }
@@ -197,11 +197,11 @@ public class PortalTest extends Driver
      * Removes a specified agent from the portal
      * @param me the portal where the agent is connected
      */
-    private static void removePortal(Portal me)
+    private static void removePortal()
     {
         System.out.println("What is the handle of the portal to remove?");
         String handle = gets();
-        me.removePortal(handle);
+        p.removePortal(handle);
     }
 
     /**
@@ -219,9 +219,9 @@ public class PortalTest extends Driver
      * Currently mostly in for testing ease, there may be issues in deployment
      * @param p the Portal to be connected to the directory
      */
-    private static void connectToDir(Portal p)
+    private static void connectToDir()
     {
-        p.connectTo("152.105.67.116");
+        p.connectTo(dir);
     }
 
 }

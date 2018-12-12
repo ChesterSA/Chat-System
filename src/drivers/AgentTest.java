@@ -14,6 +14,7 @@ import middleware.MessageType;
  */
 public class AgentTest extends Driver
 {
+    static Agent a;
     /**
      * @param args Command line arguments.
      */
@@ -24,40 +25,39 @@ public class AgentTest extends Driver
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        Agent agent = new Agent(myHandle, "0.0.0.0");
+        a = new Agent(myHandle, "0.0.0.0");
 
         try
         {
-            agent.begin();
-
+            a.begin();
+            boolean connected = false;
             while (true)
             {
-
                 System.out.println("Agent Options:");
                 System.out.println("1. New Connection");
+                if (connected)
+                {
                 System.out.println("2. Send Message");
                 System.out.println("3. Show Portal");
-                System.out.println("4. Connect to dir");
-                System.out.println("5. Remove Portal");
+                System.out.println("4. Remove Portal");
+                }
                 System.out.println("> ");
                 final String option = gets();
 
                 switch (option)
                 {
                     case "1":
-                        newConnection(agent);
+                        newConnection();
+                        connected = true;
                         break;
                     case "2":
-                        sendMessage(agent);
+                        sendMessage();
                         break;
                     case "3":
-                        displayConnectionList(agent);
+                        displayConnectionList();
                         break;
                     case "4":
-                        connectToDir(agent);
-                        break;
-                    case "5":
-                        agent.removeConnections();
+                        a.removeConnections();
                         break;
                     default:
                         System.err.println("Invalid option.");
@@ -76,10 +76,10 @@ public class AgentTest extends Driver
      * in the system.
      * @param me The agent sending the message.
      */
-    private static void sendMessage(Agent me)
+    private static void sendMessage()
     {
         System.out.println("Current connections:");
-        for (String c : me.getContacts())
+        for (String c : a.getContacts())
         {
             System.out.print(c + " ");
             System.out.println();
@@ -92,44 +92,44 @@ public class AgentTest extends Driver
         Message newMessage;
         if (handle.equals("all"))
         {
-            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
+            newMessage = new Message(a.getHandle(), handle, MessageType.BROADCAST);
         }
         else
         {
-            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
+            newMessage = new Message(a.getHandle(), handle, MessageType.STANDARD);
         }
 
         newMessage.append(gets());
 
-        me.sendMessage(newMessage);
+        a.sendMessage(newMessage);
     }
 
     /**
      * Displays to the user what is needed to add a new connection to the agent.
      * @param me Agent to be added to.
      */
-    private static void newConnection(Agent me)
+    private static void newConnection()
     {
         System.out.println("What is the IP address of the portal to connect to?");
         System.out.print(ipBase);
         String ipAddressOfPeer = gets();
-        me.connectTo(ipBase + ipAddressOfPeer);
+        a.connectTo(ipBase + ipAddressOfPeer);
     }
 
     /**
      * Displays current portal handle of agent.
      * @param me Agent to be searched.
      */
-    private static void displayConnectionList(Agent me)
+    private static void displayConnectionList()
     {
         System.out.println();
-        if (me.getPortal() == null)
+        if (a.getPortal() == null)
         {
             System.out.println("No Portal Connected");
         }
         else
         {
-            System.out.println("Current Portal handle is: " + me.getPortal());
+            System.out.println("Current Portal handle is: " + a.getPortal());
         }
         System.out.println();
     }
@@ -144,12 +144,4 @@ public class AgentTest extends Driver
         return sc.nextLine();
     }
 
-    /**
-     * Connects to current directory inside the system.
-     * @param a Agent to connect.
-     */
-    private static void connectToDir(Agent a)
-    {
-        a.connectTo("152.105.67.116");
-    }
 }
