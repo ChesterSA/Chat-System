@@ -87,7 +87,6 @@ public class Portal extends ChatNode implements Connectable
     //@Override
     public void sendMessage()
     {
-        //System.out.println("Sending message " + message.toString());
         synchronized (lock)
         {
             try
@@ -112,7 +111,6 @@ public class Portal extends ChatNode implements Connectable
                 {
                     if (agents.containsKey(message.getTo()))
                     {
-                        System.out.println(message);
                         agents.get(message.getTo()).sendMessage(message);
                     }
                     else
@@ -574,8 +572,6 @@ public class Portal extends ChatNode implements Connectable
     
     /**
      * Adds new node monitor to portal
-     * @param portalHandle
-     * @param location Name of monitoring file
      */
     public void addNodeMonitor()
     {

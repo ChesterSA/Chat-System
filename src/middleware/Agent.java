@@ -170,6 +170,7 @@ public class Agent extends ChatNode implements Connectable
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
+                    Thread.sleep(60000);
                     partialConnection.sendMessage(new Message(handle, MessageType.AGENT));
 
                     //Wait for a response from this connection.
@@ -206,6 +207,10 @@ public class Agent extends ChatNode implements Connectable
                 catch (IOException ex)
                 {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+                catch (InterruptedException ex) 
+                {
+                    Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
