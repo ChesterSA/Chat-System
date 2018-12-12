@@ -67,7 +67,8 @@ public final class DirectoryFrame extends MyFrame
         JOptionPane.showMessageDialog(null, dir.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void addButtons()
+    @Override
+    protected void addButtons()
     {
         //start of the directory buttons
         JLabel directoryOptions = new JLabel("Directory Options", SwingConstants.CENTER);

@@ -106,7 +106,13 @@ public final class ClientFrame extends MyFrame
             while (handle.isEmpty())
             {
                 handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
-                if (!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+                if (handle == null)
+                {
+                    setVisible(false);
+                    //Doesn't error now, but immediately exiting program isn't useful
+                    System.exit(0);
+                }
+                if (!handle.matches("^[^\\d\\s]+$"))
                 {
                     handle = "";
                 }
@@ -134,7 +140,8 @@ public final class ClientFrame extends MyFrame
         }
     }
 
-    private void addButtons()
+    @Override
+    protected void addButtons()
     {
         JLabel agentOptions = new JLabel("Client Options ", SwingConstants.CENTER);
         addComponentToGridBag(this, agentOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);

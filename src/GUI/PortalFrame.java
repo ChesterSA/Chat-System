@@ -90,7 +90,8 @@ public final class PortalFrame extends MyFrame
         JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    private void addButtons()
+    @Override
+    protected void addButtons()
     {
         JLabel portalOptions = new JLabel("Portal Options ", SwingConstants.CENTER);
         addComponentToGridBag(this, portalOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);

@@ -34,7 +34,8 @@ public final class MainFrame extends MyFrame
         this.setVisible(true);
     }
     
-    private void addButtons()
+    @Override
+    protected void addButtons()
     {
         JLabel choice = new JLabel("Portal, Client, or Directory ? ", SwingConstants.CENTER);
         addComponentToGridBag(this, choice, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);

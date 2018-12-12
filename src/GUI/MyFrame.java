@@ -75,7 +75,7 @@ public abstract class MyFrame extends JFrame implements Contactable
     }
     
     /**
-     * Gets input for a ChatNodes handle.
+     * Gets input for a ChatNode's handle.
      *
      * @return handle name for the agents and the portals
      */
@@ -89,6 +89,7 @@ public abstract class MyFrame extends JFrame implements Contactable
             if (handle == null)
             {
                 setVisible(false);
+                
                 //Doesn't error now, but immediately exiting program isn't useful
                 System.exit(0);
             }
@@ -96,8 +97,8 @@ public abstract class MyFrame extends JFrame implements Contactable
             {
                 handle = "";
             }
-
         }
+        
         dispose();
 
         return handle;
@@ -139,5 +140,7 @@ public abstract class MyFrame extends JFrame implements Contactable
     {
         
     }
+    
+    protected abstract void addButtons();
     
 }
