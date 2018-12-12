@@ -2,7 +2,6 @@ package middleware;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 
 /**
  * The message object that is passed along the network by ChatNodes
