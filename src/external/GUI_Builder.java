@@ -4,7 +4,6 @@
  */
 package external;
 
-
 import drivers.AgentTest;
 import drivers.DirectoryTest;
 import drivers.PortalTest;
@@ -32,13 +31,13 @@ import middleware.MessageType;
 import middleware.Portal;
 
 /**
-* A GUI used to create directories, agents, or portals and use their actions
-*
-* @author Group B
-*/
-
-public class GUI_Builder implements  Contactable
+ * A GUI used to create directories, agents, or portals and use their actions
+ *
+ * @author Group B
+ */
+public class GUI_Builder implements Contactable
 {
+
     /**
      * The base ip used for autofilling forms
      */
@@ -48,7 +47,7 @@ public class GUI_Builder implements  Contactable
      * Gridlayout feature
      */
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
-    
+
     /**
      * Initialising empty middleware nodes
      */
@@ -57,22 +56,21 @@ public class GUI_Builder implements  Contactable
     String myHandle = "dir";
     Directory dir = new Directory(myHandle, "0.0.0.0");
     final JFrame DirectoryFrame = new JFrame("Directory");
-    final JFrame backing = new JFrame("Start Up");   
+    final JFrame backing = new JFrame("Start Up");
     final JFrame PortalFrame = new JFrame("Portal");
     final JFrame agentFrame = new JFrame("Client");
+
     public GUI_Builder()
     {
 
         //main frame
-        
         backing.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         backing.setLayout(new GridBagLayout());
 
         /**
-        * Adding components to the gridBag layout.
-        */
-        
+         * Adding components to the gridBag layout.
+         */
         PortalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         PortalFrame.setLayout(new GridBagLayout());
@@ -81,7 +79,6 @@ public class GUI_Builder implements  Contactable
         PortalFrame.setVisible(false);
         PortalFrame.setResizable(false);
 
-       
         DirectoryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         DirectoryFrame.setLayout(new GridBagLayout());
@@ -90,7 +87,6 @@ public class GUI_Builder implements  Contactable
         DirectoryFrame.setVisible(false);
         DirectoryFrame.setResizable(false);
 
-        
         agentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set layout to your frame
         agentFrame.setLayout(new GridBagLayout());
@@ -167,21 +163,21 @@ public class GUI_Builder implements  Contactable
             {
                 // close first Frame
                 backing.setVisible(false);
-                
+
                 try
                 {
                     // gets handler name
                     String myHandle = handle();
                     portal.setHandle(myHandle);
-                 int nodeMonitor = JOptionPane.showConfirmDialog((Component) null, "Would you like a node monitor on htis portal",
-                "alert", JOptionPane.YES_NO_OPTION);
-                
-                if(nodeMonitor == 0)
-                {
-                    portal.addNodeMonitor();       
-                    System.out.println("Node Moniter has started");
-                }    
-                portal.begin();
+                    int nodeMonitor = JOptionPane.showConfirmDialog((Component) null, "Would you like a node monitor on htis portal",
+                            "alert", JOptionPane.YES_NO_OPTION);
+
+                    if (nodeMonitor == 0)
+                    {
+                        portal.addNodeMonitor();
+                        System.out.println("Node Moniter has started");
+                    }
+                    portal.begin();
                 }
                 catch (IOException ex)
                 {
@@ -255,16 +251,16 @@ public class GUI_Builder implements  Contactable
                 displayAgentList(portal);
 
             }
-        });      
-        
-        JButton portalexit= new JButton("Exit");
+        });
+
+        JButton portalexit = new JButton("Exit");
         addComponentToGridBag(PortalFrame, portalexit, 0, 7, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalexit.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 System.exit(0);
-            }    
+            }
         });
         // end of portal settings
         //start of the directory buttons
@@ -291,14 +287,14 @@ public class GUI_Builder implements  Contactable
                 dir.removeConnections();
             }
         });
-        JButton direxit= new JButton("Exit");
+        JButton direxit = new JButton("Exit");
         addComponentToGridBag(DirectoryFrame, direxit, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         direxit.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 System.exit(0);
-            }  
+            }
         });
 
         //end of directory buttons
@@ -325,7 +321,7 @@ public class GUI_Builder implements  Contactable
             {
                 String to = getTo();
                 String content = getContent(to);
-                sendMessage(to,content);
+                sendMessage(to, content);
             }
         });
 
@@ -350,14 +346,14 @@ public class GUI_Builder implements  Contactable
                 agent.removeConnections();
             }
         });
-        JButton agentexit= new JButton("Exit");
+        JButton agentexit = new JButton("Exit");
         addComponentToGridBag(agentFrame, agentexit, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agentexit.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 System.exit(0);
-            }  
+            }
         });
 
         // end of agent buttons
@@ -381,18 +377,18 @@ public class GUI_Builder implements  Contactable
         while (handle.isEmpty())
         {
             handle = JOptionPane.showInputDialog("Enter handle Name", "Handle");
-            if(handle == null)
+            if (handle == null)
             {
                 backing.setVisible(true);
             }
-            if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+            if (!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
             {
-             handle = "";            
+                handle = "";
             }
-            
-        } 
+
+        }
         backing.dispose();
-        
+
         return handle;
     }
 
@@ -403,43 +399,21 @@ public class GUI_Builder implements  Contactable
      */
     public String newConnection()
     {
-       Pattern ipPattern = Pattern.compile("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b");
-       boolean find = false;
-       
-       do
-       {
-           String ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
-           Matcher matcher = ipPattern.matcher(ip);
-           
-           if (matcher.find())
-           {
-               find = true;
-               return ip;
-           }
-       }
-       while(!find);
-       return null;
-    }
+        Pattern ipPattern = Pattern.compile("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b");
+        boolean find = false;
 
-    /**
-     * JOptionPane message that asks for the ip that asks for the ip
-     *
-     * @return IP for the the connection to the new directory or the portals
-     */
-    private void newPortalConnection(Portal me)
-    {
-//        String ipAddress = newConnection();
-//        me.connectTo(ipAddress);
-    }
+        do
+        {
+            String ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
+            Matcher matcher = ipPattern.matcher(ip);
 
-    /**
-     * This gets the ip for the new connection then calls the connect method to
-     * connect them to the new directory
-     */
-    private void newAgentConnection(Agent me)
-    {
-//        String ipAddressOfPeer = newConnection();
-//        me.connectTo(ipAddressOfPeer);
+            if (matcher.find())
+            {
+                find = true;
+                return ip;
+            }
+        } while (!find);
+        return null;
     }
 
     /**
@@ -486,11 +460,6 @@ public class GUI_Builder implements  Contactable
         p.connectTo(IP_BASE + "116");
     }
 
-    private void connectToDir(Agent a)
-    {
-        a.connectTo(IP_BASE + "116");
-    }
-
     /**
      * this will show the user the connections to the agents
      *
@@ -510,59 +479,6 @@ public class GUI_Builder implements  Contactable
     }
 
     /**
-     * this will sned a message for the agent this will broadcast the messgae
-     * throw the portals and to all the other agents and then to the clients
-     */
-    private void agentSendMessage(Agent me)
-    {
-//        Object[] msgOptions =
-//        {
-//            "Standard", "Broadcast"
-//        };
-//
-//        int n = JOptionPane.showOptionDialog(null,
-//                "What message type are you sending?",
-//                "Send Message",
-//                JOptionPane.DEFAULT_OPTION,
-//                JOptionPane.INFORMATION_MESSAGE, null,
-//                msgOptions, msgOptions[0]);
-//
-//        String handle;
-//
-//        if (n == 0)
-//        {
-//            //System.out.println("Current connections:");
-//            List<String> contacts = new ArrayList();
-//            for (String c : me.getContacts())
-//            {
-//                contacts.add(c);
-//            }
-//            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
-//        }
-//        else
-//        {
-//            handle = "all";
-//        }
-//
-//        String messageContent = JOptionPane.showInputDialog(null, "What message would you like to send to " + handle, "Send Message");
-//
-//        Message newMessage;
-//
-//        if (handle.equals("all"))
-//        {
-//            newMessage = new Message(me.getHandle(), handle, MessageType.BROADCAST);
-//            newMessage.append(messageContent);
-//        }
-//        else
-//        {
-//            newMessage = new Message(me.getHandle(), handle, MessageType.STANDARD);
-//            newMessage.append(messageContent);
-//        }
-//
-//        me.sendMessage(newMessage);
-    }
-
-    /**
      * this will show the agents that have been connected to the directory
      *
      * @return this will show a gui with the handle names
@@ -571,18 +487,19 @@ public class GUI_Builder implements  Contactable
     {
         if (!me.hasConnections())
         {
-            System.out.println("\n* No portals connected *\n");
+            JOptionPane.showMessageDialog(null, "No connections", "Connections", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         JOptionPane.showMessageDialog(null, me.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     private String getTo()
     {
-        Object[] msgOptions =
-        {
-            "Standard", "Broadcast"
-        };
+        Object[] msgOptions
+                =
+                {
+                    "Standard", "Broadcast"
+                };
 
         int n = JOptionPane.showOptionDialog(null,
                 "What message type are you sending?",
@@ -601,25 +518,24 @@ public class GUI_Builder implements  Contactable
             {
                 contacts.add(c);
             }
-        
-        while (handle.isEmpty())
-        {
-            handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
-            if(!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+
+            while (handle.isEmpty())
             {
-             handle = "";            
+                handle = JOptionPane.showInputDialog(null, "Current Contacts\n" + contacts + "\n\nWho would you like to message?", "Send Message");
+                if (!handle.matches("^[^\\d\\s]+$") || handle.equals("Handle"))
+                {
+                    handle = "";
+                }
             }
-        } 
         }
-        
         else
         {
             handle = "all";
         }
-        
+
         return handle;
     }
-    
+
     private String getContent(String to)
     {
         String content = JOptionPane.showInputDialog(null, "What message would you like to send to " + to, "Send Message");
@@ -632,16 +548,16 @@ public class GUI_Builder implements  Contactable
     {
         String content = m.getContent();
         if (content.isEmpty())
-            {
-                content = "N/A";
-            }
-           
-        JOptionPane.showMessageDialog(null, "From: " + m.getFrom() + "\n" +
-                                            "To: " + m.getTo() + "\n" +
-                                            "Content: " + m.getContent() + "\n" +
-                                            "Type: " + m.getType().toString(), 
-                                            "Message Notification", 
-                                            JOptionPane.INFORMATION_MESSAGE);
+        {
+            content = "N/A";
+        }
+
+        JOptionPane.showMessageDialog(null, "From: " + m.getFrom() + "\n"
+                + "To: " + m.getTo() + "\n"
+                + "Content: " + m.getContent() + "\n"
+                + "Type: " + m.getType().toString(),
+                "Message Notification",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -659,7 +575,7 @@ public class GUI_Builder implements  Contactable
             newMessage = new Message(agent.getHandle(), to, MessageType.STANDARD);
             newMessage.append(content);
         }
-        
+
         agent.sendMessage(newMessage);
     }
 

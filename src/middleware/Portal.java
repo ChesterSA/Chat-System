@@ -333,7 +333,6 @@ public class Portal extends ChatNode implements Connectable
 
                     int timeout = 0;
                     
-                    newConnection.socket.setSoTimeout(5000);
                     while (!newConnection.hasMessage())
                     {
                         timeout++;
