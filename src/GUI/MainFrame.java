@@ -22,6 +22,9 @@ public final class MainFrame extends BaseFrame
     PortalFrame portalFrame;
     ClientFrame clientFrame;
 
+    /**
+     *
+     */
     public MainFrame()
     {
         super("Main");
@@ -34,6 +37,9 @@ public final class MainFrame extends BaseFrame
         this.setVisible(true);
     }
     
+    /**
+     *
+     */
     @Override
     protected void addButtons()
     {

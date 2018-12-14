@@ -30,6 +30,9 @@ public final class PortalFrame extends BaseFrame
     Portal portal = new Portal("", "0.0.0.0");
     private final String DIR_IP = "152.105.67.123";
     
+    /**
+     *
+     */
     public PortalFrame()
     {
         super("Portal");
@@ -55,6 +58,10 @@ public final class PortalFrame extends BaseFrame
         setVisible(true);
     }
     
+    /**
+     *
+     * @param ip
+     */
     @Override
     public void connectTo(String ip)
     {
@@ -90,6 +97,9 @@ public final class PortalFrame extends BaseFrame
         JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    /**
+     *
+     */
     @Override
     protected void addButtons()
     {

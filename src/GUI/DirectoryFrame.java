@@ -28,6 +28,9 @@ public final class DirectoryFrame extends BaseFrame
 {
     Directory dir = new Directory("dir", "0.0.0.0");
             
+    /**
+     *
+     */
     public DirectoryFrame() 
     {
         super("Directory");
@@ -67,6 +70,9 @@ public final class DirectoryFrame extends BaseFrame
         JOptionPane.showMessageDialog(null, dir.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     *
+     */
     @Override
     protected void addButtons()
     {

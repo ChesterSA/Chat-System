@@ -27,6 +27,10 @@ public abstract class BaseFrame extends JFrame implements Contactable
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
     final String IP_BASE = "152.105.67.";
 
+    /**
+     *
+     * @param title
+     */
     public BaseFrame(String title)
     {
         super(title);
@@ -48,12 +52,28 @@ public abstract class BaseFrame extends JFrame implements Contactable
         return ip;
     }
 
+    /**
+     *
+     * @param container
+     * @param component
+     * @param gridx
+     * @param gridy
+     * @param gridwidth
+     * @param gridheight
+     * @param anchor
+     * @param fill
+     */
     protected void addComponentToGridBag(Container container, Component component, int gridx, int gridy, int gridwidth, int gridheight, int anchor, int fill)
     {
         GridBagConstraints gridBagConstraints = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, 1.0, 1.0, anchor, fill, INSETS_DATA, 0, 0);
         container.add(component, gridBagConstraints);
     }
 
+    /**
+     *
+     * @param to
+     * @return
+     */
     protected String getContent(String to)
     {
         String content = JOptionPane.showInputDialog(null, "What message would you like to send to " + to, "Send Message");
@@ -108,6 +128,10 @@ public abstract class BaseFrame extends JFrame implements Contactable
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     *
+     * @param ip
+     */
     @Override
     public void connectTo(String ip)
     {
@@ -126,6 +150,9 @@ public abstract class BaseFrame extends JFrame implements Contactable
 
     }
 
+    /**
+     *
+     */
     protected abstract void addButtons();
 
 }
