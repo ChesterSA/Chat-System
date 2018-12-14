@@ -180,7 +180,7 @@ public class Portal extends ChatNode implements Connectable
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
                                     queue.put(receivedMessage);
-                                    Thread.sleep(5000);
+                                    Thread.sleep(1000);
                                     sendMessage();
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
