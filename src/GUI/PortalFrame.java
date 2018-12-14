@@ -23,7 +23,7 @@ import middleware.Portal;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public final class PortalFrame extends BaseFrame
 {
