@@ -85,7 +85,10 @@ public abstract class ChatNode
      */
     public ChatNode(String handle, String receiveIp, int receivePort)
     {
+        if(checkHandle(handle))
+        {
         this.handle = handle;
+        }
         this.receiveIp = receiveIp;
         this.receivePort = receivePort;
     }
@@ -137,12 +140,12 @@ public abstract class ChatNode
      */
     public abstract void removeConnections();
 
-    public static boolean CheckHandle(String handle)
+    public static boolean checkHandle(String handle)
     {
         return handle.matches("^[^\\d\\s]+$");
     }
 
-    public static boolean CheckIp(String ip)
+    public static boolean checkIp(String ip)
     {
         Pattern ipPattern = Pattern.compile("\\b(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\."
                 + "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\."

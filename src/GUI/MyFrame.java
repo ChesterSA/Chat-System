@@ -43,7 +43,7 @@ public abstract class MyFrame extends JFrame implements Contactable
         do
         {
             ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
-        } while (!ChatNode.CheckIp(ip));
+        } while (!ChatNode.checkIp(ip));
 
         return ip;
     }
@@ -69,7 +69,7 @@ public abstract class MyFrame extends JFrame implements Contactable
     {
         String handle = "";
 
-        while (!ChatNode.CheckHandle(handle))
+        while (!ChatNode.checkHandle(handle))
         {
             handle = JOptionPane.showInputDialog(null, "Enter handle", "Handle", JOptionPane.QUESTION_MESSAGE);
             if (handle == null)
