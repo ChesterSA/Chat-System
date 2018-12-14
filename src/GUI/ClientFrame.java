@@ -154,13 +154,13 @@ public final class ClientFrame extends BaseFrame
     {
         if (agent.getPortal() == null)
         {
-            JOptionPane.showMessageDialog(null, "No Agents Connected", "Connections", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No Portal Connected", "Portal", JOptionPane.ERROR_MESSAGE);
             return;
         }
         else
         {
             String connection = agent.getPortal();
-            JOptionPane.showMessageDialog(null, connection, "Connections", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, connection, "Portal", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

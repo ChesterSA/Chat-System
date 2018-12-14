@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
+import javax.swing.JOptionPane;
 
 /**
  * End point in message transmission, all messages pass through a portal then to
@@ -395,7 +396,15 @@ public class Agent extends MetaAgent implements Connectable
     @Override
     public void removeConnections()
     {
-        portal = null;
+        if (portal == null) 
+        {
+            JOptionPane.showMessageDialog(null, "Portal doesn't exist");
+        }
+        else
+        {   
+            portal = null;      
+            JOptionPane.showMessageDialog(null, "Portal Removed");
+        } 
     }
 
     /**
