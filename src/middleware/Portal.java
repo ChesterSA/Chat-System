@@ -81,7 +81,6 @@ public class Portal extends ChatNode implements Connectable
     /**
      * Sends a message from this portal to the receiver specified in message
      *
-     * @param message the message to be sent
      */
     //@Override
     public void sendMessage()

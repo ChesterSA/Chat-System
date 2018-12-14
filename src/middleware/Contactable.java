@@ -19,5 +19,9 @@ public interface Contactable
      */
     public void sendMessage(String to, String content);
     
+    /**
+     *
+     * @param ip
+     */
     public void connectTo(String ip);
 }

@@ -39,7 +39,6 @@ public class Message
      *
      * @param from this is the sender of the message
      * @param to this is the destination of the message
-     * @param type type of message that is being sent
      */
     public Message(String from, String to)
     {

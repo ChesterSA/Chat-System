@@ -41,7 +41,6 @@ public class Agent extends ChatNode implements Connectable
      * Calls ChatNode constructor with a handle
      *
      * @param handle
-     * @param c
      */
     public Agent(String handle)
     {
