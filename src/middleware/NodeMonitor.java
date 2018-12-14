@@ -27,6 +27,10 @@ public class NodeMonitor {
         portalHandle = pH;
     }    
         
+    /**
+     *
+     * @param m
+     */
     public void handleMessage(Message m)
     {
         File monitor = new File(portalHandle + "-Log.txt");

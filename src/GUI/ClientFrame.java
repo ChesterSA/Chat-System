@@ -21,12 +21,15 @@ import middleware.MessageType;
  *
  * @author s6089488
  */
-public final class ClientFrame extends MyFrame
+public final class ClientFrame extends BaseFrame
 {
 
-    Agent agent = new Agent("", this);
+    Agent agent = new Agent("default", this);
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
 
+    /**
+     *
+     */
     public ClientFrame()
     {
         super("Client");
@@ -54,6 +57,10 @@ public final class ClientFrame extends MyFrame
         setVisible(true);
     }
 
+    /**
+     *
+     * @param ip
+     */
     @Override
     public void connectTo(String ip)
     {
@@ -78,6 +85,10 @@ public final class ClientFrame extends MyFrame
         agent.sendMessage(newMessage);
     }
 
+    /**
+     *
+     * @return
+     */
     protected String getTo()
     {
         Object[] msgOptions =
@@ -140,6 +151,9 @@ public final class ClientFrame extends MyFrame
         }
     }
 
+    /**
+     *
+     */
     @Override
     protected void addButtons()
     {

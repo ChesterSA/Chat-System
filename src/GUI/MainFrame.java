@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  * @author s6089488
  */
-public final class MainFrame extends MyFrame
+public final class MainFrame extends BaseFrame
 {
     /**
      * Initialising empty middleware nodes
@@ -22,6 +22,10 @@ public final class MainFrame extends MyFrame
     PortalFrame portalFrame;
     ClientFrame clientFrame;
 
+     /**
+     * Constructs a swing frame
+     * Populates the frame with buttons
+     */
     public MainFrame()
     {
         super("Main");
@@ -34,6 +38,11 @@ public final class MainFrame extends MyFrame
         this.setVisible(true);
     }
     
+    /**
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
+     */
     @Override
     protected void addButtons()
     {

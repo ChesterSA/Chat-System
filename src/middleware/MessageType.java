@@ -14,5 +14,44 @@ package middleware;
  */
 public enum MessageType
 {
-    HELLO, HELLOACK, PORTAL, PORTALACK, AGENT, DIR, BROADCAST, STANDARD
+
+    /**
+     *
+     */
+    HELLO,
+
+    /**
+     *
+     */
+    HELLOACK,
+
+    /**
+     *
+     */
+    PORTAL,
+
+    /**
+     *
+     */
+    PORTALACK,
+
+    /**
+     *
+     */
+    AGENT,
+
+    /**
+     *
+     */
+    DIR,
+
+    /**
+     *
+     */
+    BROADCAST,
+
+    /**
+     *
+     */
+    STANDARD
 }

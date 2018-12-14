@@ -24,10 +24,15 @@ import middleware.Directory;
  *
  * @author s6089488
  */
-public final class DirectoryFrame extends MyFrame
+public final class DirectoryFrame extends BaseFrame
 {
     Directory dir = new Directory("dir", "0.0.0.0");
             
+    /**
+     * Constructs a swing frame
+     * Initialises and starts a new directory
+     * Populates the frame with buttons
+     */
     public DirectoryFrame() 
     {
         super("Directory");
@@ -67,6 +72,11 @@ public final class DirectoryFrame extends MyFrame
         JOptionPane.showMessageDialog(null, dir.getConnectionHandles(), "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
+     */
     @Override
     protected void addButtons()
     {

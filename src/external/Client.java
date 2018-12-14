@@ -21,6 +21,10 @@ public class Client implements Contactable
     String name;
     Agent agent;
     
+    /**
+     *
+     * @param name
+     */
     public Client(String name)
     {
         this.name = name;
@@ -54,12 +58,20 @@ public class Client implements Contactable
         agent.sendMessage(m);
     }
     
+    /**
+     *
+     * @param ip
+     */
     @Override
     public void connectTo(String ip)
     {
         agent.connectTo(ip);
     }
 
+    /**
+     *
+     * @return
+     */
     public Agent getAgent()
     {
         return agent;

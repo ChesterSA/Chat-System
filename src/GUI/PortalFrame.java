@@ -25,11 +25,16 @@ import middleware.Portal;
  *
  * @author s6089488
  */
-public final class PortalFrame extends MyFrame
+public final class PortalFrame extends BaseFrame
 {
-    Portal portal = new Portal("", "0.0.0.0");
+    Portal portal = new Portal("default", "0.0.0.0");
     private final String DIR_IP = "152.105.67.123";
     
+    /**
+     * Constructs a swing frame
+     * Initialises and starts a new portal
+     * Populates the frame with buttons
+     */
     public PortalFrame()
     {
         super("Portal");
@@ -55,6 +60,10 @@ public final class PortalFrame extends MyFrame
         setVisible(true);
     }
     
+    /**
+     * Portal object calls connectTo 
+     * @param ip validated ip from
+     */
     @Override
     public void connectTo(String ip)
     {
@@ -90,6 +99,11 @@ public final class PortalFrame extends MyFrame
         JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    /**
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
+     */
     @Override
     protected void addButtons()
     {
