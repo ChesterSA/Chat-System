@@ -54,7 +54,7 @@ public class Message
      */
     public Message(String from, String to, MessageType type)
     {
-        if (ChatNode.checkHandle(from))
+        if (MetaAgent.checkHandle(from))
         {
             this.from = from;
         }
@@ -63,7 +63,7 @@ public class Message
             throw new IllegalArgumentException("Invalid Sender");
         }
 
-        if (ChatNode.checkHandle(to))
+        if (MetaAgent.checkHandle(to))
         {
             this.to = to;
         }
