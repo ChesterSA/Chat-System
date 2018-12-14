@@ -71,8 +71,8 @@ public abstract class BaseFrame extends JFrame implements Contactable
 
     /**
      *
-     * @param to
-     * @return
+     * @param to 
+     * @return  content gui input box
      */
     protected String getContent(String to)
     {
