@@ -148,6 +148,10 @@ public class Agent extends ChatNode implements Connectable
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
+        if (!ChatNode.checkIp(handle))
+        {
+            throw new IllegalArgumentException("Invalid IP Address");
+        }
         // check if we're already connected, perhaps the remote device
         // instigated a connection previously.
         if (isalreadyConnected(remoteIpAddress))
@@ -207,8 +211,8 @@ public class Agent extends ChatNode implements Connectable
                 catch (IOException ex)
                 {
                     Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
-                } 
-                catch (InterruptedException ex) 
+                }
+                catch (InterruptedException ex)
                 {
                     Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
                 }

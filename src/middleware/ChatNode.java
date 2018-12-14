@@ -85,9 +85,13 @@ public abstract class ChatNode
      */
     public ChatNode(String handle, String receiveIp, int receivePort)
     {
-        if(checkHandle(handle))
+        if (checkHandle(handle))
         {
-        this.handle = handle;
+            this.handle = handle;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid Handle Provided");
         }
         this.receiveIp = receiveIp;
         this.receivePort = receivePort;
