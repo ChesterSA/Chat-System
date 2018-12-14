@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  *
  * @author s6089488
  */
-public class Portal extends ChatNode implements Connectable
+public class Portal extends MetaAgent implements Connectable
 {
 
     /**
@@ -180,7 +180,7 @@ public class Portal extends ChatNode implements Connectable
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
                                     queue.put(receivedMessage);
-                                    Thread.sleep(5000);
+                                    Thread.sleep(1000);
                                     sendMessage();
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
@@ -196,7 +196,7 @@ public class Portal extends ChatNode implements Connectable
                         }
                         catch (IOException ex)
                         {
-                            Logger.getLogger(ChatNode.class
+                            Logger.getLogger(MetaAgent.class
                                     .getName()).log(Level.SEVERE, null, ex);
                         }
                         catch (InterruptedException ex)
@@ -218,6 +218,11 @@ public class Portal extends ChatNode implements Connectable
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
+        if (!MetaAgent.checkIp(remoteIpAddress))
+        {
+            throw new IllegalArgumentException("Invalid IP Address");
+        }
+        
         if (isalreadyConnected(remoteIpAddress))
         {
             return;
@@ -296,11 +301,11 @@ public class Portal extends ChatNode implements Connectable
                 }
                 catch (UnknownHostException ex)
                 {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
@@ -405,7 +410,7 @@ public class Portal extends ChatNode implements Connectable
                 catch (IOException ex)
                 {
                     System.err.println("Connection timeout");
-//                    Logger.getLogger(ChatNode.class
+//                    Logger.getLogger(MetaAgent.class
 //                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }

@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import middleware.ChatNode;
+import middleware.MetaAgent;
 import middleware.Contactable;
 import middleware.Message;
 
@@ -47,7 +47,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
         do
         {
             ip = JOptionPane.showInputDialog("Enter IP Address", IP_BASE);
-        } while (!ChatNode.checkIp(ip));
+        } while (!MetaAgent.checkIp(ip));
 
         return ip;
     }
@@ -81,7 +81,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
     }
 
     /**
-     * Gets input for a ChatNode's handle.
+     * Gets input for a MetaAgent's handle.
      *
      * @return handle name for the agents and the portals
      */
@@ -89,7 +89,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
     {
         String handle = "";
 
-        while (!ChatNode.checkHandle(handle))
+        while (!MetaAgent.checkHandle(handle))
         {
             handle = JOptionPane.showInputDialog(null, "Enter handle", "Handle", JOptionPane.QUESTION_MESSAGE);
             if (handle == null)
