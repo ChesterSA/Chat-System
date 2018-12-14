@@ -45,8 +45,15 @@ public final class PortalFrame extends BaseFrame
         setSize(450, 300);
         setResizable(false);
         
+        
         try
         {
+            int result = JOptionPane.showConfirmDialog(null, "Do you want a NodeMonitor on this portal?", "Node Monitor?", JOptionPane.YES_NO_OPTION);
+            if (result == 0)
+            {
+                portal.addNodeMonitor();
+            }
+            
             String myHandle = getHandle();
             portal.setHandle(myHandle);
             portal.begin();

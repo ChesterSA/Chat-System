@@ -54,7 +54,7 @@ public class Message
      */
     public Message(String from, String to, MessageType type)
     {
-        if (MetaAgent.checkHandle(from))
+        if (from == null || MetaAgent.checkHandle(from))
         {
             this.from = from;
         }
@@ -63,7 +63,7 @@ public class Message
             throw new IllegalArgumentException("Invalid Sender");
         }
 
-        if (MetaAgent.checkHandle(to))
+        if (to == null || MetaAgent.checkHandle(to))
         {
             this.to = to;
         }
