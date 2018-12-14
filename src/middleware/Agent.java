@@ -386,6 +386,7 @@ public class Agent extends ChatNode implements Connectable
     }
 
     /**
+     * set the ip connections to null  this loses the ip and no longer can they connect to the them 
      * remove an agents portal.
      */
     @Override

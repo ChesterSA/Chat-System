@@ -10,7 +10,7 @@ public class GUI_Driver
 {
 
     /**
-     *
+     * calls main frame to start the gui to the program
      * @param args
      */
     public static void main(String[] args)

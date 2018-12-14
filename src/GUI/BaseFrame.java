@@ -70,7 +70,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
     }
 
     /**
-     *
+     * out puts a gui that is used for for getting the content of the message
      * @param to 
      * @return  content gui input box
      */
@@ -151,7 +151,9 @@ public abstract class BaseFrame extends JFrame implements Contactable
     }
 
     /**
-     *
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
      */
     protected abstract void addButtons();
 
