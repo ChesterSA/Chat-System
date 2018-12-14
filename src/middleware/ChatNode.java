@@ -145,9 +145,9 @@ public abstract class ChatNode
     public abstract void removeConnections();
 
     /**
-     *
-     * @param handle
-     * @return
+     * Checks a handle against a regex
+     * @param handle String matched against regex
+     * @return Boolean value, if regex found a match
      */
     public static boolean checkHandle(String handle)
     {
@@ -155,9 +155,9 @@ public abstract class ChatNode
     }
 
     /**
-     *
-     * @param ip
-     * @return
+     * Checks a passed ip against a regex
+     * @param ip String matched against regex
+     * @return Boolean value, if regex found a match
      */
     public static boolean checkIp(String ip)
     {
