@@ -19,7 +19,7 @@ import middleware.MessageType;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public final class ClientFrame extends BaseFrame
 {
@@ -28,7 +28,9 @@ public final class ClientFrame extends BaseFrame
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
 
     /**
-     *
+     * Constructs a swing frame
+     * Initialises and starts a new agent
+     * Populates the frame with buttons
      */
     public ClientFrame()
     {
@@ -58,8 +60,8 @@ public final class ClientFrame extends BaseFrame
     }
 
     /**
-     *
-     * @param ip
+     * Portal object calls connectTo 
+     * @param ip validated ip from
      */
     @Override
     public void connectTo(String ip)
@@ -67,6 +69,13 @@ public final class ClientFrame extends BaseFrame
         agent.connectTo(ip);
     }
 
+    /**
+     * Creates a message object
+     * Appends the content
+     * Calls agents sendMessage method
+     * @param to recipient of the message
+     * @param content the message contents
+     */
     @Override
     public void sendMessage(String to, String content)
     {
@@ -86,8 +95,9 @@ public final class ClientFrame extends BaseFrame
     }
 
     /**
-     *
-     * @return
+     * If standard message, get handle input from the user
+     * Else handle equals All, to represent a broadcast message
+     * @return String handle
      */
     protected String getTo()
     {
@@ -137,6 +147,9 @@ public final class ClientFrame extends BaseFrame
         return handle;
     }
 
+    /**
+     * Shows an agents portal connection handle, error display if null.
+     */
     private void displayConnections()
     {
         if (agent.getPortal() == null)
@@ -152,7 +165,9 @@ public final class ClientFrame extends BaseFrame
     }
 
     /**
-     *
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
      */
     @Override
     protected void addButtons()

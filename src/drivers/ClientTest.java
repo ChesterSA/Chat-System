@@ -74,6 +74,12 @@ public class ClientTest extends Driver
         return sc.nextLine();
     }
 
+    /**
+     * Display agent contacts
+     * Get handle string
+     * Get message content
+     * Send Message
+     */
     private static void sendMessage()
     {
         displayContacts();
@@ -88,6 +94,9 @@ public class ClientTest extends Driver
         client.sendMessage(to, content);
     }
 
+    /**
+     * Display agent contact handles
+     */
     private static void displayContacts()
     {
         System.out.println("Currently connected to: ");
@@ -97,6 +106,10 @@ public class ClientTest extends Driver
         }
     }
 
+    /**
+     * Get ip String
+     * Connect to agent
+     */
     private static void connectTo()
     {
         System.out.print("What is the ip to connect to: " + ipBase);

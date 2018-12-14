@@ -14,7 +14,7 @@ import middleware.Message;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public class Client implements Contactable
 {
@@ -22,8 +22,10 @@ public class Client implements Contactable
     Agent agent;
     
     /**
-     *
-     * @param name
+     * Set client name
+     * New agent object
+     * Start agent
+     * @param name String name of client
      */
     public Client(String name)
     {
@@ -39,6 +41,10 @@ public class Client implements Contactable
         }
     }
     
+    /**
+     * Output formatted received message 
+     * @param m message received
+     */
     @Override
     public void handleMessage(Message m)
     {
@@ -59,8 +65,8 @@ public class Client implements Contactable
     }
     
     /**
-     *
-     * @param ip
+     * Set new agent connection
+     * @param ip String passed to connectTo()
      */
     @Override
     public void connectTo(String ip)
@@ -69,8 +75,7 @@ public class Client implements Contactable
     }
 
     /**
-     *
-     * @return
+     * @return Current agent connected to client
      */
     public Agent getAgent()
     {

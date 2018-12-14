@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 /**
  *
- * @author v8269590
+ * @author Group B
  */
 public class NodeMonitor {
     
@@ -28,8 +28,8 @@ public class NodeMonitor {
     }    
         
     /**
-     *
-     * @param m
+     * Logs to a file when a message passes through a portal
+     * @param m message being passed monitored
      */
     public void handleMessage(Message m)
     {
