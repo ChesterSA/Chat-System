@@ -156,10 +156,6 @@ public class Message
 
         if (matcher.matches())
         {
-//            System.out.println(matcher.group(1));
-//            System.out.println(matcher.group(3));
-//            System.out.println(matcher.group(4));
-//            System.out.println(matcher.group(5));
             newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5)));
             newMessage.append(matcher.group(4));
 
@@ -168,11 +164,6 @@ public class Message
             {
                 content = "N/A";
             }
-
-//            JOptionPane.showMessageDialog(null, "From:      " + matcher.group(1) + "\n" +
-//                                                "To:        " + matcher.group(3) + "\n" +
-//                                                "Content:   " + matcher.group(4) + "\n" +
-//                                                "Type:      " + matcher.group(5), matcher.group(5), JOptionPane.INFORMATION_MESSAGE);
         }
 
         //append the content

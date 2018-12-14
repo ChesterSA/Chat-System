@@ -409,8 +409,6 @@ public class Portal extends MetaAgent implements Connectable
                 catch (IOException ex)
                 {
                     System.err.println("Connection timeout");
-//                    Logger.getLogger(MetaAgent.class
-//                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

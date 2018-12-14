@@ -80,8 +80,6 @@ public class Directory extends MetaAgent {
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    System.out.println("Awaiting PORTAL message from new connection");
-
                     while (!newConnection.hasMessage()) {
                         // wait for a message from the new connection...
                         // should probably handle timeouts...
@@ -91,8 +89,6 @@ public class Directory extends MetaAgent {
                     //will do, anything else will be ignored.
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
-
-                    System.out.println("Message received: " + receivedMessage.toString());
 
                     if (receivedMessage.getType().equals(MessageType.PORTAL)) {
                         final String newConnectionHandle = receivedMessage.getFrom();
@@ -291,7 +287,6 @@ public class Directory extends MetaAgent {
     public String getAddresses() {
         String output = "";
         for (Connection c : connections.values()) {
-            System.out.println(c.socket.toString().substring(13, 27));
 
             output += c.socket.toString().substring(13, 27) + ",";
         }
