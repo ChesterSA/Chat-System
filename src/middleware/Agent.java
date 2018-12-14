@@ -148,7 +148,7 @@ public class Agent extends ChatNode implements Connectable
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
-        if (!ChatNode.checkIp(handle))
+        if (!ChatNode.checkIp(remoteIpAddress))
         {
             throw new IllegalArgumentException("Invalid IP Address");
         }

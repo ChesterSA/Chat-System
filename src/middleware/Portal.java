@@ -219,6 +219,11 @@ public class Portal extends ChatNode implements Connectable
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
+        if (!ChatNode.checkIp(remoteIpAddress))
+        {
+            throw new IllegalArgumentException("Invalid IP Address");
+        }
+        
         if (isalreadyConnected(remoteIpAddress))
         {
             return;

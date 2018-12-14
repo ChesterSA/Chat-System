@@ -43,6 +43,7 @@ public class Message
      */
     public Message(String from, String to)
     {
+
         this(from, to, MessageType.STANDARD);
     }
 
@@ -54,8 +55,24 @@ public class Message
      */
     public Message(String from, String to, MessageType type)
     {
-        this.from = from;
-        this.to = to;
+        if (ChatNode.checkHandle(from))
+        {
+            this.from = from;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid Sender");
+        }
+
+        if (ChatNode.checkHandle(to))
+        {
+            this.to = to;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid Receiver");
+        }
+
         this.type = type;
     }
 
