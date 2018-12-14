@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @author Group B
  */
-public abstract class ChatNode
+public abstract class MetaAgent
 {
 
     /**
@@ -60,7 +60,7 @@ public abstract class ChatNode
      *
      * @param handle the unique handle of the chatnode
      */
-    public ChatNode(String handle)
+    public MetaAgent(String handle)
     {
         this(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
@@ -71,7 +71,7 @@ public abstract class ChatNode
      * @param handle the unique handle of the chatnode
      * @param receiveIp the ip that this node can receive requests from
      */
-    public ChatNode(String handle, String receiveIp)
+    public MetaAgent(String handle, String receiveIp)
     {
         this(handle, receiveIp, DEFAULT_PORT);
     }
@@ -83,7 +83,7 @@ public abstract class ChatNode
      * @param receiveIp the ip that this node can receive requests from
      * @param receivePort the port that this node can receive requests from
      */
-    public ChatNode(String handle, String receiveIp, int receivePort)
+    public MetaAgent(String handle, String receiveIp, int receivePort)
     {
         if (checkHandle(handle))
         {
@@ -145,9 +145,9 @@ public abstract class ChatNode
     public abstract void removeConnections();
 
     /**
-     * Checks a handle against a regex
-     * @param handle String matched against regex
-     * @return Boolean value, if regex found a match
+     *
+     * @param handle
+     * @return
      */
     public static boolean checkHandle(String handle)
     {
@@ -155,9 +155,9 @@ public abstract class ChatNode
     }
 
     /**
-     * Checks a passed ip against a regex
-     * @param ip String matched against regex
-     * @return Boolean value, if regex found a match
+     *
+     * @param ip
+     * @return
      */
     public static boolean checkIp(String ip)
     {

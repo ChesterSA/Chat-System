@@ -21,7 +21,7 @@ import javafx.util.Pair;
  *
  * @author Group B
  */
-public class Agent extends ChatNode implements Connectable
+public class Agent extends MetaAgent implements Connectable
 {
 
     Contactable client;
@@ -38,7 +38,7 @@ public class Agent extends ChatNode implements Connectable
     LinkedList<String> contacts = new LinkedList<>();
 
     /**
-     * Calls ChatNode constructor with a handle
+     * Calls MetaAgent constructor with a handle
      *
      * @param handle
      */
@@ -48,7 +48,7 @@ public class Agent extends ChatNode implements Connectable
     }
 
     /**
-     * Calls ChatNode constructor with a handle and an ip
+     * Calls MetaAgent constructor with a handle and an ip
      *
      * @param handle
      * @param receiveIp
@@ -60,7 +60,7 @@ public class Agent extends ChatNode implements Connectable
     }
 
     /**
-     * Calls ChatNode constructor with a handle, ip, and port
+     * Calls MetaAgent constructor with a handle, ip, and port
      *
      * @param handle
      * @param receiveIp
@@ -73,7 +73,7 @@ public class Agent extends ChatNode implements Connectable
     }
 
     /**
-     * Calls ChatNode constructor with a handle
+     * Calls MetaAgent constructor with a handle
      *
      * @param handle
      * @param c
@@ -84,7 +84,7 @@ public class Agent extends ChatNode implements Connectable
     }
 
     /**
-     * Calls ChatNode constructor with a handle and an ip
+     * Calls MetaAgent constructor with a handle and an ip
      *
      * @param handle
      * @param receiveIp
@@ -96,7 +96,7 @@ public class Agent extends ChatNode implements Connectable
     }
 
     /**
-     * Calls ChatNode constructor with a handle, ip, and port
+     * Calls MetaAgent constructor with a handle, ip, and port
      *
      * @param handle
      * @param receiveIp
@@ -147,7 +147,7 @@ public class Agent extends ChatNode implements Connectable
     @Override
     public void connectTo(final String remoteIpAddress, final int remotePort)
     {
-        if (!ChatNode.checkIp(handle))
+        if (!MetaAgent.checkIp(remoteIpAddress))
         {
             throw new IllegalArgumentException("Invalid IP Address");
         }
@@ -173,7 +173,6 @@ public class Agent extends ChatNode implements Connectable
                     bindAddress = InetAddress.getByName(remoteIpAddress);
                     Socket newSocket = new Socket(bindAddress, remotePort);
                     Connection partialConnection = new Connection(newSocket);
-                    Thread.sleep(60000);
                     partialConnection.sendMessage(new Message(handle, MessageType.AGENT));
 
                     //Wait for a response from this connection.
@@ -205,16 +204,20 @@ public class Agent extends ChatNode implements Connectable
                 }
                 catch (UnknownHostException ex)
                 {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                catch (InterruptedException ex)
-                {
-                    Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                catch (InterruptedException ex)
+//                {
+//                    Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                catch (InterruptedException ex)
+//                {
+//                    Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
+//                }
 
             }
         }
@@ -261,7 +264,7 @@ public class Agent extends ChatNode implements Connectable
                     }
                     catch (IOException ex)
                     {
-                        Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
@@ -329,7 +332,7 @@ public class Agent extends ChatNode implements Connectable
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

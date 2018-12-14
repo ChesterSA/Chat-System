@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @author Group B
  */
-public class Directory extends ChatNode {
+public class Directory extends MetaAgent {
 
     //Messages are sent as a client.
     //
@@ -130,7 +130,7 @@ public class Directory extends ChatNode {
                         System.err.println("Invalid Portal connect message, connection attempt will be dropped.");
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(ChatNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
