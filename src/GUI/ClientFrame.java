@@ -24,7 +24,7 @@ import middleware.MessageType;
 public final class ClientFrame extends BaseFrame
 {
 
-    Agent agent = new Agent("", this);
+    Agent agent = new Agent("default", this);
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
 
     /**
