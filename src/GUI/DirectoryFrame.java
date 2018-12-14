@@ -29,7 +29,9 @@ public final class DirectoryFrame extends BaseFrame
     Directory dir = new Directory("dir", "0.0.0.0");
             
     /**
-     *
+     * Constructs a swing frame
+     * Initialises and starts a new directory
+     * Populates the frame with buttons
      */
     public DirectoryFrame() 
     {
@@ -71,7 +73,9 @@ public final class DirectoryFrame extends BaseFrame
     }
 
     /**
-     *
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
      */
     @Override
     protected void addButtons()

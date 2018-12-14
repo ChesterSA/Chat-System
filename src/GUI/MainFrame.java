@@ -22,8 +22,9 @@ public final class MainFrame extends BaseFrame
     PortalFrame portalFrame;
     ClientFrame clientFrame;
 
-    /**
-     *
+     /**
+     * Constructs a swing frame
+     * Populates the frame with buttons
      */
     public MainFrame()
     {
@@ -38,7 +39,9 @@ public final class MainFrame extends BaseFrame
     }
     
     /**
-     *
+     * Initialises swing buttons
+     * Adds them to the frame grid bag.
+     * Defines action listeners for each button.
      */
     @Override
     protected void addButtons()
