@@ -1,0 +1,7 @@
+20181214_152347	From: ClientOne	To: null		Type: AGENT		Content: 
+20181214_152426	From: ClientTwo	To: null		Type: AGENT		Content: 
+20181214_152536	From: ClientOne	To: ClientTwo		Type: STANDARD		Content: Hello, World!
+20181214_152559	From: ClientOne	To: ClientFour		Type: STANDARD		Content: Hello, World!
+20181214_152627	From: PortalTwo	To: null		Type: PORTAL		Content: 
+20181214_152651	From: ClientOne	To: ClientFour		Type: STANDARD		Content: Hello, World!
+20181214_152708	From: ClientOne	To: all		Type: BROADCAST		Content: Hello, World!

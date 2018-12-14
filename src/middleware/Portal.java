@@ -349,7 +349,6 @@ public class Portal extends MetaAgent implements Connectable
                     
                     //Wait for a PORTAL, AGENT, or AGENTREMOVE message
                     final Message receivedMessage = newConnection.receiveMessage();
-                    System.out.println(receivedMessage);
                     if(nodeMonitor != null)
                     {
                         nodeMonitor.handleMessage(receivedMessage);
