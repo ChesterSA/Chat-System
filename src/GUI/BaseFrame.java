@@ -21,13 +21,13 @@ import middleware.Message;
  *
  * @author s6089488
  */
-public abstract class MyFrame extends JFrame implements Contactable
+public abstract class BaseFrame extends JFrame implements Contactable
 {
 
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
     final String IP_BASE = "152.105.67.";
 
-    public MyFrame(String title)
+    public BaseFrame(String title)
     {
         super(title);
     }

@@ -24,7 +24,7 @@ import middleware.Directory;
  *
  * @author s6089488
  */
-public final class DirectoryFrame extends MyFrame
+public final class DirectoryFrame extends BaseFrame
 {
     Directory dir = new Directory("dir", "0.0.0.0");
             

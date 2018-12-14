@@ -25,7 +25,7 @@ import middleware.Portal;
  *
  * @author s6089488
  */
-public final class PortalFrame extends MyFrame
+public final class PortalFrame extends BaseFrame
 {
     Portal portal = new Portal("", "0.0.0.0");
     private final String DIR_IP = "152.105.67.123";

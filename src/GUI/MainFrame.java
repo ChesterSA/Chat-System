@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  * @author s6089488
  */
-public final class MainFrame extends MyFrame
+public final class MainFrame extends BaseFrame
 {
     /**
      * Initialising empty middleware nodes

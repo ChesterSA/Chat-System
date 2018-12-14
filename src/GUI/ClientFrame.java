@@ -21,7 +21,7 @@ import middleware.MessageType;
  *
  * @author s6089488
  */
-public final class ClientFrame extends MyFrame
+public final class ClientFrame extends BaseFrame
 {
 
     Agent agent = new Agent("", this);
