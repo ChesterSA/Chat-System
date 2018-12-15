@@ -44,18 +44,20 @@ public final class PortalFrame extends BaseFrame
         setBackground(Color.yellow);
         setSize(450, 300);
         setResizable(false);
-        
-        
+
         try
         {
+            String myHandle = getHandle();
+            portal.setHandle(myHandle);
             int result = JOptionPane.showConfirmDialog(null, "Do you want a NodeMonitor on this portal?", "Node Monitor?", JOptionPane.YES_NO_OPTION);
+            
+            //if yes option
             if (result == 0)
             {
                 portal.addNodeMonitor();
             }
             
-            String myHandle = getHandle();
-            portal.setHandle(myHandle);
+            this.setTitle(myHandle);
             portal.begin();
         }
         catch (IOException ex)

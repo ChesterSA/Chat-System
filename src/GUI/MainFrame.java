@@ -37,7 +37,7 @@ public final class MainFrame extends BaseFrame
         addButtons();
         this.setVisible(true);
     }
-    
+
     /**
      * Initialises swing buttons
      * Adds them to the frame grid bag.

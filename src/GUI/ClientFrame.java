@@ -46,6 +46,7 @@ public final class ClientFrame extends BaseFrame
         {
             String myHandle = getHandle();
             agent.setHandle(myHandle);
+            this.setTitle(myHandle);
             agent.begin();
         }
         catch (IOException ex)
