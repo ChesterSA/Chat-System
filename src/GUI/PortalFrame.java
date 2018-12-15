@@ -57,7 +57,7 @@ public final class PortalFrame extends BaseFrame
                 portal.addNodeMonitor();
             }
             
-            this.setTitle(myHandle);
+            setTitle(myHandle);
             portal.begin();
         }
         catch (IOException ex)
