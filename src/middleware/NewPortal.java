@@ -446,6 +446,18 @@ public class NewPortal extends MetaAgent implements Connectable
         startPeerReceiver();
         receiveThread.start();
     }
+    
+    public void enqueue(Message m)
+    {
+        try
+        {
+            queue.put(m);
+        }
+        catch (InterruptedException ex)
+        {
+            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * method to check if this portal has any agent
@@ -464,15 +476,15 @@ public class NewPortal extends MetaAgent implements Connectable
      */
     public void addAgent(NewAgent a)
     {
-        String handle = a.getHandle();
+        String agentHandle = a.getHandle();
         synchronized (lock)
         {
-            if (agents.containsKey(handle))
+            if (agents.containsKey(agentHandle))
             {
-                System.err.println("[" + handle + "] is already an agent");
+                System.err.println("[" + agentHandle + "] is already an established connection.");
                 return;
             }
-            agents.put(handle, a);
+            agents.put(agentHandle, a);
         }
     }
 
@@ -526,15 +538,15 @@ public class NewPortal extends MetaAgent implements Connectable
      */
     private void addPortal(Connection c)
     {
-        String portalHandle = c.getHandle();
+        String handle = c.getHandle();
         synchronized (lock)
         {
-            if (portals.containsKey(portalHandle))
+            if (portals.containsKey(handle))
             {
-                System.err.println("[" + portalHandle + "] is already an established connection.");
+                System.err.println("[" + handle + "] is already an established connection.");
                 return;
             }
-            portals.put(portalHandle, c);
+            portals.put(handle, c);
         }
     }
 
@@ -611,17 +623,5 @@ public class NewPortal extends MetaAgent implements Connectable
     public void connectTo(String remoteIpAddress)
     {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
-    }
-    
-    public void enqueue(Message m)
-    {
-        try
-        {
-            queue.put(m);
-        }
-        catch (InterruptedException ex)
-        {
-            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
