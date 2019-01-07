@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package middleware;
 
 import java.io.IOException;
@@ -12,19 +7,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.LinkedList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static middleware.MetaAgent.DEFAULT_PORT;
 
 /**
+ * Class used for message throughput from agent to agent, or agent to portal to
+ * agent
  *
- * @author cswan
+ * @author s6089488
  */
 public class NewPortal extends MetaAgent implements Connectable
 {
@@ -42,7 +39,7 @@ public class NewPortal extends MetaAgent implements Connectable
     /**
      * Hashmap containing handle and connection of all connected portals
      */
-    protected HashMap<String, Connection> agents = new HashMap<>();
+    protected HashMap<String, NewAgent> agents = new HashMap<>();
     
     /**
      * Monitor which when set will keep track of all messages through the portal
@@ -97,9 +94,9 @@ public class NewPortal extends MetaAgent implements Connectable
 
                 if (message.getType().equals(MessageType.BROADCAST))
                 {
-                    for (Connection c : agents.values())
+                    for (NewAgent a : agents.values())
                     {
-                        c.sendMessage(message);
+                        a.receiveMessage(message);
                     }
                     if (agents.containsKey(message.getFrom()))
                     {
@@ -113,7 +110,7 @@ public class NewPortal extends MetaAgent implements Connectable
                 {
                     if (agents.containsKey(message.getTo()))
                     {
-                        agents.get(message.getTo()).sendMessage(message);
+                        agents.get(message.getTo()).receiveMessage(message);
                     }
                     else
                     {
@@ -148,7 +145,6 @@ public class NewPortal extends MetaAgent implements Connectable
                 synchronized (lock)
                 {
                     LinkedList<Connection> connections = new LinkedList(portals.values());
-                    connections.addAll(agents.values());
 
                     for (Connection c : connections)
                     {
@@ -466,17 +462,17 @@ public class NewPortal extends MetaAgent implements Connectable
      *
      * @param c the connection details of the portal to add
      */
-    private void addAgent(Connection c)
+    public void addAgent(NewAgent a)
     {
-        String handle = c.getHandle();
+        String handle = a.getHandle();
         synchronized (lock)
         {
             if (agents.containsKey(handle))
             {
-                System.err.println("[" + handle + "] is already an established connection.");
+                System.err.println("[" + handle + "] is already an agent");
                 return;
             }
-            agents.put(handle, c);
+            agents.put(handle, a);
         }
     }
 
@@ -530,15 +526,15 @@ public class NewPortal extends MetaAgent implements Connectable
      */
     private void addPortal(Connection c)
     {
-        String handle = c.getHandle();
+        String portalHandle = c.getHandle();
         synchronized (lock)
         {
-            if (portals.containsKey(handle))
+            if (portals.containsKey(portalHandle))
             {
-                System.err.println("[" + handle + "] is already an established connection.");
+                System.err.println("[" + portalHandle + "] is already an established connection.");
                 return;
             }
-            portals.put(handle, c);
+            portals.put(portalHandle, c);
         }
     }
 
@@ -615,5 +611,17 @@ public class NewPortal extends MetaAgent implements Connectable
     public void connectTo(String remoteIpAddress)
     {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
+    }
+    
+    public void enqueue(Message m)
+    {
+        try
+        {
+            queue.put(m);
+        }
+        catch (InterruptedException ex)
+        {
+            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

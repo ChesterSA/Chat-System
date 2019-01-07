@@ -30,40 +30,38 @@ import static middleware.MetaAgent.DEFAULT_RECV_IP_ADDRESS;
  */
 public class NewAgent
 {
-    private static Socket socket;
- 
-    public void run()
+    String handle;
+    NewPortal portal;
+
+    public NewAgent(String handle, NewPortal portal)
     {
-        try
-        {
-            String host = "localhost";
-            int port = 25000;
-            InetAddress address = InetAddress.getByName(host);
-            socket = new Socket(address, port);
- 
-            //Send the message to the server
-            OutputStream os = socket.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os);
-            BufferedWriter bw = new BufferedWriter(osw);
- 
-            String number = "2";
- 
-            String sendMessage = number + "\n";
-            bw.write(sendMessage);
-            bw.flush();
-            System.out.println("Message sent to the server : "+sendMessage);
- 
-            //Get the return message from the server
-            InputStream is = socket.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String message = br.readLine();
-            System.out.println("Message received from the server : " +message);
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }        
+        this.handle = handle;
+        this.portal = portal;
+        portal.addAgent(this);
     }
+    
+    public void sendMessage(String to, String from, String content, MessageType type)
+    {
+        Message m = new Message(from, to, type);
+        m.append(content);
+        
+        portal.enqueue(m);
+        portal.sendMessage();
+    }
+    
+    public void receiveMessage(Message m)
+    {
+        System.out.println(handle + " has received a message");
+        System.out.println("To: " + m.getTo());
+        System.out.println("From: " + m.getFrom());
+        System.out.println("Content: " + m.getContent());
+    }
+
+    public String getHandle()
+    {
+        return handle;
+    }
+    
+    
 }
 
