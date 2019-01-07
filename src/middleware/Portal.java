@@ -180,6 +180,8 @@ public class Portal extends MetaAgent implements Connectable
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
                                     queue.put(receivedMessage);
+                                    
+                                    //1 second delay to show the queue in action
                                     Thread.sleep(1000);
                                     sendMessage();
                                 }
