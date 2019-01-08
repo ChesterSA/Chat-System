@@ -16,7 +16,6 @@ import org.junit.Test;
  */
 public class AgentTest
 {
-
     Agent a;
 
     @Test(expected = IllegalArgumentException.class)
