@@ -28,8 +28,7 @@ public class PortalTest extends Driver
         
         boolean ifNodeMonitor = Boolean.parseBoolean(gets());
         if(ifNodeMonitor)
-        {
-            
+        {  
             portal.addNodeMonitor();
         }
 
