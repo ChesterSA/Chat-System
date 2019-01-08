@@ -347,7 +347,7 @@ public class NewPortal extends MetaAgent implements Connectable
                         }
                     }
 
-                    //Wait for a PORTAL, AGENT, or AGENTREMOVE message
+                    //Wait for a PORTAL message
                     final Message receivedMessage = newConnection.receiveMessage();
                     if (nodeMonitor != null)
                     {
@@ -377,29 +377,6 @@ public class NewPortal extends MetaAgent implements Connectable
                                 }
                             }
                             break;
-                        }
-                        case AGENT:
-                        {
-                            final String newConnectionHandle = receivedMessage.getFrom();
-                            if (newConnectionHandle != null)
-                            {
-                                synchronized (lock)
-                                {
-                                    //if not already connected, set the connection up then respond with an ack message
-                                    if (agents.get(newConnectionHandle) == null)
-                                    {
-                                        newConnection.setHandle(newConnectionHandle);
-                                        addAgent(newConnection);
-                                        newConnection.sendMessage(new Message(handle, newConnectionHandle, MessageType.HELLOACK));
-                                    }
-                                    else
-                                    {
-                                        System.err.println("Already connected to an agent with name: '" + newConnectionHandle + "'");
-                                    }
-                                }
-                            }
-                            break;
-
                         }
                         default:
                             System.err.println("Invalid HELLO message, connection attempt will be dropped.");

@@ -27,8 +27,8 @@ import middleware.Portal;
  * @author Group B
  */
 public final class PortalFrame extends BaseFrame
-{
-    private final String DIR_IP = "152.105.67.123";
+{ 
+   private final String DIR_IP = "152.105.67.123";
     
     /**
      * Constructs a swing frame
@@ -47,7 +47,7 @@ public final class PortalFrame extends BaseFrame
 
         try
         {
-            portal = new NewPortal("default", "0.0.0.0");
+            setPortal(new NewPortal("Default", "0.0.0.0"));
             String myHandle = getHandle();
             portal.setHandle(myHandle);
             int result = JOptionPane.showConfirmDialog(null, "Do you want a NodeMonitor on this portal?", "Node Monitor?", JOptionPane.YES_NO_OPTION);

@@ -27,7 +27,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
 
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
     final String IP_BASE = "152.105.67.";
-    NewPortal portal;
+    static NewPortal portal;
 
     /**
      *
@@ -158,4 +158,14 @@ public abstract class BaseFrame extends JFrame implements Contactable
      * Defines action listeners for each button.
      */
     protected abstract void addButtons();
+
+    public void setPortal(NewPortal portal) {
+        this.portal = portal;
+    }
+
+    public NewPortal getPortal() {
+        return portal;
+    }
+    
+    
 }

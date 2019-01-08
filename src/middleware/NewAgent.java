@@ -13,8 +13,19 @@ import java.util.LinkedList;
  */
 public class NewAgent
 {
+    /**
+     * The handle of the agent, used for identification
+     */
     String handle;
+    
+    /**
+     * The portal that the agent is connected to
+     */
     NewPortal portal;
+    
+    /**
+     * the client that is using the agent
+     */
     Contactable client;
     
     /**
@@ -23,12 +34,20 @@ public class NewAgent
      */
     LinkedList<String> contacts = new LinkedList<>();
     
+    /**
+     *  A default constructor, essentially makes a null Agent
+     */
     public NewAgent()
     {
         handle = null;
         portal = null;
     }
     
+    /**
+     * The standard constructor, gives the agent a handle and a portal to connect to
+     * @param handle the identifying handle of the agent
+     * @param portal the portal that the agent is connected to
+     */
     public NewAgent(String handle, NewPortal portal)
     {
         this.handle = handle;
@@ -36,6 +55,11 @@ public class NewAgent
         portal.addAgent(this);
     }
     
+    /**
+     * sends a standard message from this agent to another
+     * @param to the handle of the agent to send a message to
+     * @param content the content of the message
+     */
     public void sendMessage(String to, String content)
     {
         Message m = new Message("handle", to, MessageType.STANDARD);
@@ -45,6 +69,10 @@ public class NewAgent
         portal.sendMessage();
     }
     
+    /**
+     * This agent handles a message, then adds the sender to a contact list
+     * @param m the message to receive
+     */
     public void receiveMessage(Message m)
     {
         System.out.println("\t" + handle + " has received a message");
@@ -63,21 +91,30 @@ public class NewAgent
         }
     }
 
+    /**
+     * returns the handle
+     * @return the handle of the agent
+     */
     public String getHandle()
     {
         return handle;
     }
     
+    /**
+     * Sets the client for this agent
+     * @param c the client to connect to this agent
+     */
     public void setClient(Contactable c)
     {
         client = c;
     }
 
-    public void setHandle(String handle) {
-        this.handle = handle;
-    }
-
-    public LinkedList<String> getContacts() {
+    /**
+     * gets the contact list
+     * @return the list of all agents that have contacted this portal
+     */
+    public LinkedList<String> getContacts()
+    {
         return contacts;
     }
 
@@ -85,9 +122,9 @@ public class NewAgent
         return portal;
     }
 
-    public void setPortal(NewPortal portal) {
-        this.portal = portal;
+    public void setHandle(String handle) {
+        this.handle = handle;
     }
-  
+   
 }
 

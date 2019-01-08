@@ -24,8 +24,7 @@ import middleware.NewAgent;
  */
 public final class ClientFrame extends BaseFrame
 {
-
-    NewAgent agent = new NewAgent("default", portal);
+    NewAgent agent = new NewAgent(getHandle(), getPortal());
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
     
     /**
@@ -42,10 +41,10 @@ public final class ClientFrame extends BaseFrame
         setBackground(Color.yellow);
         setSize(450, 300);
         setResizable(false);
-
-        String myHandle = getHandle();
-        agent.setHandle(myHandle);
-        setTitle(myHandle);
+        
+        //String myHandle = getHandle();
+        //agent.setHandle(myHandle);
+        setTitle(agent.getHandle());
         //agent.begin();
 
         addButtons();
@@ -147,7 +146,7 @@ public final class ClientFrame extends BaseFrame
      */
     private void displayConnections()
     {
-        if (agent.getPortal() == null)
+        if (agent == null)
         {
             JOptionPane.showMessageDialog(null, "No Portal Connected", "Portal", JOptionPane.ERROR_MESSAGE);
             return;
