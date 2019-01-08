@@ -14,14 +14,26 @@ import middleware.*;
 
 /**
  *
- * @author cswan
+ * @author Group B
  */
 public class ConsoleDriver extends Driver
 {
 
+    /**
+     * The portal used on this pc for agents to connect to
+     */
     static Portal portal;
+
+    /**
+     * The list of agents created on this pc
+     */
     static LinkedList<Agent> agents = new LinkedList<Agent>();
 
+    /**
+     * The main driver of the class
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args)
     {
         System.out.println("Portal Handle?");
@@ -72,6 +84,9 @@ public class ConsoleDriver extends Driver
                         case "5":
                             displayConnections();
                             break;
+                        case "6":
+                            removeAgent();
+                            break;
                         default:
                             System.err.println("Invalid option.");
                     }
@@ -85,12 +100,20 @@ public class ConsoleDriver extends Driver
         }
     }
 
+    /**
+     * Gets the last line typed by the user
+     *
+     * @return the last line typed into the console
+     */
     private static String gets()
     {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
+    /**
+     * Create a new agent and add to the list
+     */
     private static void newAgent()
     {
         System.out.println("Agent Handle?");
@@ -99,6 +122,9 @@ public class ConsoleDriver extends Driver
         agents.add(new Agent(handle, portal));
     }
 
+    /**
+     * Send a message from one agent to another
+     */
     private static void sendMessage()
     {
         System.out.println("Which agent is the message from?");
@@ -135,6 +161,9 @@ public class ConsoleDriver extends Driver
         System.out.println("Message Sent");
     }
 
+    /**
+     * View all agents created on this machine
+     */
     private static void viewAgents()
     {
         System.out.println("Agent List");
@@ -144,6 +173,9 @@ public class ConsoleDriver extends Driver
         }
     }
 
+    /**
+     * Connects the current portal to an external IP
+     */
     private static void connectTo()
     {
         System.out.println("What is the IP to connect to?");
@@ -152,6 +184,9 @@ public class ConsoleDriver extends Driver
         portal.connectTo(ip);
     }
 
+    /**
+     * Display every portal connected to this one
+     */
     private static void displayConnections()
     {
         for (String p : portal.getPortalHandles())
@@ -159,4 +194,30 @@ public class ConsoleDriver extends Driver
             System.out.print(p + " ");
         }
     }
+
+    /**
+     * Delete one of the current agents
+     */
+    private static void removeAgent()
+    {
+        System.out.println("Which agent do you want to delete?");
+
+        for (Agent a : agents)
+        {
+            System.out.println(a.getHandle());
+        }
+        String handle = gets();
+
+        Agent toDelete = new Agent();
+        for (Agent a : agents)
+        {
+            if (a.getHandle().equals(handle))
+            {
+                toDelete = a;
+            }
+        }
+
+        toDelete.delete();
+    }
+    
 }

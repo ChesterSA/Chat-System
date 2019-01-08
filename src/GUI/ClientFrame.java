@@ -11,19 +11,24 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import middleware.Contactable;
+import middleware.Message;
 
 /**
  *
  * @author Group B
  */
-public final class ClientFrame extends BaseFrame
+public final class ClientFrame extends BaseFrame implements Contactable
 {
-    Client agent = new Client(getHandle(), getPortal());
-    
+
     /**
-     * Constructs a swing frame
-     * Initialises and starts a new agent
-     * Populates the frame with buttons
+     * The Client that this frame uses for connections
+     */
+    Client agent = new Client(getHandle(), getPortal());
+
+    /**
+     * Constructs a swing frame Initialises and starts a new agent Populates the
+     * frame with buttons
      */
     public ClientFrame()
     {
@@ -34,7 +39,7 @@ public final class ClientFrame extends BaseFrame
         setBackground(Color.yellow);
         setSize(450, 300);
         setResizable(false);
-        
+
         setTitle(agent.getAgent().getHandle());
         agent.getAgent().setClient(this);
 
@@ -43,28 +48,40 @@ public final class ClientFrame extends BaseFrame
         // sets the frame to be visible
         setVisible(true);
     }
-
+    
     /**
-     * Portal object calls connectTo 
-     * @param ip validated ip from
+     * Check the message information and react accordingly
+     *
+     * @param m the message being handled
      */
-//    @Override
-//    public void connectTo(String ip)
-//    {
-//        agent.connectTo(ip);
-//    }
+    @Override
+    public void handleMessage(Message m)
+    {
+        String content = m.getContent();
+        if (content.isEmpty())
+        {
+            content = "N/A";
+        }
 
+        JOptionPane.showMessageDialog(null, "From: " + m.getFrom() + "\n"
+                + "To: " + m.getTo() + "\n"
+                + "Content: " + m.getContent() + "\n"
+                + "Type: " + m.getType().toString(),
+                "Message Notification",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     /**
-     * Creates a message object
-     * Appends the content
-     * Calls agents sendMessage method
+     * Creates a message object Appends the content Calls agents sendMessage
+     * method
+     *
      * @param to recipient of the message
      * @param content the message contents
      */
     @Override
     public void sendMessage(String to, String content)
     {
-        if (to.equals("all")) 
+        if (to.equals("all"))
         {
             agent.getAgent().sendBroadcast(agent.getAgent().getHandle(), to, content);
             return;
@@ -73,8 +90,9 @@ public final class ClientFrame extends BaseFrame
     }
 
     /**
-     * If standard message, get handle input from the user
-     * Else handle equals All, to represent a broadcast message
+     * If standard message, get handle input from the user Else handle equals
+     * All, to represent a broadcast message
+     *
      * @return String handle
      */
     protected String getTo()
@@ -143,9 +161,8 @@ public final class ClientFrame extends BaseFrame
     }
 
     /**
-     * Initialises swing buttons
-     * Adds them to the frame grid bag.
-     * Defines action listeners for each button.
+     * Initialises swing buttons Adds them to the frame grid bag. Defines action
+     * listeners for each button.
      */
     @Override
     protected void addButtons()
@@ -176,4 +193,5 @@ public final class ClientFrame extends BaseFrame
             System.exit(0);
         });
     }
+    
 }

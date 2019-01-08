@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  *
- * @author cswan
+ * @author Group B
  */
 public class AgentTest
 {

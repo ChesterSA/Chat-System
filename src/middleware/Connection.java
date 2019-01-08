@@ -14,6 +14,7 @@ import java.net.Socket;
 
 /**
  * Handles the connection between 2 different ChatNodes over the network
+ *
  * @author Group B
  */
 public class Connection
@@ -23,28 +24,28 @@ public class Connection
      * Identifying string of connection.
      */
     private String handle;
-    
+
     /**
      * Socket used by connection.
      */
     public final Socket socket;
-    
+
     /**
      * Stream of data (in bytes) to be processed through connection.
      */
     private final InputStream clientSocketInputStream;
-    
+
     /**
      * Reader object to parse InputStream byte data into character data.
      */
     private final InputStreamReader clientSocketInputStreamReader;
-    
+
     /**
      * Reader object wrapping InputStreamReader, buffering the data being read
      * by the reader, increasing efficiency of the reading process.
      */
     private final BufferedReader clientSocketBufferedReader;
-    
+
     /**
      * Sends data to stream of text, used to send messages through connection.
      */

@@ -21,27 +21,30 @@ import middleware.Directory;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public final class DirectoryFrame extends BaseFrame
 {
-    Directory dir = new Directory("dir", "0.0.0.0");
-            
+
     /**
-     * Constructs a swing frame
-     * Initialises and starts a new directory
-     * Populates the frame with buttons
+     * The default directory this frame uses
      */
-    public DirectoryFrame() 
+    Directory dir = new Directory("dir", "0.0.0.0");
+
+    /**
+     * Constructs a swing frame Initialises and starts a new directory Populates
+     * the frame with buttons
+     */
+    public DirectoryFrame()
     {
         super("Directory");
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         setBackground(Color.yellow);
         setSize(450, 200);
         setResizable(false);
-        
+
         try
         {
             dir.begin();
@@ -50,12 +53,12 @@ public final class DirectoryFrame extends BaseFrame
         {
             Logger.getLogger(DirectoryFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         addButtons();
-        
+
         setVisible(true);
-    }   
-    
+    }
+
     /**
      * this will show the agents that have been connected to the directory
      *
@@ -72,9 +75,8 @@ public final class DirectoryFrame extends BaseFrame
     }
 
     /**
-     * Initialises swing buttons
-     * Adds them to the frame grid bag.
-     * Defines action listeners for each button.
+     * Initialises swing buttons Adds them to the frame grid bag. Defines action
+     * listeners for each button.
      */
     @Override
     protected void addButtons()
@@ -89,14 +91,14 @@ public final class DirectoryFrame extends BaseFrame
         {
             displayConnectionList();
         });
-        
+
         JButton directoryshowConnections = new JButton("Remove Connections");
         addComponentToGridBag(this, directoryshowConnections, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         directoryshowConnections.addActionListener((ActionEvent e) ->
         {
             dir.removeConnections();
         });
-        
+
         JButton direxit = new JButton("Exit");
         addComponentToGridBag(this, direxit, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         direxit.addActionListener((ActionEvent e) ->
@@ -104,4 +106,5 @@ public final class DirectoryFrame extends BaseFrame
             System.exit(0);
         });
     }
+    
 }

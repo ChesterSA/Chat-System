@@ -11,10 +11,11 @@ import javax.swing.*;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public final class MainFrame extends BaseFrame
 {
+
     /**
      * Initialising empty middleware nodes
      */
@@ -22,26 +23,24 @@ public final class MainFrame extends BaseFrame
     PortalFrame portalFrame;
     ClientFrame clientFrame;
 
-     /**
-     * Constructs a swing frame
-     * Populates the frame with buttons
+    /**
+     * Constructs a swing frame Populates the frame with buttons
      */
     public MainFrame()
     {
         super("Main");
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         this.setSize(300, 200);
-        
+
         addButtons();
         this.setVisible(true);
     }
 
     /**
-     * Initialises swing buttons
-     * Adds them to the frame grid bag.
-     * Defines action listeners for each button.
+     * Initialises swing buttons Adds them to the frame grid bag. Defines action
+     * listeners for each button.
      */
     @Override
     protected void addButtons()
@@ -57,7 +56,7 @@ public final class MainFrame extends BaseFrame
             //setVisible(false);
             portalFrame = new PortalFrame();
         });
-        
+
         JButton agents = new JButton("Client");
         addComponentToGridBag(this, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agents.addActionListener((ActionEvent e) ->
@@ -65,7 +64,7 @@ public final class MainFrame extends BaseFrame
             //setVisible(false);
             clientFrame = new ClientFrame();
         });
-        
+
         JButton Directory = new JButton("Directory");
         addComponentToGridBag(this, Directory, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         Directory.addActionListener((ActionEvent e) ->
@@ -73,7 +72,7 @@ public final class MainFrame extends BaseFrame
             //setVisible(false);
             directoryFrame = new DirectoryFrame();
         });
-        
+
         JButton exit = new JButton("Exit");
         addComponentToGridBag(this, exit, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         exit.addActionListener((ActionEvent e) ->
@@ -85,4 +84,5 @@ public final class MainFrame extends BaseFrame
             directoryFrame.dispose();
         });
     }
+    
 }

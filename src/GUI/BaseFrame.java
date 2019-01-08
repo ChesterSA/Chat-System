@@ -17,17 +17,29 @@ import middleware.Message;
 import middleware.Portal;
 
 /**
- *
- * @author s6089488
+ * The frame that all other frames in the program extend 
+ * @author Group B
  */
-public abstract class BaseFrame extends JFrame implements Contactable
+public abstract class BaseFrame extends JFrame
 {
 
+    /**
+     * Insets data
+     */
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
+
+    /**
+     * The local IP base, used to make entering IP's less work
+     */
     final String IP_BASE = "152.105.67.";
+
+    /**
+     * The portal that every frame on the machine uses
+     */
     static Portal portal;
 
     /**
+     * Constructor for the frame
      *
      * @param title
      */
@@ -71,8 +83,9 @@ public abstract class BaseFrame extends JFrame implements Contactable
 
     /**
      * out puts a gui that is used for for getting the content of the message
-     * @param to 
-     * @return  content gui input box
+     *
+     * @param to
+     * @return content gui input box
      */
     protected String getContent(String to)
     {
@@ -107,62 +120,27 @@ public abstract class BaseFrame extends JFrame implements Contactable
     }
 
     /**
-     * Check the message information and react accordingly
-     *
-     * @param m the message being handled
-     */
-    @Override
-    public void handleMessage(Message m)
-    {
-        String content = m.getContent();
-        if (content.isEmpty())
-        {
-            content = "N/A";
-        }
-
-        JOptionPane.showMessageDialog(null, "From: " + m.getFrom() + "\n"
-                + "To: " + m.getTo() + "\n"
-                + "Content: " + m.getContent() + "\n"
-                + "Type: " + m.getType().toString(),
-                "Message Notification",
-                JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
-     *
-     * @param ip
-     */
-    public void connectTo(String ip)
-    {
-
-    }
-
-    /**
-     * Send a message from this class to any other agent on the network
-     *
-     * @param to the handle of the agent being sent to
-     * @param content the content of the message to send
-     */
-    @Override
-    public void sendMessage(String to, String content)
-    {
-
-    }
-
-    /**
-     * Initialises swing buttons
-     * Adds them to the frame grid bag.
-     * Defines action listeners for each button.
+     * Initialises swing buttons Adds them to the frame grid bag. Defines action
+     * listeners for each button.
      */
     protected abstract void addButtons();
 
-    public void setPortal(Portal portal) {
+    /**
+     * Set the portal that all frames should connect to
+     * @param portal the portal reference for all local frames to use
+     */
+    public void setPortal(Portal portal)
+    {
         BaseFrame.portal = portal;
     }
 
-    public Portal getPortal() {
+    /**
+     * Gets the portal value
+     * @return the portal
+     */
+    public Portal getPortal()
+    {
         return portal;
     }
-    
-    
+
 }

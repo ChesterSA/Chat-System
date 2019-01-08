@@ -13,6 +13,9 @@ import middleware.Directory;
 public class DirectoryTest extends Driver
 {
 
+    /**
+     * The directory that this driver uses
+     */
     static Directory directory;
 
     /**
@@ -87,4 +90,5 @@ public class DirectoryTest extends Driver
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
+    
 }

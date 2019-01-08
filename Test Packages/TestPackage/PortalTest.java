@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public class PortalTest
 {

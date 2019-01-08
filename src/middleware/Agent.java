@@ -34,7 +34,7 @@ public class Agent
      * portal
      */
     LinkedList<String> contacts = new LinkedList<>();
-    
+
     /**
      * The node monitor for this portal, set to null until it is needed
      */
@@ -77,8 +77,8 @@ public class Agent
         portal.enqueue(m);
         portal.sendMessage();
     }
-    
-     /**
+
+    /**
      * sends a standard message from this agent to another
      *
      * @param to the handle of the agent to send a message to
@@ -100,11 +100,11 @@ public class Agent
      */
     public void receiveMessage(Message m)
     {
-        if(nodeMonitor != null)
+        if (nodeMonitor != null)
         {
             nodeMonitor.handleMessage(m);
         }
-        
+
         if (client != null)
         {
             client.handleMessage(m);
@@ -145,9 +145,10 @@ public class Agent
     {
         return contacts;
     }
-    
+
     /**
      * Gets the portal this agent is connected to
+     *
      * @return the portal that the agent is connected to
      */
     public Portal getPortal()
@@ -169,5 +170,15 @@ public class Agent
     public void removeNodeMonitor()
     {
         nodeMonitor = null;
+    }
+
+    public void delete()
+    {
+        portal.removeAgent(handle);
+        this.handle = null;
+        this.client = null;
+        this.contacts = null;
+        this.nodeMonitor = null;
+        this.portal = null;
     }
 }

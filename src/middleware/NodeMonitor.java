@@ -25,7 +25,7 @@ public class NodeMonitor
     String handle;
     
     /**
-     * 
+     * The output writer used for file access
      */
     PrintWriter nodeMonitor;
 
@@ -55,10 +55,6 @@ public class NodeMonitor
         {
             System.err.println("There has been an input/output error");
         }
-
-        
-        
-        
         
         String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 

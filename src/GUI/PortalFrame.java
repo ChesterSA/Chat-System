@@ -25,12 +25,13 @@ import middleware.Portal;
  * @author Group B
  */
 public final class PortalFrame extends BaseFrame
-{ 
-   private final String DIR_IP = "152.105.67.123";
+{
+
+    private final String DIR_IP = "152.105.67.123";
+
     /**
-     * Constructs a swing frame
-     * Initialises and starts a new portal
-     * Populates the frame with buttons
+     * Constructs a swing frame Initialises and starts a new portal Populates
+     * the frame with buttons
      */
     public PortalFrame()
     {
@@ -48,13 +49,13 @@ public final class PortalFrame extends BaseFrame
             String myHandle = getHandle();
             portal.setHandle(myHandle);
             int result = JOptionPane.showConfirmDialog(null, "Do you want a NodeMonitor on this portal?", "Node Monitor?", JOptionPane.YES_NO_OPTION);
-            
+
             //if yes option
             if (result == 0)
             {
                 portal.addNodeMonitor();
             }
-            
+
             setTitle(myHandle);
             portal.begin();
         }
@@ -62,21 +63,21 @@ public final class PortalFrame extends BaseFrame
         {
             Logger.getLogger(PortalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         addButtons();
         setVisible(true);
     }
-    
+
     /**
-     * Portal object calls connectTo 
+     * Portal object calls connectTo
+     *
      * @param ip validated ip from
      */
-    @Override
     public void connectTo(String ip)
     {
         portal.connectTo(ip);
     }
-    
+
     private void displayPortalConnectionList()
     {
         if (!portal.hasPortals())
@@ -88,7 +89,7 @@ public final class PortalFrame extends BaseFrame
         List<String> connections = portal.getPortalHandles();
         JOptionPane.showMessageDialog(null, connections);
     }
-    
+
     /**
      * this will show the user the connections to the agents
      *
@@ -105,11 +106,10 @@ public final class PortalFrame extends BaseFrame
         List<String> connections = portal.getAgentHandles();
         JOptionPane.showMessageDialog(null, connections, "Connections", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     /**
-     * Initialises swing buttons
-     * Adds them to the frame grid bag.
-     * Defines action listeners for each button.
+     * Initialises swing buttons Adds them to the frame grid bag. Defines action
+     * listeners for each button.
      */
     @Override
     protected void addButtons()
@@ -124,14 +124,14 @@ public final class PortalFrame extends BaseFrame
             String ip = getIpAddress();
             connectTo(ip);
         });
-        
+
         JButton portalshowConnections = new JButton("Show Portals");
         addComponentToGridBag(this, portalshowConnections, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalshowConnections.addActionListener((ActionEvent e) ->
         {
             displayPortalConnectionList();
         });
-        
+
         JButton portalConnectdir = new JButton("Connect to Directory");
         addComponentToGridBag(this, portalConnectdir, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalConnectdir.addActionListener((ActionEvent e) ->
@@ -143,10 +143,10 @@ public final class PortalFrame extends BaseFrame
         addComponentToGridBag(this, portalRemoveConnections, 0, 5, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalRemoveConnections
                 .addActionListener((ActionEvent e) ->
-        {
-            portal.removeConnections();
-        });
-        
+                {
+                    portal.removeConnections();
+                });
+
         JButton portalShowAgents = new JButton("Show Client");
         addComponentToGridBag(this, portalShowAgents, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         portalShowAgents.addActionListener((ActionEvent e) ->
@@ -161,5 +161,5 @@ public final class PortalFrame extends BaseFrame
             System.exit(0);
         });
     }
-    
+
 }

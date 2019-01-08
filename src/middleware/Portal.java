@@ -89,12 +89,12 @@ public class Portal extends MetaAgent implements Connectable
             try
             {
                 Message message = (Message) queue.take();
-                
+
                 if (nodeMonitor != null)
                 {
                     nodeMonitor.handleMessage(message);
                 }
-                
+
                 if (message.getType().equals(MessageType.BROADCAST))
                 {
                     for (Agent a : agents.values())
@@ -423,6 +423,7 @@ public class Portal extends MetaAgent implements Connectable
 
     /**
      * Add a message to the end of the queue
+     *
      * @param m the message to be added
      */
     public void enqueue(Message m)
@@ -599,6 +600,7 @@ public class Portal extends MetaAgent implements Connectable
 
     /**
      * Connect to another meta-agent
+     *
      * @param remoteIpAddress the ip address to connect to
      */
     @Override
