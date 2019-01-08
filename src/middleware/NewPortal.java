@@ -89,7 +89,12 @@ public class NewPortal extends MetaAgent implements Connectable
             try
             {
                 Message message = (Message) queue.take();
-
+                
+                if (nodeMonitor != null)
+                {
+                    nodeMonitor.handleMessage(message);
+                }
+                
                 if (message.getType().equals(MessageType.BROADCAST))
                 {
                     for (NewAgent a : agents.values())

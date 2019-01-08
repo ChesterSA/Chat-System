@@ -63,7 +63,7 @@ public class NodeMonitor
         nodeMonitor.print("To: " + m.getTo() + "\t\t");
         nodeMonitor.print("Type: " + m.getType() + "\t\t");
         nodeMonitor.print("Content: " + m.getContent());
-        nodeMonitor.println();
+        nodeMonitor.print("\r\n");
 
         nodeMonitor.close();
     }

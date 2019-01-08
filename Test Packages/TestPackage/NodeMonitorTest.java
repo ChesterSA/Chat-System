@@ -21,7 +21,7 @@ public class NodeMonitorTest
     @Test
     public void connectToEmpty()
     {
-        NewPortal p = new NewPortal("Test");
+        NewPortal p = new NewPortal("portal");
         p.addNodeMonitor();
         
         NewAgent a1 = new NewAgent("agentone", p);
