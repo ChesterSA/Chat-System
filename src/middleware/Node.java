@@ -6,7 +6,7 @@
 package middleware;
 
 /**
- *
+ * Used as the base class for every part of the middleware, monitored by NodeMonitor
  * @author cswan
  */
 public class Node
