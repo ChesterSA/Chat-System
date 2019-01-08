@@ -5,9 +5,7 @@
  */
 package TestPackage;
 
-import static junit.framework.Assert.assertEquals;
 import middleware.Agent;
-import org.junit.Before;
 import org.junit.Test;
 
 /**

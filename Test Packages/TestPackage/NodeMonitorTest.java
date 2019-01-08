@@ -5,11 +5,32 @@
  */
 package TestPackage;
 
+import middleware.NewAgent;
+import middleware.NewPortal;
+import org.junit.Test;
+
 /**
  *
- * @author cswan
+ * @author s6089488
  */
 public class NodeMonitorTest
 {
-    
+
+    NewPortal p;
+
+    @Test
+    public void connectToEmpty()
+    {
+        NewPortal p = new NewPortal("Test");
+        p.addNodeMonitor();
+        
+        NewAgent a1 = new NewAgent("agentone", p);
+        a1.addNodeMonitor();
+        
+        NewAgent a2 = new NewAgent("agenttwo", p);
+        a2.addNodeMonitor();
+        
+        a1.sendMessage("agenttwo", "test message");
+        a2.sendMessage("agentone", "response message");
+    }
 }

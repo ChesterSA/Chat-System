@@ -26,7 +26,7 @@ public class NewPortal extends MetaAgent implements Connectable
 {
 
     /**
-     *
+     * The queue of messages that the portal will send
      */
     protected BlockingQueue queue = new ArrayBlockingQueue(1024);
 
@@ -82,7 +82,6 @@ public class NewPortal extends MetaAgent implements Connectable
      * Sends a message from this portal to the receiver specified in message
      *
      */
-    //@Override
     public void sendMessage()
     {
         synchronized (lock)
@@ -422,6 +421,10 @@ public class NewPortal extends MetaAgent implements Connectable
         receiveThread.start();
     }
 
+    /**
+     * Add a message to the end of the queue
+     * @param m the message to be added
+     */
     public void enqueue(Message m)
     {
         try
@@ -447,7 +450,7 @@ public class NewPortal extends MetaAgent implements Connectable
     /**
      * Adds a new agent to this portal
      *
-     * @param c the connection details of the portal to add
+     * @param a The agent to be added to the portal
      */
     public void addAgent(NewAgent a)
     {
@@ -594,6 +597,10 @@ public class NewPortal extends MetaAgent implements Connectable
         this.handle = handle;
     }
 
+    /**
+     * Connect to another meta-agent
+     * @param remoteIpAddress the ip address to connect to
+     */
     @Override
     public void connectTo(String remoteIpAddress)
     {

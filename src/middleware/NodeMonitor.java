@@ -17,46 +17,54 @@ import java.util.Calendar;
  *
  * @author Group B
  */
-public class NodeMonitor {
+public class NodeMonitor
+{
+    /**
+     * the handle of the portal that this NodeMonitor is monitoring
+     */
+    String handle;
     
-    String portalHandle;
+    /**
+     * 
+     */
     PrintWriter nodeMonitor;
-    
-    NodeMonitor(String pH)
+
+    NodeMonitor(String h)
     {
-        portalHandle = pH;
-    }    
-        
+        handle = h;
+    }
+
     /**
      * Logs to a file when a message passes through a portal
+     *
      * @param m message being passed monitored
      */
     public void handleMessage(Message m)
     {
-        File monitor = new File(portalHandle + "-Log.txt");
+        File monitor = new File(handle + "-Log.txt");
         try
         {
             FileWriter fw = new FileWriter(monitor, true);
             nodeMonitor = new PrintWriter(fw);
         }
-        catch(FileNotFoundException e)
+        catch (FileNotFoundException e)
         {
             System.err.println("There has been an error finding file");
         }
-        catch(IOException ex)
+        catch (IOException ex)
         {
             System.err.println("There has been an input/output error");
         }
-        
+
         String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-        
-        nodeMonitor.print(currentTime + "\t");        
+
+        nodeMonitor.print(currentTime + "\t");
         nodeMonitor.print("From: " + m.getFrom() + "\t");
         nodeMonitor.print("To: " + m.getTo() + "\t\t");
         nodeMonitor.print("Type: " + m.getType() + "\t\t");
         nodeMonitor.print("Content: " + m.getContent());
         nodeMonitor.println();
-        
+
         nodeMonitor.close();
     }
 }

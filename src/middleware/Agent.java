@@ -211,14 +211,6 @@ public class Agent extends MetaAgent implements Connectable
                 {
                     Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
-//                catch (InterruptedException ex)
-//                {
-//                    Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                catch (InterruptedException ex)
-//                {
-//                    Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
-//                }
 
             }
         }

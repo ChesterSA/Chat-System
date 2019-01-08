@@ -5,11 +5,11 @@
  */
 package TestPackage;
 
-import static junit.framework.Assert.assertEquals;
 import middleware.NewAgent;
 import middleware.NewPortal;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  *

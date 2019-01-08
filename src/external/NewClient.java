@@ -16,13 +16,18 @@ import middleware.NewPortal;
  */
 public class NewClient implements Contactable
 {
+    /**
+     * The client name, used to set the agent's handle
+     */
     String name;
+    
+    /**
+     * The agent that this client has connected to
+     */
     NewAgent agent;
     
     /**
-     * Set client name
-     * New agent object
-     * Start agent
+     * Set client name and create an attached agent
      * @param name String name of client
      * @param portal The portal to connect to
      */
@@ -48,6 +53,11 @@ public class NewClient implements Contactable
         System.out.println();
     }
 
+    /**
+     * Send a message from this client to another
+     * @param to The name of the client to send the message to
+     * @param content the content of the message
+     */
     @Override
     public void sendMessage(String to, String content)
     {
@@ -61,5 +71,4 @@ public class NewClient implements Contactable
     {
         return agent;
     }
-
 }

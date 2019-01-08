@@ -5,10 +5,10 @@
  */
 package TestPackage;
 
-import static junit.framework.Assert.assertEquals;
 import middleware.Message;
 import middleware.MessageType;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  *

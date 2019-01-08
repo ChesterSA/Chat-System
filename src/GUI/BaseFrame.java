@@ -157,7 +157,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
     protected abstract void addButtons();
 
     public void setPortal(NewPortal portal) {
-        this.portal = portal;
+        BaseFrame.portal = portal;
     }
 
     public NewPortal getPortal() {
