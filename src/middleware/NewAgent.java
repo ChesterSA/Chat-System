@@ -75,6 +75,21 @@ public class NewAgent
         portal.enqueue(m);
         portal.sendMessage();
     }
+    
+     /**
+     * sends a standard message from this agent to another
+     *
+     * @param to the handle of the agent to send a message to
+     * @param content the content of the message
+     */
+    public void sendBroadcast(String from, String to, String content)
+    {
+        Message m = new Message(from, to, MessageType.BROADCAST);
+        m.append(content);
+
+        portal.enqueue(m);
+        portal.sendMessage();
+    }
 
     /**
      * This agent handles a message, then adds the sender to a contact list
