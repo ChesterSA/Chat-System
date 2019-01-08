@@ -16,6 +16,7 @@ import javax.swing.*;
 import middleware.Agent;
 import middleware.Message;
 import middleware.MessageType;
+import middleware.NewAgent;
 
 /**
  *
@@ -24,9 +25,9 @@ import middleware.MessageType;
 public final class ClientFrame extends BaseFrame
 {
 
-    Agent agent = new Agent("default", this);
+    NewAgent agent = new NewAgent("default", portal);
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
-
+    
     /**
      * Constructs a swing frame
      * Initialises and starts a new agent
@@ -42,17 +43,10 @@ public final class ClientFrame extends BaseFrame
         setSize(450, 300);
         setResizable(false);
 
-        try
-        {
-            String myHandle = getHandle();
-            agent.setHandle(myHandle);
-            setTitle(myHandle);
-            agent.begin();
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String myHandle = getHandle();
+        agent.setHandle(myHandle);
+        setTitle(myHandle);
+        //agent.begin();
 
         addButtons();
 
@@ -64,11 +58,11 @@ public final class ClientFrame extends BaseFrame
      * Portal object calls connectTo 
      * @param ip validated ip from
      */
-    @Override
-    public void connectTo(String ip)
-    {
-        agent.connectTo(ip);
-    }
+//    @Override
+//    public void connectTo(String ip)
+//    {
+//        agent.connectTo(ip);
+//    }
 
     /**
      * Creates a message object
@@ -80,19 +74,19 @@ public final class ClientFrame extends BaseFrame
     @Override
     public void sendMessage(String to, String content)
     {
-        Message newMessage;
-
-        if (to.equals("all"))
-        {
-            newMessage = new Message(agent.getHandle(), to, MessageType.BROADCAST);
-        }
-        else
-        {
-            newMessage = new Message(agent.getHandle(), to, MessageType.STANDARD);
-        }
-
-        newMessage.append(content);
-        agent.sendMessage(newMessage);
+//        Message newMessage;
+//
+//        if (to.equals("all"))
+//        {
+//            newMessage = new Message(agent.getHandle(), to, MessageType.BROADCAST);
+//        }
+//        else
+//        {
+//            newMessage = new Message(agent.getHandle(), to, MessageType.STANDARD);
+//        }
+//
+//        newMessage.append(content);
+        agent.sendMessage(to, content);
     }
 
     /**
@@ -160,7 +154,7 @@ public final class ClientFrame extends BaseFrame
         }
         else
         {
-            String connection = agent.getPortal();
+            String connection = agent.getPortal().getHandle();
             JOptionPane.showMessageDialog(null, connection, "Portal", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -176,14 +170,6 @@ public final class ClientFrame extends BaseFrame
         JLabel agentOptions = new JLabel("Client Options ", SwingConstants.CENTER);
         addComponentToGridBag(this, agentOptions, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 
-        JButton agentNewConnections = new JButton("Connect to Portal");
-        addComponentToGridBag(this, agentNewConnections, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentNewConnections.addActionListener((ActionEvent e) ->
-        {
-            String ip = getIpAddress();
-            connectTo(ip);
-        });
-
         JButton agentSendMessage = new JButton("Send Message");
         addComponentToGridBag(this, agentSendMessage, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agentSendMessage.addActionListener((ActionEvent e) ->
@@ -198,13 +184,6 @@ public final class ClientFrame extends BaseFrame
         agentShowPortal.addActionListener((ActionEvent e) ->
         {
             displayConnections();
-        });
-
-        JButton agentRemoveConnections = new JButton("Remove Connections");
-        addComponentToGridBag(this, agentRemoveConnections, 0, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        agentRemoveConnections.addActionListener((ActionEvent e) ->
-        {
-            agent.removeConnections();
         });
 
         JButton agentexit = new JButton("Exit");

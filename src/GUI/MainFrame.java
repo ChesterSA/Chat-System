@@ -54,7 +54,7 @@ public final class MainFrame extends BaseFrame
         Portal.addActionListener((ActionEvent e) ->
         {
             // close first Frame
-            setVisible(false);
+            //setVisible(false);
             portalFrame = new PortalFrame();
         });
         
@@ -62,7 +62,7 @@ public final class MainFrame extends BaseFrame
         addComponentToGridBag(this, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agents.addActionListener((ActionEvent e) ->
         {
-            setVisible(false);
+            //setVisible(false);
             clientFrame = new ClientFrame();
         });
         
@@ -70,7 +70,7 @@ public final class MainFrame extends BaseFrame
         addComponentToGridBag(this, Directory, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         Directory.addActionListener((ActionEvent e) ->
         {
-            setVisible(false);
+            //setVisible(false);
             directoryFrame = new DirectoryFrame();
         });
         
@@ -79,7 +79,10 @@ public final class MainFrame extends BaseFrame
         exit.addActionListener((ActionEvent e) ->
         {
             // close first Frame
-            dispose();
+            this.dispose();
+            portalFrame.dispose();
+            clientFrame.dispose();
+            directoryFrame.dispose();
         });
     }
 }

@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import middleware.NewPortal;
 import middleware.Portal;
 
 /**
@@ -27,7 +28,6 @@ import middleware.Portal;
  */
 public final class PortalFrame extends BaseFrame
 {
-    Portal portal = new Portal("default", "0.0.0.0");
     private final String DIR_IP = "152.105.67.123";
     
     /**
@@ -47,6 +47,7 @@ public final class PortalFrame extends BaseFrame
 
         try
         {
+            portal = new NewPortal("default", "0.0.0.0");
             String myHandle = getHandle();
             portal.setHandle(myHandle);
             int result = JOptionPane.showConfirmDialog(null, "Do you want a NodeMonitor on this portal?", "Node Monitor?", JOptionPane.YES_NO_OPTION);

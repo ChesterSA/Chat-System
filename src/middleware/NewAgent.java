@@ -66,6 +66,22 @@ public class NewAgent
     {
         client = c;
     }
-    
+
+    public void setHandle(String handle) {
+        this.handle = handle;
+    }
+
+    public LinkedList<String> getContacts() {
+        return contacts;
+    }
+
+    public NewPortal getPortal() {
+        return portal;
+    }
+
+    public void setPortal(NewPortal portal) {
+        this.portal = portal;
+    }
+  
 }
 

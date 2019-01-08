@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import middleware.MetaAgent;
 import middleware.Contactable;
 import middleware.Message;
+import middleware.NewPortal;
 
 /**
  *
@@ -26,6 +27,7 @@ public abstract class BaseFrame extends JFrame implements Contactable
 
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
     final String IP_BASE = "152.105.67.";
+    NewPortal portal;
 
     /**
      *
@@ -156,5 +158,4 @@ public abstract class BaseFrame extends JFrame implements Contactable
      * Defines action listeners for each button.
      */
     protected abstract void addButtons();
-
 }
