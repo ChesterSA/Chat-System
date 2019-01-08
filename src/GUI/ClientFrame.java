@@ -73,19 +73,12 @@ public final class ClientFrame extends BaseFrame
     @Override
     public void sendMessage(String to, String content)
     {
-//        Message newMessage;
-//
-//        if (to.equals("all"))
-//        {
-//            newMessage = new Message(agent.getHandle(), to, MessageType.BROADCAST);
-//        }
-//        else
-//        {
-//            newMessage = new Message(agent.getHandle(), to, MessageType.STANDARD);
-//        }
-//
-//        newMessage.append(content);
-        agent.sendMessage(to, content);
+        if (to.equals("all")) 
+        {
+            agent.sendBroadcast(agent.getHandle(), to, content);
+            return;
+        }
+        agent.sendMessage(agent.getHandle(), to, content);
     }
 
     /**
