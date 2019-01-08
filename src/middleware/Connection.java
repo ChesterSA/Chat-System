@@ -16,7 +16,7 @@ import java.net.Socket;
  * Handles the connection between 2 different ChatNodes over the network
  * @author Group B
  */
-class Connection
+public class Connection
 {
 
     /**
