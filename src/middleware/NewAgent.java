@@ -23,6 +23,12 @@ public class NewAgent
      */
     LinkedList<String> contacts = new LinkedList<>();
     
+    public NewAgent()
+    {
+        handle = null;
+        portal = null;
+    }
+    
     public NewAgent(String handle, NewPortal portal)
     {
         this.handle = handle;
@@ -41,10 +47,10 @@ public class NewAgent
     
     public void receiveMessage(Message m)
     {
-        System.out.println(handle + " has received a message");
-        System.out.println("To: " + m.getTo());
-        System.out.println("From: " + m.getFrom());
-        System.out.println("Content: " + m.getContent());
+        System.out.println("\t" + handle + " has received a message");
+        System.out.println("\tTo: " + m.getTo());
+        System.out.println("\tFrom: " + m.getFrom());
+        System.out.println("\tContent: " + m.getContent());
         
         if (client != null)
         {
@@ -66,6 +72,13 @@ public class NewAgent
     {
         client = c;
     }
+
+    public LinkedList<String> getContacts()
+    {
+        return contacts;
+    }
+    
+    
     
 }
 

@@ -15,7 +15,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static middleware.MetaAgent.DEFAULT_PORT;
 
 /**
  * Class used for message throughput from agent to agent, or agent to portal to
@@ -40,7 +39,7 @@ public class NewPortal extends MetaAgent implements Connectable
      * Hashmap containing handle and connection of all connected portals
      */
     protected HashMap<String, NewAgent> agents = new HashMap<>();
-    
+
     /**
      * Monitor which when set will keep track of all messages through the portal
      */
@@ -90,7 +89,7 @@ public class NewPortal extends MetaAgent implements Connectable
         {
             try
             {
-                Message message = (Message)queue.take();
+                Message message = (Message) queue.take();
 
                 if (message.getType().equals(MessageType.BROADCAST))
                 {
@@ -122,13 +121,13 @@ public class NewPortal extends MetaAgent implements Connectable
                     }
 
                 }
-            }  
+            }
             catch (InterruptedException ex)
             {
                 Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     /**
@@ -153,8 +152,8 @@ public class NewPortal extends MetaAgent implements Connectable
                             if (c.hasMessage())
                             {
                                 Message receivedMessage = c.receiveMessage();
-                                
-                                if(nodeMonitor != null)
+
+                                if (nodeMonitor != null)
                                 {
                                     nodeMonitor.handleMessage(receivedMessage);
                                 }
@@ -180,7 +179,7 @@ public class NewPortal extends MetaAgent implements Connectable
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
                                     queue.put(receivedMessage);
-                                    
+
                                     //1 second delay to show the queue in action
                                     Thread.sleep(1000);
                                     sendMessage();
@@ -224,7 +223,7 @@ public class NewPortal extends MetaAgent implements Connectable
         {
             throw new IllegalArgumentException("Invalid IP Address");
         }
-        
+
         if (isalreadyConnected(remoteIpAddress))
         {
             return;
@@ -332,13 +331,12 @@ public class NewPortal extends MetaAgent implements Connectable
                 try
                 {
                     final Socket newClientSocket = serverSocket.accept();
-                    
 
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
                     int timeout = 0;
-                    
+
                     while (!newConnection.hasMessage())
                     {
                         timeout++;
@@ -348,10 +346,10 @@ public class NewPortal extends MetaAgent implements Connectable
                             newClientSocket.close();
                         }
                     }
-                    
+
                     //Wait for a PORTAL, AGENT, or AGENTREMOVE message
                     final Message receivedMessage = newConnection.receiveMessage();
-                    if(nodeMonitor != null)
+                    if (nodeMonitor != null)
                     {
                         nodeMonitor.handleMessage(receivedMessage);
                     }
@@ -446,7 +444,7 @@ public class NewPortal extends MetaAgent implements Connectable
         startPeerReceiver();
         receiveThread.start();
     }
-    
+
     public void enqueue(Message m)
     {
         try
@@ -592,7 +590,7 @@ public class NewPortal extends MetaAgent implements Connectable
         portals = new HashMap<>();
         agents = new HashMap<>();
     }
-    
+
     /**
      * Adds new node monitor to portal
      */
@@ -600,7 +598,7 @@ public class NewPortal extends MetaAgent implements Connectable
     {
         nodeMonitor = new NodeMonitor(this.handle);
     }
-    
+
     /**
      * Removes node monitor from portal
      */
