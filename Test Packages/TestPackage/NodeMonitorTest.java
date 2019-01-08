@@ -19,7 +19,7 @@ public class NodeMonitorTest
     NewPortal p;
 
     @Test
-    public void connectToEmpty()
+    public void NodeMonitorTests()
     {
         NewPortal p = new NewPortal("portal");
         p.addNodeMonitor();
