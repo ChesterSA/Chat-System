@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import external.NewClient;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import middleware.Agent;
 import middleware.Message;
 import middleware.MessageType;
 import middleware.NewAgent;
@@ -24,7 +24,7 @@ import middleware.NewAgent;
  */
 public final class ClientFrame extends BaseFrame
 {
-    NewAgent agent = new NewAgent(getHandle(), getPortal());
+    NewClient agent = new NewClient(getHandle(), getPortal());
     final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
     
     /**
@@ -42,8 +42,8 @@ public final class ClientFrame extends BaseFrame
         setSize(450, 300);
         setResizable(false);
         
-        setTitle(agent.getHandle());
-        agent.setClient(this);
+        setTitle(agent.getAgent().getHandle());
+        agent.getAgent().setClient(this);
 
         addButtons();
 
@@ -73,7 +73,7 @@ public final class ClientFrame extends BaseFrame
     {
         if (to.equals("all")) 
         {
-            agent.sendBroadcast(agent.getHandle(), to, content);
+            agent.getAgent().sendBroadcast(agent.getAgent().getHandle(), to, content);
             return;
         }
         agent.sendMessage(to, content);
@@ -104,7 +104,7 @@ public final class ClientFrame extends BaseFrame
         {
             //System.out.println("Current connections:");
             List<String> contacts = new ArrayList();
-            for (String c : agent.getContacts())
+            for (String c : agent.getAgent().getContacts())
             {
                 contacts.add(c);
             }
@@ -144,7 +144,7 @@ public final class ClientFrame extends BaseFrame
         }
         else
         {
-            String connection = agent.getPortal().getHandle();
+            String connection = agent.getAgent().getPortal().getHandle();
             JOptionPane.showMessageDialog(null, connection, "Portal", JOptionPane.INFORMATION_MESSAGE);
         }
     }

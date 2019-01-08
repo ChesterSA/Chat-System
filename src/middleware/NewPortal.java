@@ -128,7 +128,7 @@ public class NewPortal extends MetaAgent implements Connectable
             }
             catch (InterruptedException ex)
             {
-                Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -206,7 +206,7 @@ public class NewPortal extends MetaAgent implements Connectable
                         }
                         catch (InterruptedException ex)
                         {
-                            Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }

@@ -5,8 +5,6 @@
  */
 package drivers;
 
-import static drivers.AgentTest.agent;
-import static drivers.PortalTest.portal;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,7 +74,7 @@ public class NewTest
         }
         catch (IOException ex)
         {
-            Logger.getLogger(PortalTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import middleware.NewPortal;
-import middleware.Portal;
 
 /**
  *
