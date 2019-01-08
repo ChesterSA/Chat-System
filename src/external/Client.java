@@ -7,14 +7,14 @@ package external;
 
 import middleware.Contactable;
 import middleware.Message;
-import middleware.NewAgent;
-import middleware.NewPortal;
+import middleware.Agent;
+import middleware.Portal;
 
 /**
  *
  * @author Group B
  */
-public class NewClient implements Contactable
+public class Client implements Contactable
 {
     /**
      * The client name, used to set the agent's handle
@@ -24,17 +24,17 @@ public class NewClient implements Contactable
     /**
      * The agent that this client has connected to
      */
-    NewAgent agent;
+    Agent agent;
     
     /**
      * Set client name and create an attached agent
      * @param name String name of client
      * @param portal The portal to connect to
      */
-    public NewClient(String name, NewPortal portal)
+    public Client(String name, Portal portal)
     {
         this.name = name;
-        agent = new NewAgent(name, portal);
+        agent = new Agent(name, portal);
         agent.setClient(this);
     }
     
@@ -67,7 +67,7 @@ public class NewClient implements Contactable
     /**
      * @return Current agent connected to client
      */
-    public NewAgent getAgent()
+    public Agent getAgent()
     {
         return agent;
     }

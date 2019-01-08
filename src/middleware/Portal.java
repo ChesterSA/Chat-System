@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  *
  * @author s6089488
  */
-public class NewPortal extends MetaAgent implements Connectable
+public class Portal extends MetaAgent implements Connectable
 {
 
     /**
@@ -38,7 +38,7 @@ public class NewPortal extends MetaAgent implements Connectable
     /**
      * Hashmap containing handle and connection of all connected portals
      */
-    protected HashMap<String, NewAgent> agents = new HashMap<>();
+    protected HashMap<String, Agent> agents = new HashMap<>();
 
     /**
      * Monitor which when set will keep track of all messages through the portal
@@ -50,7 +50,7 @@ public class NewPortal extends MetaAgent implements Connectable
      *
      * @param handle The unique identifier of the portal
      */
-    public NewPortal(String handle)
+    public Portal(String handle)
     {
         super(handle);
     }
@@ -61,7 +61,7 @@ public class NewPortal extends MetaAgent implements Connectable
      * @param handle the unique identifier of the portal
      * @param receiveIp the ip range that this portal can receive requests from
      */
-    public NewPortal(String handle, String receiveIp)
+    public Portal(String handle, String receiveIp)
     {
         super(handle, receiveIp);
     }
@@ -73,7 +73,7 @@ public class NewPortal extends MetaAgent implements Connectable
      * @param receiveIp the ip range that this portal can receive requests from
      * @param receivePort the port that this portal can receive requests from
      */
-    public NewPortal(String handle, String receiveIp, int receivePort)
+    public Portal(String handle, String receiveIp, int receivePort)
     {
         super(handle, receiveIp, receivePort);
     }
@@ -97,7 +97,7 @@ public class NewPortal extends MetaAgent implements Connectable
                 
                 if (message.getType().equals(MessageType.BROADCAST))
                 {
-                    for (NewAgent a : agents.values())
+                    for (Agent a : agents.values())
                     {
                         a.receiveMessage(message);
                     }
@@ -128,7 +128,7 @@ public class NewPortal extends MetaAgent implements Connectable
             }
             catch (InterruptedException ex)
             {
-                Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -206,7 +206,7 @@ public class NewPortal extends MetaAgent implements Connectable
                         }
                         catch (InterruptedException ex)
                         {
-                            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
@@ -258,11 +258,6 @@ public class NewPortal extends MetaAgent implements Connectable
                     //Message comes in, the type will be assessed
                     final Message receivedMessage = partialConnection.receiveMessage();
 
-                    if (receivedMessage.getType().equals(MessageType.HELLOACK))
-                    {
-                        partialConnection.setHandle(receivedMessage.getFrom());
-                        addPortal(partialConnection);
-                    }
                     if (receivedMessage.getType().equals(MessageType.PORTALACK))
                     {
                         partialConnection.setHandle(receivedMessage.getFrom());
@@ -438,7 +433,7 @@ public class NewPortal extends MetaAgent implements Connectable
         }
         catch (InterruptedException ex)
         {
-            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -457,7 +452,7 @@ public class NewPortal extends MetaAgent implements Connectable
      *
      * @param a The agent to be added to the portal
      */
-    public void addAgent(NewAgent a)
+    public void addAgent(Agent a)
     {
         String agentHandle = a.getHandle();
         synchronized (lock)

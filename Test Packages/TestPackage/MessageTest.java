@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public class MessageTest
 {

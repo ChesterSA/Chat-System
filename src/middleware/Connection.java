@@ -149,5 +149,4 @@ public class Connection
     {
         return socket.getInetAddress().getHostAddress().compareTo(ipAddress) == 0;
     }
-    
 }

@@ -11,13 +11,28 @@ import java.util.regex.Pattern;
 public class Message
 {
 
+    /**
+     * The node that is sending the message
+     */
     private final String from;
+    
+    /**
+     * the node that is receiving the message
+     */
     private final String to;
+    
+    /**
+     * the content of the message
+     */
     private String content = "";
+    
+    /**
+     * the type of the message
+     */
     private MessageType type;
 
     /**
-     *
+     * The constructor of an empty message
      * @param from who is sending the message
      * @param type the type of message
      */
@@ -27,7 +42,7 @@ public class Message
     }
 
     /**
-     *
+     * Constructor of a standup message
      * @param from who is sending the message
      */
     public Message(String from)
@@ -36,7 +51,7 @@ public class Message
     }
 
     /**
-     *
+     *  Constructor of a standard message with a receiver
      * @param from this is the sender of the message
      * @param to this is the destination of the message
      */
@@ -47,7 +62,7 @@ public class Message
     }
 
     /**
-     *
+     * Constructor that performs validation checks
      * @param from this is the sender of the message
      * @param to this is the destination of the message
      * @param type type of message that is being sent
@@ -144,7 +159,7 @@ public class Message
     static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.*)#,TYPE:#(.*)#$");
 
     /**
-     *
+     * Parse a message to check it is a valid format
      * @param rawMessage
      * @return the message that is going to be sent
      */

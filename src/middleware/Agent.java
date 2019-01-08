@@ -11,7 +11,7 @@ import java.util.LinkedList;
  *
  * @author Group B
  */
-public class NewAgent
+public class Agent
 {
 
     /**
@@ -22,7 +22,7 @@ public class NewAgent
     /**
      * The portal that the agent is connected to
      */
-    NewPortal portal;
+    Portal portal;
 
     /**
      * the client that is using the agent
@@ -35,13 +35,15 @@ public class NewAgent
      */
     LinkedList<String> contacts = new LinkedList<>();
     
-    
+    /**
+     * The node monitor for this portal, set to null until it is needed
+     */
     private NodeMonitor nodeMonitor;
 
     /**
      * A default constructor, essentially makes a null Agent
      */
-    public NewAgent()
+    public Agent()
     {
         handle = null;
         portal = null;
@@ -54,7 +56,7 @@ public class NewAgent
      * @param handle the identifying handle of the agent
      * @param portal the portal that the agent is connected to
      */
-    public NewAgent(String handle, NewPortal portal)
+    public Agent(String handle, Portal portal)
     {
         this.handle = handle;
         this.portal = portal;
@@ -98,11 +100,6 @@ public class NewAgent
      */
     public void receiveMessage(Message m)
     {
-        System.out.println("\t" + handle + " has received a message");
-        System.out.println("\tTo: " + m.getTo());
-        System.out.println("\tFrom: " + m.getFrom());
-        System.out.println("\tContent: " + m.getContent());
-
         if(nodeMonitor != null)
         {
             nodeMonitor.handleMessage(m);
@@ -153,7 +150,7 @@ public class NewAgent
      * Gets the portal this agent is connected to
      * @return the portal that the agent is connected to
      */
-    public NewPortal getPortal()
+    public Portal getPortal()
     {
         return portal;
     }

@@ -16,16 +16,6 @@ public enum MessageType
 {
 
     /**
-     * A Hello message to request a standard connection
-     */
-    HELLO,
-
-    /**
-     * An acknowledgement of the hello message to confirm a connection
-     */
-    HELLOACK,
-
-    /**
      * A message to request a portal-portal connection
      */
     PORTAL,

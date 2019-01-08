@@ -6,77 +6,51 @@
 package TestPackage;
 
 import middleware.Agent;
+import middleware.Portal;
+import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
- * @author s6089488
+ * @author cswan
  */
 public class AgentTest
 {
-    Agent a;
-
-    @Test(expected = IllegalArgumentException.class)
-    public void connectToEmpty()
+    //The that the agents are all connected to
+    Portal p;
+    
+    @Before
+    public void initialisePortal()
     {
-        Agent a = new Agent("Test");
-        a.connectTo("");
+        p = new Portal("portal");
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void connectToOneBlock()
-    {
-        Agent a = new Agent("Test");
-        a.connectTo("152");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void connectToTwoBlocks()
-    {
-        Agent a = new Agent("Test");
-        a.connectTo("152.105");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void connectToThreeBlocks()
-    {
-        Agent a = new Agent("Test");
-        a.connectTo("152.105.67");
-    }
-
+    
     @Test
-    public void connectToFourBlocks()
+    public void validHandle()
     {
-        Agent a = new Agent("Test");
-        a.connectTo("152.105.67.116");
-        //If no exception is thrown then IP is valid
+        Agent a = new Agent("AgentName", p);
+        String expected = "AgentName";
+        String actual = a.getHandle();
+        
+        assertEquals(expected, actual);
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
-    public void connectToFiveBlocks()
+    public void handleWithSpaces()
     {
-        Agent a = new Agent("Test");
-        a.connectTo("152.105.67.116.123");
+        Agent a = new Agent("Agent name", p);
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
-    public void connectToInvalidIp()
+    public void handleWithNumbers()
     {
-        Agent a = new Agent("Test");
-        a.connectTo("My Home PC");
+        Agent a = new Agent("name1", p);
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
-    public void emptyGroup()
+    public void handleEmpty()
     {
-        Agent a = new Agent("Test");
-        a.connectTo("152.105..119");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void groupAbove255()
-    {
-        Agent a = new Agent("Test");
-        a.connectTo("152.105.67.256");
+        Agent a = new Agent("", p);
     }
 }

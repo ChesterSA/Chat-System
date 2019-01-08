@@ -5,18 +5,12 @@
  */
 package GUI;
 
-import external.NewClient;
+import external.Client;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
-import middleware.Message;
-import middleware.MessageType;
-import middleware.NewAgent;
 
 /**
  *
@@ -24,8 +18,7 @@ import middleware.NewAgent;
  */
 public final class ClientFrame extends BaseFrame
 {
-    NewClient agent = new NewClient(getHandle(), getPortal());
-    final Insets INSETS_DATA = new Insets(2, 2, 2, 2);
+    Client agent = new Client(getHandle(), getPortal());
     
     /**
      * Constructs a swing frame

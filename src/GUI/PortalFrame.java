@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import middleware.NewPortal;
+import middleware.Portal;
 
 /**
  *
@@ -28,7 +27,6 @@ import middleware.NewPortal;
 public final class PortalFrame extends BaseFrame
 { 
    private final String DIR_IP = "152.105.67.123";
-    
     /**
      * Constructs a swing frame
      * Initialises and starts a new portal
@@ -46,7 +44,7 @@ public final class PortalFrame extends BaseFrame
 
         try
         {
-            setPortal(new NewPortal("Default", "0.0.0.0"));
+            setPortal(new Portal("Default", "0.0.0.0"));
             String myHandle = getHandle();
             portal.setHandle(myHandle);
             int result = JOptionPane.showConfirmDialog(null, "Do you want a NodeMonitor on this portal?", "Node Monitor?", JOptionPane.YES_NO_OPTION);

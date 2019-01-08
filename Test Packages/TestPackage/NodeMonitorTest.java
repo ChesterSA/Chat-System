@@ -8,29 +8,29 @@ package TestPackage;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import middleware.NewAgent;
-import middleware.NewPortal;
+import middleware.Agent;
+import middleware.Portal;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 /**
  *
- * @author s6089488
+ * @author Group B
  */
 public class NodeMonitorTest
 {
 
-    NewPortal p;
+    Portal p;
 
     @Test
     public void senderLogTest()
     {
-        NewPortal p = new NewPortal("portal");
+        Portal p = new Portal("portal");
         p.addNodeMonitor();
 
-        NewAgent a1 = new NewAgent("agentone", p);
+        Agent a1 = new Agent("agentone", p);
         a1.addNodeMonitor();
 
-        NewAgent a2 = new NewAgent("agenttwo", p);
+        Agent a2 = new Agent("agenttwo", p);
         a2.addNodeMonitor();
 
         a1.sendMessage("agenttwo", "test message");
@@ -66,13 +66,13 @@ public class NodeMonitorTest
     @Test
     public void portalLogTest()
     {
-        NewPortal p = new NewPortal("portal");
+        Portal p = new Portal("portal");
         p.addNodeMonitor();
 
-        NewAgent a1 = new NewAgent("agentone", p);
+        Agent a1 = new Agent("agentone", p);
         a1.addNodeMonitor();
 
-        NewAgent a2 = new NewAgent("agenttwo", p);
+        Agent a2 = new Agent("agenttwo", p);
         a2.addNodeMonitor();
 
         a1.sendMessage("agenttwo", "test message");
@@ -108,13 +108,13 @@ public class NodeMonitorTest
     @Test
     public void receiverLogTest()
     {
-        NewPortal p = new NewPortal("portal");
+        Portal p = new Portal("portal");
         p.addNodeMonitor();
 
-        NewAgent a1 = new NewAgent("agentone", p);
+        Agent a1 = new Agent("agentone", p);
         a1.addNodeMonitor();
 
-        NewAgent a2 = new NewAgent("agenttwo", p);
+        Agent a2 = new Agent("agenttwo", p);
         a2.addNodeMonitor();
 
         a1.sendMessage("agenttwo", "test message");

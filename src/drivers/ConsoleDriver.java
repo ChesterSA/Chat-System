@@ -7,7 +7,6 @@ package drivers;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,11 +16,11 @@ import middleware.*;
  *
  * @author cswan
  */
-public class NewTest
+public class ConsoleDriver extends Driver
 {
 
-    static NewPortal portal;
-    static LinkedList<NewAgent> agents = new LinkedList<NewAgent>();
+    static Portal portal;
+    static LinkedList<Agent> agents = new LinkedList<Agent>();
 
     public static void main(String[] args)
     {
@@ -29,7 +28,7 @@ public class NewTest
         String myHandle = gets();
 
         //0.0.0.0 would be changed to reflect the company's ip
-        portal = new NewPortal(myHandle, "0.0.0.0");
+        portal = new Portal(myHandle, "0.0.0.0");
 
         System.out.println("Do you want a NodeMonitor on this portal? (true/false)");
 
@@ -51,6 +50,8 @@ public class NewTest
                     System.out.println("1. Create New Agent");
                     System.out.println("2. Send Message");
                     System.out.println("3. View Agents");
+                    System.out.println("4. Connect Portal to External IP");
+                    System.out.println("5. Show Portal's connections");
                     System.out.println("> ");
                     final String option = gets();
 
@@ -65,6 +66,12 @@ public class NewTest
                         case "3":
                             viewAgents();
                             break;
+                        case "4":
+                            connectTo();
+                            break;
+                        case "5":
+                            displayConnections();
+                            break;
                         default:
                             System.err.println("Invalid option.");
                     }
@@ -74,7 +81,7 @@ public class NewTest
         }
         catch (IOException ex)
         {
-            Logger.getLogger(NewPortal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -89,49 +96,67 @@ public class NewTest
         System.out.println("Agent Handle?");
         System.out.print(">");
         String handle = gets();
-        agents.add(new NewAgent(handle, portal));
+        agents.add(new Agent(handle, portal));
     }
 
     private static void sendMessage()
     {
         System.out.println("Which agent is the message from?");
 
-        for (NewAgent a : agents)
+        for (Agent a : agents)
         {
             System.out.println(a.getHandle());
         }
         String handle = gets();
 
-        NewAgent from = new NewAgent();
-        for (NewAgent a : agents)
+        Agent from = new Agent();
+        for (Agent a : agents)
         {
             if (a.getHandle().equals(handle))
             {
                 from = a;
             }
         }
-            
+
         System.out.println("Who is the message to?");
 
-        for(String s : from.getContacts())
+        for (String s : from.getContacts())
+        {
             System.out.println(from);
-        
+        }
+
         String to = gets();
-        
+
         System.out.println("What is the message content");
         String content = gets();
-        
+
         from.sendMessage(to, content);
-        
+
         System.out.println("Message Sent");
     }
 
     private static void viewAgents()
     {
         System.out.println("Agent List");
-        for (NewAgent a : agents)
+        for (Agent a : agents)
         {
             System.out.print(a.getHandle() + " ");
+        }
+    }
+
+    private static void connectTo()
+    {
+        System.out.println("What is the IP to connect to?");
+        System.out.print(ipBase);
+        String ip = ipBase + gets();
+        portal.connectTo(ip);
+    }
+
+    private static void displayConnections()
+    {
+        for (String p : portal.getPortalHandles())
+        {
+            System.out.print(p + " ");
         }
     }
 }

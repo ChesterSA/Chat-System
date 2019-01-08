@@ -17,10 +17,9 @@ import java.util.regex.Pattern;
  *
  * @author Group B
  */
-public class Directory extends MetaAgent {
+public class Directory extends MetaAgent
+{
 
-    //Messages are sent as a client.
-    //
     /**
      * The list of connections the directory currently holds.
      */
@@ -31,7 +30,8 @@ public class Directory extends MetaAgent {
      *
      * @param handle Used to pair it with its connection around the system.
      */
-    public Directory(String handle) {
+    public Directory(String handle)
+    {
         super(handle, DEFAULT_RECV_IP_ADDRESS, DEFAULT_PORT);
     }
 
@@ -42,7 +42,8 @@ public class Directory extends MetaAgent {
      * @param handle Used to pair it with its connection around the system.
      * @param receiveIp
      */
-    public Directory(String handle, String receiveIp) {
+    public Directory(String handle, String receiveIp)
+    {
         super(handle, receiveIp, DEFAULT_PORT);
     }
 
@@ -54,7 +55,8 @@ public class Directory extends MetaAgent {
      * @param receiveIp Used to locate the directory around the system.
      * @param receivePort Used to locate the port of the connection.
      */
-    public Directory(String handle, String receiveIp, int receivePort) {
+    public Directory(String handle, String receiveIp, int receivePort)
+    {
         super(handle, receiveIp, receivePort);
     }
 
@@ -62,7 +64,8 @@ public class Directory extends MetaAgent {
      * Removes all current connections from the directory.
      */
     @Override
-    public void removeConnections() {
+    public void removeConnections()
+    {
         connections = new HashMap<>();
     }
 
@@ -70,17 +73,22 @@ public class Directory extends MetaAgent {
      * Thread which will accept messages from other connections in the system.
      */
     protected Thread acceptThread = new Thread(
-            new Runnable() {
+            new Runnable()
+    {
         @Override
-        public void run() {
-            while (true) {
-                try {
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
                     final Socket newClientSocket = serverSocket.accept();
 
                     //Create a partial connection
                     final Connection newConnection = new Connection(newClientSocket);
 
-                    while (!newConnection.hasMessage()) {
+                    while (!newConnection.hasMessage())
+                    {
                         // wait for a message from the new connection...
                         // should probably handle timeouts...
                     }
@@ -90,13 +98,17 @@ public class Directory extends MetaAgent {
                     //
                     final Message receivedMessage = newConnection.receiveMessage();
 
-                    if (receivedMessage.getType().equals(MessageType.PORTAL)) {
+                    if (receivedMessage.getType().equals(MessageType.PORTAL))
+                    {
                         final String newConnectionHandle = receivedMessage.getFrom();
 
-                        if (newConnectionHandle != null) {
-                            synchronized (lock) {
+                        if (newConnectionHandle != null)
+                        {
+                            synchronized (lock)
+                            {
 
-                                if (connections.get(newConnectionHandle) == null) {
+                                if (connections.get(newConnectionHandle) == null)
+                                {
                                     //Complete the connection by setting its handle.
                                     //this is essential as we use the handle to send
                                     //messages to our peers.
@@ -110,22 +122,29 @@ public class Directory extends MetaAgent {
                                     //The HELLOACK allows the peer to know our handle
                                     //
                                     newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
-                                } else {
+                                }
+                                else
+                                {
                                     //remove any mathing handle and replace with this, acts as a refresh
                                     connections.remove(newConnectionHandle);
                                     newConnection.setHandle(newConnectionHandle);
                                     addConnection(newConnection);
 
-                                    for (Connection c : connections.values()) {
+                                    for (Connection c : connections.values())
+                                    {
                                         c.sendMessage(createDirMessage(handle, c.getHandle()));
                                     }
                                 }
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         System.err.println("Invalid Portal connect message, connection attempt will be dropped.");
                     }
-                } catch (IOException ex) {
+                }
+                catch (IOException ex)
+                {
                     Logger.getLogger(MetaAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -141,16 +160,18 @@ public class Directory extends MetaAgent {
      * @param to The message receiver.
      * @return Single string of all directory's current IP addresses.
      */
-    private Message createDirMessage(String from, String to) {
+    private Message createDirMessage(String from, String to)
+    {
         Message m = new Message(from, to, MessageType.DIR);
         String content = "";
-        for (Connection c : connections.values()) {
+        for (Connection c : connections.values())
+        {
             Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
-            
+
             Matcher match = ipPattern.matcher(c.socket.toString());
-            
+
             String ip;
-            
+
             if (match.find())
             {
                 ip = match.group();
@@ -159,7 +180,7 @@ public class Directory extends MetaAgent {
             {
                 ip = "";
             }
-            
+
             if (!getIp(connections.get(to).socket).equals(ip))
             {
                 content += match.group();
@@ -168,7 +189,7 @@ public class Directory extends MetaAgent {
         m.append(content);
         return m;
     }
-    
+
     private String getIp(Socket s)
     {
         return s.getInetAddress().toString().substring(1);
@@ -180,7 +201,8 @@ public class Directory extends MetaAgent {
      * @throws IOException Handles errors with input/output errors.
      */
     @Override
-    public void begin() throws IOException {
+    public void begin() throws IOException
+    {
         startPeerReceiver();
     }
 
@@ -189,7 +211,8 @@ public class Directory extends MetaAgent {
      *
      * @return If size of connection list is more than 0
      */
-    public synchronized boolean hasConnections() {
+    public synchronized boolean hasConnections()
+    {
         return connections.size() > 0;
     }
 
@@ -198,7 +221,8 @@ public class Directory extends MetaAgent {
      *
      * @return LinkedList which holds all keys inside connections list.
      */
-    public synchronized List<String> getConnectionHandles() {
+    public synchronized List<String> getConnectionHandles()
+    {
         List<String> handles = new LinkedList<>();
         handles.addAll(connections.keySet());
         return handles;
@@ -212,8 +236,10 @@ public class Directory extends MetaAgent {
      * @throws IOException Handles errors with input/output errors.
      */
     @Override
-    protected void startPeerReceiver() throws UnknownHostException, IOException {
-        if (serverSocket == null) {
+    protected void startPeerReceiver() throws UnknownHostException, IOException
+    {
+        if (serverSocket == null)
+        {
             InetAddress bindAddress = InetAddress.getByName(this.receiveIp);
             serverSocket = new ServerSocket(this.receivePort, 0, bindAddress);
             acceptThread.start();
@@ -225,9 +251,12 @@ public class Directory extends MetaAgent {
      *
      * @param connection Connection to be added.
      */
-    protected void addConnection(final Connection connection) {
-        synchronized (lock) {
-            if (connections.containsKey(connection.getHandle())) {
+    protected void addConnection(final Connection connection)
+    {
+        synchronized (lock)
+        {
+            if (connections.containsKey(connection.getHandle()))
+            {
                 System.err.println("[" + connection.getHandle() + "] is already an established connection.");
                 return;
             }
@@ -242,9 +271,12 @@ public class Directory extends MetaAgent {
      * @return If IP address is found in connections list.
      */
     @Override
-    protected synchronized boolean isalreadyConnected(final String ipAddress) {
-        for (Connection c : connections.values()) {
-            if (c.hasIpAddress(ipAddress)) {
+    protected synchronized boolean isalreadyConnected(final String ipAddress)
+    {
+        for (Connection c : connections.values())
+        {
+            if (c.hasIpAddress(ipAddress))
+            {
                 return true;
             }
         }
@@ -257,21 +289,29 @@ public class Directory extends MetaAgent {
      * @param message Message to be sent.
      */
     //@Override
-    public void sendMessage(Message message) {
-        synchronized (lock) {
-            if (message.getType().equals(MessageType.BROADCAST)) {
+    public void sendMessage(Message message)
+    {
+        synchronized (lock)
+        {
+            if (message.getType().equals(MessageType.BROADCAST))
+            {
                 //
                 // Not handling broadcast messages presently...
                 //
-            } else {
+            }
+            else
+            {
                 final String receiver = message.getTo();
 
                 //find the socket of the peer using their handle:
                 Connection peerConnection = connections.get(receiver);
 
-                if (peerConnection != null) {
+                if (peerConnection != null)
+                {
                     peerConnection.sendMessage(message);
-                } else {
+                }
+                else
+                {
                     System.err.println("'" + receiver + "' is an unknown peer");
                 }
 
@@ -284,9 +324,11 @@ public class Directory extends MetaAgent {
      *
      * @return String which contains all stored IPs.
      */
-    public String getAddresses() {
+    public String getAddresses()
+    {
         String output = "";
-        for (Connection c : connections.values()) {
+        for (Connection c : connections.values())
+        {
 
             output += c.socket.toString().substring(13, 27) + ",";
         }
