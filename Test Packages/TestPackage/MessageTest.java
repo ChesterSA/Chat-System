@@ -11,7 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- *
+ * Tests for the message class
  * @author Group B
  */
 public class MessageTest

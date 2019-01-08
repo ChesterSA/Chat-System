@@ -13,13 +13,11 @@ import middleware.Portal;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 /**
- *
+ * Tests for the node monitor
  * @author Group B
  */
 public class NodeMonitorTest
 {
-
-    Portal p;
 
     @Test
     public void senderLogTest()

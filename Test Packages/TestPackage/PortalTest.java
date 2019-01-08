@@ -9,12 +9,14 @@ import middleware.Portal;
 import org.junit.Test;
 
 /**
- *
+ * Tests for the portal
  * @author Group B
  */
 public class PortalTest
 {
-
+    /**
+     * The portal 
+     */
     Portal p;
 
     @Test(expected = IllegalArgumentException.class)
