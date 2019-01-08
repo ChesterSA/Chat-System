@@ -61,7 +61,7 @@ public class NewClient implements Contactable
     @Override
     public void sendMessage(String to, String content)
     {
-        agent.sendMessage(agent.getHandle(), to, content);
+        agent.sendMessage(to, content);
     }
 
     /**

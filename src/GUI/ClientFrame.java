@@ -78,7 +78,7 @@ public final class ClientFrame extends BaseFrame
             agent.sendBroadcast(agent.getHandle(), to, content);
             return;
         }
-        agent.sendMessage(agent.getHandle(), to, content);
+        agent.sendMessage(to, content);
     }
 
     /**

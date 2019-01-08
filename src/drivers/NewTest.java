@@ -123,7 +123,7 @@ public class NewTest
         System.out.println("What is the message content");
         String content = gets();
         
-        from.sendMessage(from.getHandle(), to, content);
+        from.sendMessage(to, content);
         
         System.out.println("Message Sent");
     }
