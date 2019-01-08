@@ -121,10 +121,6 @@ public class NewAgent
     public NewPortal getPortal() {
         return portal;
     }
-
-    public void setHandle(String handle) {
-        this.handle = handle;
-    }
-   
+      
 }
 
