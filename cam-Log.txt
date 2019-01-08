@@ -1,0 +1,7 @@
+20190108_151821	From: agentOne	To: mattyb		Type: STANDARD		Content: test
+20190108_151942	From: agentOne	To: all		Type: BROADCAST		Content: test
+20190108_153801	From: matty	To: null		Type: PORTAL		Content: 
+20190108_153822	From: mattyb	To: agentOne		Type: STANDARD		Content: stfu
+20190108_153823	From: mattyb	To: agentOne		Type: STANDARD		Content: stfu
+20190108_153853	From: mattyb	To: all		Type: BROADCAST		Content: FUCK THE LOT OF YOU 
+20190108_153854	From: mattyb	To: all		Type: BROADCAST		Content: FUCK THE LOT OF YOU 

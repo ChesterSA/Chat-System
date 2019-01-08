@@ -42,10 +42,8 @@ public final class ClientFrame extends BaseFrame
         setSize(450, 300);
         setResizable(false);
         
-        //String myHandle = getHandle();
-        //agent.setHandle(myHandle);
         setTitle(agent.getHandle());
-        //agent.begin();
+        agent.setClient(this);
 
         addButtons();
 
