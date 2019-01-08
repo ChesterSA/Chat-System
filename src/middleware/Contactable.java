@@ -18,10 +18,4 @@ public interface Contactable
      * @param content the content of the message to send
      */
     public void sendMessage(String to, String content);
-    
-    /**
-     *
-     * @param ip
-     */
-    public void connectTo(String ip);
 }

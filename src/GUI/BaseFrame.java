@@ -9,8 +9,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import middleware.MetaAgent;
@@ -134,7 +132,6 @@ public abstract class BaseFrame extends JFrame implements Contactable
      *
      * @param ip
      */
-    @Override
     public void connectTo(String ip)
     {
 

@@ -5,40 +5,32 @@
  */
 package external;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import middleware.Agent;
 import middleware.Contactable;
 import middleware.Message;
+import middleware.NewAgent;
+import middleware.NewPortal;
 
 /**
  *
  * @author Group B
  */
-public class Client implements Contactable
+public class NewClient implements Contactable
 {
     String name;
-    Agent agent;
+    NewAgent agent;
     
     /**
      * Set client name
      * New agent object
      * Start agent
      * @param name String name of client
+     * @param portal The portal to connect to
      */
-    public Client(String name)
+    public NewClient(String name, NewPortal portal)
     {
         this.name = name;
-        agent = new Agent(name, this);
-        try
-        {
-            agent.begin();
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        agent = new NewAgent(name, portal);
+        agent.setClient(this);
     }
     
     /**
@@ -59,24 +51,13 @@ public class Client implements Contactable
     @Override
     public void sendMessage(String to, String content)
     {
-        Message m = new Message(agent.getHandle(), to);
-        m.append(content);
-        agent.sendMessage(m);
-    }
-    
-    /**
-     * Set new agent connection
-     * @param ip String passed to connectTo()
-     */
-    public void connectTo(String ip)
-    {
-        agent.connectTo(ip);
+        agent.sendMessage(to, content);
     }
 
     /**
      * @return Current agent connected to client
      */
-    public Agent getAgent()
+    public NewAgent getAgent()
     {
         return agent;
     }
