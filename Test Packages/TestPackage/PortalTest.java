@@ -15,7 +15,7 @@ import org.junit.Test;
 public class PortalTest
 {
     /**
-     * The portal 
+     * The portal used in every test
      */
     Portal p;
 
