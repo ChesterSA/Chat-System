@@ -11,7 +11,7 @@ import middleware.Agent;
 import middleware.Portal;
 
 /**
- *
+ * The client, basic implementation to show how a client can access the middleware
  * @author Group B
  */
 public class Client implements Contactable
@@ -27,6 +27,12 @@ public class Client implements Contactable
      */
     Agent agent;
 
+    public Client()
+    {
+        this.name = null;
+        this.agent = null;
+    }
+    
     /**
      * Set client name and create an attached agent
      *
@@ -75,4 +81,6 @@ public class Client implements Contactable
     {
         return agent;
     }
+    
+    
 }

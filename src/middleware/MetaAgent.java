@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @author Group B
  */
-public abstract class MetaAgent
+public abstract class MetaAgent extends Node
 {
 
     /**
@@ -49,11 +49,8 @@ public abstract class MetaAgent
      * The port that this node can receive message from
      */
     protected int receivePort;
+    
 
-    /**
-     * the unique identifier of the node
-     */
-    protected String handle;
 
     /**
      * Creates a new ChatNode from the specified handle
@@ -123,31 +120,17 @@ public abstract class MetaAgent
         return false;
     }
 
-    /**
-     * Gets the handle of the node
-     *
-     * @return the handle of the node
-     */
-    public String getHandle()
-    {
-        return handle;
-    }
 
-    /**
-     * Abstract method to send a message
-     *
-     * @param message the message to be sent
-     */
-    //public abstract void sendMessage(Message message);
+    
     /**
      * abstract method to remove connections from the node
      */
     public abstract void removeConnections();
 
     /**
-     *
-     * @param handle
-     * @return
+     * Checks that the handle is a valid format
+     * @param handle the handle value to check
+     * @return a boolean indicating if it is true
      */
     public static boolean checkHandle(String handle)
     {
@@ -155,9 +138,9 @@ public abstract class MetaAgent
     }
 
     /**
-     *
-     * @param ip
-     * @return
+     * Checks that an ip is a valid IPv4 format
+     * @param ip the ip to check
+     * @return a boolean indicating if the ip is valid
      */
     public static boolean checkIp(String ip)
     {
@@ -169,4 +152,5 @@ public abstract class MetaAgent
 
         return matcher.matches();
     }
+    
 }

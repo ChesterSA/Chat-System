@@ -8,17 +8,11 @@ package middleware;
 import java.util.LinkedList;
 
 /**
- *
+ * Used as an endpoint in the middleware for message sending and receiving
  * @author Group B
  */
-public class Agent
+public class Agent extends Node
 {
-
-    /**
-     * The handle of the agent, used for identification
-     */
-    String handle;
-
     /**
      * The portal that the agent is connected to
      */
@@ -34,11 +28,6 @@ public class Agent
      * portal
      */
     LinkedList<String> contacts = new LinkedList<>();
-
-    /**
-     * The node monitor for this portal, set to null until it is needed
-     */
-    private NodeMonitor nodeMonitor;
 
     /**
      * A default constructor, essentially makes a null Agent
@@ -117,16 +106,6 @@ public class Agent
     }
 
     /**
-     * returns the handle
-     *
-     * @return the handle of the agent
-     */
-    public String getHandle()
-    {
-        return handle;
-    }
-
-    /**
      * Sets the client for this agent
      *
      * @param c the client to connect to this agent
@@ -157,21 +136,8 @@ public class Agent
     }
 
     /**
-     * Adds new node monitor to portal
+     * Removes this agent from the portal, then sets all values to null
      */
-    public void addNodeMonitor()
-    {
-        nodeMonitor = new NodeMonitor(this.handle);
-    }
-
-    /**
-     * Removes node monitor from portal
-     */
-    public void removeNodeMonitor()
-    {
-        nodeMonitor = null;
-    }
-
     public void delete()
     {
         portal.removeAgent(handle);

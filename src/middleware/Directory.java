@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Directory, acts as a MetaAgent that others can connect to and receive a list of other meta agents
  * @author Group B
  */
 public class Directory extends MetaAgent
@@ -93,9 +93,7 @@ public class Directory extends MetaAgent
                         // should probably handle timeouts...
                     }
 
-                    //At this point in the connection process, only a HELLO message
-                    //will do, anything else will be ignored.
-                    //
+                    //Waits for a PORTAL message to connect to
                     final Message receivedMessage = newConnection.receiveMessage();
 
                     if (receivedMessage.getType().equals(MessageType.PORTAL))
@@ -109,18 +107,13 @@ public class Directory extends MetaAgent
 
                                 if (connections.get(newConnectionHandle) == null)
                                 {
-                                    //Complete the connection by setting its handle.
-                                    //this is essential as we use the handle to send
-                                    //messages to our peers.
-                                    //
+                                    //Set the connection handle, used for reference for messages
                                     newConnection.setHandle(newConnectionHandle);
 
                                     //update our register of peer connections
-                                    //
                                     addConnection(newConnection);
 
                                     //The HELLOACK allows the peer to know our handle
-                                    //
                                     newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
                                 }
                                 else
@@ -281,42 +274,6 @@ public class Directory extends MetaAgent
             }
         }
         return false;
-    }
-
-    /**
-     * Sends message to a recipient.
-     *
-     * @param message Message to be sent.
-     */
-    //@Override
-    public void sendMessage(Message message)
-    {
-        synchronized (lock)
-        {
-            if (message.getType().equals(MessageType.BROADCAST))
-            {
-                //
-                // Not handling broadcast messages presently...
-                //
-            }
-            else
-            {
-                final String receiver = message.getTo();
-
-                //find the socket of the peer using their handle:
-                Connection peerConnection = connections.get(receiver);
-
-                if (peerConnection != null)
-                {
-                    peerConnection.sendMessage(message);
-                }
-                else
-                {
-                    System.err.println("'" + receiver + "' is an unknown peer");
-                }
-
-            }
-        }
     }
 
     /**

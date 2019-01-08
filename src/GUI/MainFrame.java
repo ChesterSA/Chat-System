@@ -10,7 +10,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /**
- *
+ * The main frame that has options to open any other frame
  * @author Group B
  */
 public final class MainFrame extends BaseFrame
@@ -53,7 +53,6 @@ public final class MainFrame extends BaseFrame
         Portal.addActionListener((ActionEvent e) ->
         {
             // close first Frame
-            //setVisible(false);
             portalFrame = new PortalFrame();
         });
 
@@ -61,7 +60,6 @@ public final class MainFrame extends BaseFrame
         addComponentToGridBag(this, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agents.addActionListener((ActionEvent e) ->
         {
-            //setVisible(false);
             clientFrame = new ClientFrame();
         });
 
@@ -69,7 +67,6 @@ public final class MainFrame extends BaseFrame
         addComponentToGridBag(this, Directory, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         Directory.addActionListener((ActionEvent e) ->
         {
-            //setVisible(false);
             directoryFrame = new DirectoryFrame();
         });
 

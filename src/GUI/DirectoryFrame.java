@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 import middleware.Directory;
 
 /**
- *
+ * The frame that represents a directory in the GUI
  * @author Group B
  */
 public final class DirectoryFrame extends BaseFrame

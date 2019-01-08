@@ -5,6 +5,7 @@
  */
 package drivers;
 
+import external.Client;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 import middleware.*;
 
 /**
- *
+ * A simple driver that uses the console rather than a GUI
  * @author Group B
  */
 public class ConsoleDriver extends Driver
@@ -25,9 +26,9 @@ public class ConsoleDriver extends Driver
     static Portal portal;
 
     /**
-     * The list of agents created on this pc
+     * The list of clients created on this pc
      */
-    static LinkedList<Agent> agents = new LinkedList<Agent>();
+    static LinkedList<Client> clients = new LinkedList<Client>();
 
     /**
      * The main driver of the class
@@ -119,7 +120,7 @@ public class ConsoleDriver extends Driver
         System.out.println("Agent Handle?");
         System.out.print(">");
         String handle = gets();
-        agents.add(new Agent(handle, portal));
+        clients.add(new Client(handle, portal));
     }
 
     /**
@@ -129,26 +130,26 @@ public class ConsoleDriver extends Driver
     {
         System.out.println("Which agent is the message from?");
 
-        for (Agent a : agents)
+        for (Client c : clients)
         {
-            System.out.println(a.getHandle());
+            System.out.println(c.getAgent().getHandle());
         }
         String handle = gets();
 
-        Agent from = new Agent();
-        for (Agent a : agents)
+        Client from = new Client();
+        for (Client c : clients)
         {
-            if (a.getHandle().equals(handle))
+            if (c.getAgent().getHandle().equals(handle))
             {
-                from = a;
+                from = c;
             }
         }
 
         System.out.println("Who is the message to?");
 
-        for (String s : from.getContacts())
+        for (String s : from.getAgent().getContacts())
         {
-            System.out.println(from);
+            System.out.println(s);
         }
 
         String to = gets();
@@ -167,9 +168,9 @@ public class ConsoleDriver extends Driver
     private static void viewAgents()
     {
         System.out.println("Agent List");
-        for (Agent a : agents)
+        for (Client c : clients)
         {
-            System.out.print(a.getHandle() + " ");
+            System.out.print(c.getAgent().getHandle() + " ");
         }
     }
 
@@ -202,22 +203,22 @@ public class ConsoleDriver extends Driver
     {
         System.out.println("Which agent do you want to delete?");
 
-        for (Agent a : agents)
+        for (Client c : clients)
         {
-            System.out.println(a.getHandle());
+            System.out.println(c.getAgent().getHandle());
         }
         String handle = gets();
 
-        Agent toDelete = new Agent();
-        for (Agent a : agents)
+        Client toDelete = new Client();
+        for (Client c : clients)
         {
-            if (a.getHandle().equals(handle))
+            if (c.getAgent().getHandle().equals(handle))
             {
-                toDelete = a;
+                toDelete = c;
             }
         }
 
-        toDelete.delete();
+        toDelete.getAgent().delete();
     }
     
 }

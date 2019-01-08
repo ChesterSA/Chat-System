@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import middleware.Directory;
 
 /**
- *
+ * Test process to run a directory using the console
  * @author Group B
  */
 public class DirectoryTest extends Driver
@@ -64,7 +64,6 @@ public class DirectoryTest extends Driver
     /**
      * Display list of current connection handle strings for a given directory.
      *
-     * @param me Directory to be searched.
      */
     private static void displayConnectionList()
     {
@@ -74,7 +73,7 @@ public class DirectoryTest extends Driver
             return;
         }
 
-        System.out.println(String.format("Connected portal handles\n%s\n",
+        System.out.println(String.format("Current portal handles\n%s\n",
                 String.join(", ", directory.getConnectionHandles())
         )
         );

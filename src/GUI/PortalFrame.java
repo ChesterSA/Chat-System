@@ -21,12 +21,14 @@ import javax.swing.SwingConstants;
 import middleware.Portal;
 
 /**
- *
+ * The Frame that represents the portal in the GUI
  * @author Group B
  */
 public final class PortalFrame extends BaseFrame
 {
-
+    /**
+     * The IP of the directory
+     */
     private final String DIR_IP = "152.105.67.123";
 
     /**

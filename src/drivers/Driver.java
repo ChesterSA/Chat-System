@@ -6,7 +6,7 @@
 package drivers;
 
 /**
- *
+ * The driver class that other drivers inherit, gives the standard IPs to be used
  * @author Group B
  */
 public class Driver

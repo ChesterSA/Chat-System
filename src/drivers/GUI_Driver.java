@@ -3,7 +3,7 @@ package drivers;
 import GUI.MainFrame;
 
 /**
- *
+ * The driver that initialises the GUI, default driver for the program
  * @author Group B
  */
 public class GUI_Driver

@@ -15,7 +15,7 @@ import middleware.Contactable;
 import middleware.Message;
 
 /**
- *
+ * The frame that represents a client, can send messages via a portal
  * @author Group B
  */
 public final class ClientFrame extends BaseFrame implements Contactable
@@ -113,7 +113,6 @@ public final class ClientFrame extends BaseFrame implements Contactable
 
         if (n == 0)
         {
-            //System.out.println("Current connections:");
             List<String> contacts = new ArrayList();
             for (String c : agent.getAgent().getContacts())
             {

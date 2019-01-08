@@ -40,10 +40,7 @@ public class Portal extends MetaAgent implements Connectable
      */
     protected HashMap<String, Agent> agents = new HashMap<>();
 
-    /**
-     * Monitor which when set will keep track of all messages through the portal
-     */
-    protected NodeMonitor nodeMonitor;
+    
 
     /**
      * Creates a new portal from the handle given
@@ -572,21 +569,7 @@ public class Portal extends MetaAgent implements Connectable
         agents = new HashMap<>();
     }
 
-    /**
-     * Adds new node monitor to portal
-     */
-    public void addNodeMonitor()
-    {
-        nodeMonitor = new NodeMonitor(this.handle);
-    }
-
-    /**
-     * Removes node monitor from portal
-     */
-    public void removeNodeMonitor()
-    {
-        nodeMonitor = null;
-    }
+    
 
     /**
      * Set the handle of the portal

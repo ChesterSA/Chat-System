@@ -14,13 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- *
+ * Reads every message that pass through a chat node and writes to a file
  * @author Group B
  */
 public class NodeMonitor
 {
     /**
-     * the handle of the portal that this NodeMonitor is monitoring
+     * the handle of the agent that this NodeMonitor is monitoring
      */
     String handle;
     
@@ -29,6 +29,10 @@ public class NodeMonitor
      */
     PrintWriter nodeMonitor;
 
+    /**
+     * A constructor for the node monitor, sets the handle
+     * @param h 
+     */
     NodeMonitor(String h)
     {
         handle = h;

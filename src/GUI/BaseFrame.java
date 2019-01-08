@@ -12,8 +12,6 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import middleware.MetaAgent;
-import middleware.Contactable;
-import middleware.Message;
 import middleware.Portal;
 
 /**
