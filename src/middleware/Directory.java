@@ -123,10 +123,10 @@ public class Directory extends MetaAgent
                                     newConnection.setHandle(newConnectionHandle);
                                     addConnection(newConnection);
 
-                                    for (Connection c : connections.values())
+                                    connections.values().forEach((c) ->
                                     {
                                         c.sendMessage(createDirMessage(c.getHandle()));
-                                    }
+                                    });
                                 }
                             }
                         }

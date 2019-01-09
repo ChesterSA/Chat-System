@@ -91,10 +91,10 @@ public class Portal extends MetaAgent implements Connectable
 
                 if (message.getType().equals(MessageType.BROADCAST))
                 {
-                    for (Agent a : agents.values())
+                    agents.values().forEach((a) ->
                     {
                         a.receiveMessage(message);
-                    }
+                    });
                     if (agents.containsKey(message.getFrom()))
                     {
                         for (Connection c : portals.values())
@@ -112,10 +112,10 @@ public class Portal extends MetaAgent implements Connectable
                     else
                     {
 
-                        for (Connection c : portals.values())
+                        portals.values().forEach((c) ->
                         {
                             c.sendMessage(message);
-                        }
+                        });
                     }
 
                 }
@@ -143,7 +143,7 @@ public class Portal extends MetaAgent implements Connectable
                 {
                     LinkedList<Connection> connections = new LinkedList(portals.values());
 
-                    for (Connection c : connections)
+                    connections.forEach((c) ->
                     {
                         try
                         {
@@ -185,10 +185,10 @@ public class Portal extends MetaAgent implements Connectable
                                 else if (agents.containsKey(receivedMessage.getFrom()))
                                 {
                                     //Only send message if it's from one of your agents, stops infinite loop issues
-                                    for (Connection con : portals.values())
+                                    portals.values().forEach((con) ->
                                     {
                                         con.sendMessage(receivedMessage);
-                                    }
+                                    });
                                 }
                             }
 
@@ -202,7 +202,7 @@ public class Portal extends MetaAgent implements Connectable
                         {
                             Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
+                    });
                 }
             }
         }
@@ -511,15 +511,15 @@ public class Portal extends MetaAgent implements Connectable
      */
     private void addPortal(Connection c)
     {
-        String handle = c.getHandle();
+        String connectionHandle = c.getHandle();
         synchronized (lock)
         {
-            if (portals.containsKey(handle))
+            if (portals.containsKey(connectionHandle))
             {
-                System.err.println("[" + handle + "] is already an established connection.");
+                System.err.println("[" +connectionHandle + "] is already an established connection.");
                 return;
             }
-            portals.put(handle, c);
+            portals.put(connectionHandle, c);
         }
     }
 

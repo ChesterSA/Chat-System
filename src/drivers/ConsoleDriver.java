@@ -130,10 +130,10 @@ public class ConsoleDriver extends Driver
     {
         System.out.println("Which agent is the message from?");
 
-        for (Client c : clients)
+        clients.forEach((c) ->
         {
             System.out.println(c.getAgent().getHandle());
-        }
+        });
         String handle = gets();
 
         Client from = new Client();
@@ -168,10 +168,10 @@ public class ConsoleDriver extends Driver
     private static void viewAgents()
     {
         System.out.println("Agent List");
-        for (Client c : clients)
+        clients.forEach((c) ->
         {
             System.out.print(c.getAgent().getHandle() + " ");
-        }
+        });
     }
 
     /**
@@ -190,10 +190,10 @@ public class ConsoleDriver extends Driver
      */
     private static void displayConnections()
     {
-        for (String p : portal.getPortalHandles())
+        portal.getPortalHandles().forEach((p) ->
         {
             System.out.print(p + " ");
-        }
+        });
     }
 
     /**
@@ -203,10 +203,10 @@ public class ConsoleDriver extends Driver
     {
         System.out.println("Which agent do you want to delete?");
 
-        for (Client c : clients)
+        clients.forEach((c) ->
         {
             System.out.println(c.getAgent().getHandle());
-        }
+        });
         String handle = gets();
 
         Client toDelete = new Client();

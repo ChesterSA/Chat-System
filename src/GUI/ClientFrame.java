@@ -5,12 +5,12 @@
  */
 package GUI;
 
-import external.Client;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import middleware.Agent;
 import middleware.Contactable;
 import middleware.Message;
 
@@ -24,7 +24,7 @@ public final class ClientFrame extends BaseFrame implements Contactable
     /**
      * The Client that this frame uses for connections
      */
-    Client agent = new Client(getHandle(), getPortal());
+    Agent agent = new Agent(getHandle(), getPortal());
 
     /**
      * Constructs a swing frame Initialises and starts a new agent Populates the
@@ -40,8 +40,8 @@ public final class ClientFrame extends BaseFrame implements Contactable
         setSize(450, 300);
         setResizable(false);
 
-        setTitle(agent.getAgent().getHandle());
-        agent.getAgent().setClient(this);
+        setTitle(agent.getHandle());
+        agent.setClient(this);
 
         addButtons();
 
@@ -65,7 +65,7 @@ public final class ClientFrame extends BaseFrame implements Contactable
 
         JOptionPane.showMessageDialog(null, "From: " + m.getFrom() + "\n"
                 + "To: " + m.getTo() + "\n"
-                + "Content: " + m.getContent() + "\n"
+                + "Content: " + content + "\n"
                 + "Type: " + m.getType().toString(),
                 "Message Notification",
                 JOptionPane.INFORMATION_MESSAGE);
@@ -83,7 +83,7 @@ public final class ClientFrame extends BaseFrame implements Contactable
     {
         if (to.equals("all"))
         {
-            agent.getAgent().sendBroadcast(content);
+            agent.sendBroadcast(content);
             return;
         }
         agent.sendMessage(to, content);
@@ -114,10 +114,10 @@ public final class ClientFrame extends BaseFrame implements Contactable
         if (n == 0)
         {
             List<String> contacts = new ArrayList();
-            for (String c : agent.getAgent().getContacts())
+            agent.getContacts().forEach((c) ->
             {
                 contacts.add(c);
-            }
+            });
 
             while (handle.isEmpty())
             {
@@ -150,11 +150,10 @@ public final class ClientFrame extends BaseFrame implements Contactable
         if (agent == null)
         {
             JOptionPane.showMessageDialog(null, "No Portal Connected", "Portal", JOptionPane.ERROR_MESSAGE);
-            return;
         }
         else
         {
-            String connection = agent.getAgent().getPortal().getHandle();
+            String connection = agent.getPortal().getHandle();
             JOptionPane.showMessageDialog(null, connection, "Portal", JOptionPane.INFORMATION_MESSAGE);
         }
     }
