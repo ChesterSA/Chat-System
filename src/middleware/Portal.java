@@ -227,8 +227,8 @@ public class Portal extends MetaAgent implements Connectable
             return;
         }
 
-//        Create a thread to start handshake between this peer and remote peer
-//        Portals can only connect to each other, not to agents
+        //Create a thread to start handshake between this peer and remote peer
+        //Portals can only connect to each other, not to agents
         Thread helloThread = new Thread(
                 new Runnable()
         {
@@ -243,10 +243,16 @@ public class Portal extends MetaAgent implements Connectable
                     Connection partialConnection = new Connection(newSocket);
                     partialConnection.sendMessage(new Message(handle, MessageType.PORTAL));
 
+                    int timeout = 0;
                     //Wait for a response from this connection.
                     while (!partialConnection.hasMessage())
                     {
-
+                        timeout++;
+                        //waits 25,000,000 [units] (roughly 10 seconds) and then times out
+                        if (timeout >= 25000000)
+                        {
+                            newSocket.close();
+                        }
                     }
 
                     //Message comes in, the type will be assessed
