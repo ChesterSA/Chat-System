@@ -77,7 +77,6 @@ public class Portal extends MetaAgent implements Connectable
 
     /**
      * Sends a message from this portal to the receiver specified in message
-     *
      */
     public void sendMessage()
     {

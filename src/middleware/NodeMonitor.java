@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Reads every message that pass through a chat node and writes to a file
+ * Reads every message that pass through a chat node and writes to a filehandle
  * @author Group B
  */
 public class NodeMonitor
@@ -27,7 +27,7 @@ public class NodeMonitor
     /**
      * The output writer used for file access
      */
-    PrintWriter nodeMonitor;
+    PrintWriter writer;
 
     /**
      * A constructor for the node monitor, sets the handle
@@ -49,7 +49,7 @@ public class NodeMonitor
         try
         {
             FileWriter fw = new FileWriter(monitor, true);
-            nodeMonitor = new PrintWriter(fw);
+            writer = new PrintWriter(fw);
         }
         catch (FileNotFoundException e)
         {
@@ -62,13 +62,13 @@ public class NodeMonitor
         
         String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 
-        nodeMonitor.print(currentTime + "\t");
-        nodeMonitor.print("From: " + m.getFrom() + "\t");
-        nodeMonitor.print("To: " + m.getTo() + "\t\t");
-        nodeMonitor.print("Type: " + m.getType() + "\t\t");
-        nodeMonitor.print("Content: " + m.getContent());
-        nodeMonitor.print("\r\n");
+        writer.print(currentTime + "\t");
+        writer.print("From: " + m.getFrom() + "\t");
+        writer.print("To: " + m.getTo() + "\t\t");
+        writer.print("Type: " + m.getType() + "\t\t");
+        writer.print("Content: " + m.getContent());
+        writer.print("\r\n");
 
-        nodeMonitor.close();
+        writer.close();
     }
 }

@@ -83,7 +83,7 @@ public final class ClientFrame extends BaseFrame implements Contactable
     {
         if (to.equals("all"))
         {
-            agent.getAgent().sendBroadcast(agent.getAgent().getHandle(), to, content);
+            agent.getAgent().sendBroadcast(content);
             return;
         }
         agent.sendMessage(to, content);

@@ -24,7 +24,7 @@ public class Message
     /**
      * the content of the message
      */
-    private String content = "";
+    private String content;
 
     /**
      * the type of the message

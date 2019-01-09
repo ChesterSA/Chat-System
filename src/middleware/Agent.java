@@ -70,12 +70,11 @@ public class Agent extends Node
     /**
      * sends a standard message from this agent to another
      *
-     * @param to the handle of the agent to send a message to
      * @param content the content of the message
      */
-    public void sendBroadcast(String from, String to, String content)
+    public void sendBroadcast(String content)
     {
-        Message m = new Message(from, to, MessageType.BROADCAST);
+        Message m = new Message(handle, null, MessageType.BROADCAST);
         m.append(content);
 
         portal.enqueue(m);

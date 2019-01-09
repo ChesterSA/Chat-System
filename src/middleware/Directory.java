@@ -114,7 +114,7 @@ public class Directory extends MetaAgent
                                     addConnection(newConnection);
 
                                     //The HELLOACK allows the peer to know our handle
-                                    newConnection.sendMessage(createDirMessage(handle, newConnectionHandle));
+                                    newConnection.sendMessage(createDirMessage(newConnectionHandle));
                                 }
                                 else
                                 {
@@ -125,7 +125,7 @@ public class Directory extends MetaAgent
 
                                     for (Connection c : connections.values())
                                     {
-                                        c.sendMessage(createDirMessage(handle, c.getHandle()));
+                                        c.sendMessage(createDirMessage(c.getHandle()));
                                     }
                                 }
                             }
@@ -153,9 +153,9 @@ public class Directory extends MetaAgent
      * @param to The message receiver.
      * @return Single string of all directory's current IP addresses.
      */
-    private Message createDirMessage(String from, String to)
+    private Message createDirMessage(String to)
     {
-        Message m = new Message(from, to, MessageType.DIR);
+        Message m = new Message(handle, to, MessageType.DIR);
         String content = "";
         for (Connection c : connections.values())
         {
