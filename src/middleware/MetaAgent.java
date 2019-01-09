@@ -119,8 +119,6 @@ public abstract class MetaAgent extends Node
     {
         return false;
     }
-
-
     
     /**
      * abstract method to remove connections from the node

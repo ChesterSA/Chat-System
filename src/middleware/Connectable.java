@@ -26,5 +26,5 @@ public interface Connectable
      * @param remoteIpAddress the ip to connect to
      * @param remotePort the port to connect to
      */
-    public abstract void connectTo(final String remoteIpAddress, final int remotePort);
+    public void connectTo(final String remoteIpAddress, final int remotePort);
 }

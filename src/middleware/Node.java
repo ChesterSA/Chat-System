@@ -11,12 +11,12 @@ package middleware;
  */
 public class Node
 {
-        /**
+    /**
      * The handle of the agent, used for identification
      */
     String handle;
     
-        /**
+    /**
      * Monitor which when set will keep track of all messages through the portal
      */
     protected NodeMonitor nodeMonitor;

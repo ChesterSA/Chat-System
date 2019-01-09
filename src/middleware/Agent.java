@@ -16,18 +16,18 @@ public class Agent extends Node
     /**
      * The portal that the agent is connected to
      */
-    Portal portal;
+    private Portal portal;
 
     /**
      * the client that is using the agent
      */
-    Contactable client;
+    private Contactable client;
 
     /**
      * A list of the handles of agents that have previously contacted this
      * portal
      */
-    LinkedList<String> contacts = new LinkedList<>();
+    private LinkedList<String> contacts = new LinkedList<>();
 
     /**
      * A default constructor, essentially makes a null Agent

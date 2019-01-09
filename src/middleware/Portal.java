@@ -28,19 +28,17 @@ public class Portal extends MetaAgent implements Connectable
     /**
      * The queue of messages that the portal will send
      */
-    protected BlockingQueue queue = new ArrayBlockingQueue(1024);
+    private BlockingQueue queue = new ArrayBlockingQueue(1024);
 
     /**
      * Hashmap containing handle and connection of all connected portals
      */
-    protected HashMap<String, Connection> portals = new HashMap<>();
+    private HashMap<String, Connection> portals = new HashMap<>();
 
     /**
      * Hashmap containing handle and connection of all connected portals
      */
-    protected HashMap<String, Agent> agents = new HashMap<>();
-
-    
+    private HashMap<String, Agent> agents = new HashMap<>();
 
     /**
      * Creates a new portal from the handle given
@@ -280,7 +278,7 @@ public class Portal extends MetaAgent implements Connectable
                                     //regex to select the ip from a socket output
                                     Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
 
-                                    Matcher m = ipPattern.matcher(c.socket.toString());
+                                    Matcher m = ipPattern.matcher(c.getSocket().toString());
 
                                     if (m.group().equals(ip))
                                     {
@@ -335,7 +333,7 @@ public class Portal extends MetaAgent implements Connectable
                     while (!newConnection.hasMessage())
                     {
                         timeout++;
-//                        waits 25,000,000 [units] (roughly 10 seconds) and then times out
+                        //waits 25,000,000 [units] (roughly 10 seconds) and then times out
                         if (timeout >= 25000000)
                         {
                             newClientSocket.close();

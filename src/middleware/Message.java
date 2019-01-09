@@ -177,14 +177,11 @@ public class Message
 
         if (matcher.matches())
         {
-            newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5)));
-            newMessage.append(matcher.group(4));
+            newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5))); 
 
-            String content = matcher.group(4);
-            if (content.equals(""))
-            {
-                content = "N/A";
-            }
+            String content = (matcher.group(4).equals("")) ? "N/A" : matcher.group(4);
+            
+            newMessage.append(content);
         }
         
         return newMessage;

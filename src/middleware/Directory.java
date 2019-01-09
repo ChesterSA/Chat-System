@@ -160,8 +160,7 @@ public class Directory extends MetaAgent
         for (Connection c : connections.values())
         {
             Pattern ipPattern = Pattern.compile("(?<=/)(.*?)(?=,)");
-
-            Matcher match = ipPattern.matcher(c.socket.toString());
+            Matcher match = ipPattern.matcher(c.getSocket().toString());
 
             String ip;
 
@@ -173,8 +172,10 @@ public class Directory extends MetaAgent
             {
                 ip = "";
             }
-
-            if (!getIp(connections.get(to).socket).equals(ip))
+            
+            //Checks if the ip is the ip of the requesting node
+            //If it is, don't add it to the list
+            if (!getIp(connections.get(to).getSocket()).equals(ip))
             {
                 content += match.group();
             }
@@ -244,7 +245,7 @@ public class Directory extends MetaAgent
      *
      * @param connection Connection to be added.
      */
-    protected void addConnection(final Connection connection)
+    private void addConnection(final Connection connection)
     {
         synchronized (lock)
         {
@@ -287,7 +288,7 @@ public class Directory extends MetaAgent
         for (Connection c : connections.values())
         {
 
-            output += c.socket.toString().substring(13, 27) + ",";
+            output += c.getSocket().toString().substring(13, 27) + ",";
         }
         return output;
     }

@@ -28,7 +28,7 @@ public class Connection
     /**
      * Socket used by connection.
      */
-    public final Socket socket;
+    private final Socket socket;
 
     /**
      * Stream of data (in bytes) to be processed through connection.
@@ -149,5 +149,10 @@ public class Connection
     public boolean hasIpAddress(final String ipAddress)
     {
         return socket.getInetAddress().getHostAddress().compareTo(ipAddress) == 0;
+    }
+    
+    public Socket getSocket()
+    {
+        return socket;
     }
 }
