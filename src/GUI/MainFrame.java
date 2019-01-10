@@ -52,15 +52,29 @@ public final class MainFrame extends BaseFrame
         addComponentToGridBag(this, Portal, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         Portal.addActionListener((ActionEvent e) ->
         {
-            // close first Frame
-            portalFrame = new PortalFrame();
+            if (portal == null) 
+            {
+              portalFrame = new PortalFrame();              
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "A Portal already exists.");
+            }
+            
         });
 
         JButton agents = new JButton("Client");
         addComponentToGridBag(this, agents, 0, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
         agents.addActionListener((ActionEvent e) ->
         {
-            clientFrame = new ClientFrame();
+            if (portal == null) 
+            {
+               JOptionPane.showMessageDialog(null, "A Portal is required first.");
+            }
+            else
+            {
+                clientFrame = new ClientFrame();
+            }
         });
 
         JButton Directory = new JButton("Directory");
