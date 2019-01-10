@@ -99,12 +99,14 @@ public class Message
      *
      * @param appendWith
      */
-    public void append(String appendWith)
+     public void append(String appendWith)
     {
         if (appendWith != null && appendWith.length() > 0)
         {
+            if (content == null)
                 content = appendWith;
-
+            else
+                content += appendWith;
         }
     }
 
