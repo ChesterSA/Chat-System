@@ -82,8 +82,7 @@ public class Portal extends MetaAgent implements Connectable
         {
             try
             {
-                Message message = (Message) queue.take();
-
+                Message message = (Message)queue.take();
                 if (nodeMonitor != null)
                 {
                     nodeMonitor.handleMessage(message);
@@ -93,6 +92,7 @@ public class Portal extends MetaAgent implements Connectable
                 {
                     agents.values().forEach((a) ->
                     {
+                        
                         a.receiveMessage(message);
                     });
                     if (agents.containsKey(message.getFrom()))
@@ -111,7 +111,6 @@ public class Portal extends MetaAgent implements Connectable
                     }
                     else
                     {
-
                         portals.values().forEach((c) ->
                         {
                             c.sendMessage(message);

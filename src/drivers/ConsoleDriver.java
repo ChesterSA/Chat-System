@@ -55,6 +55,7 @@ public class ConsoleDriver extends Driver
         {
             portal.begin();
 
+
             while (true)
             {
                 while (true)
