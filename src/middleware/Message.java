@@ -103,7 +103,8 @@ public class Message
     {
         if (appendWith != null && appendWith.length() > 0)
         {
-            content = content + appendWith;
+                content = appendWith;
+
         }
     }
 
@@ -180,7 +181,6 @@ public class Message
             newMessage = new Message(matcher.group(1), matcher.group(3), MessageType.valueOf(matcher.group(5))); 
 
             String content = (matcher.group(4).equals("")) ? "N/A" : matcher.group(4);
-            
             newMessage.append(content);
         }
         
