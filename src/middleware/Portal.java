@@ -597,4 +597,9 @@ public class Portal extends MetaAgent implements Connectable
     {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
+    
+    public int getQueueSize()
+    {
+        return queue.size();
+    }
 }

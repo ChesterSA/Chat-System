@@ -59,6 +59,7 @@ public class Client implements Contactable
         System.out.println("From: " + m.getFrom());
         System.out.println("Type: " + m.getType());
         System.out.println("Content: " + m.getContent());
+        System.out.println("Queue Size: " + agent.getPortal().getQueueSize());
         System.out.println();
     }
 
