@@ -43,13 +43,13 @@ public class ConsoleDriver extends Driver
         //0.0.0.0 would be changed to reflect the company's ip
         portal = new Portal(myHandle, "0.0.0.0");
 
-        System.out.println("Do you want a NodeMonitor on this portal? (true/false)");
-
-        boolean ifNodeMonitor = Boolean.parseBoolean(gets());
-        if (ifNodeMonitor)
-        {
-            portal.addNodeMonitor();
-        }
+//        System.out.println("Do you want a NodeMonitor on this portal? (true/false)");
+//
+//        boolean ifNodeMonitor = Boolean.parseBoolean(gets());
+//        if (ifNodeMonitor)
+//        {
+//            portal.addNodeMonitor();
+//        }
 
         try
         {
@@ -66,6 +66,7 @@ public class ConsoleDriver extends Driver
                     System.out.println("3. View Agents");
                     System.out.println("4. Connect Portal to External IP");
                     System.out.println("5. Show Portal's connections");
+                    System.out.println("6. Remove connections");
                     System.out.println("> ");
                     final String option = gets();
 
@@ -87,8 +88,11 @@ public class ConsoleDriver extends Driver
                             displayConnections();
                             break;
                         case "6":
-                            removeAgent();
+                            removePortals();
                             break;
+                        case "7":
+                            removeAgent();
+                            break;        
                         default:
                             System.err.println("Invalid option.");
                     }
@@ -220,6 +224,12 @@ public class ConsoleDriver extends Driver
         }
 
         toDelete.getAgent().delete();
+    }
+
+    
+    private static void removePortals()
+    {
+        portal.removeConnections();
     }
     
 }

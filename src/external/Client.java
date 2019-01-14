@@ -71,8 +71,6 @@ public class Client implements Contactable
     @Override
     public void sendMessage(String to, String content)
     {
-        System.out.println("to: " + to);
-        System.out.println("content: " + content);
         agent.sendMessage(to, content);
     }
     
