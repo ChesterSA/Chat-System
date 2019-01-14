@@ -40,6 +40,8 @@ public class Portal extends MetaAgent implements Connectable
      */
     private HashMap<String, Agent> agents = new HashMap<>();
 
+    private final int delay = 0;
+    
     /**
      * Creates a new portal from the handle given
      *
@@ -175,10 +177,10 @@ public class Portal extends MetaAgent implements Connectable
                                 }
                                 else if (agents.containsKey(receivedMessage.getTo()) || receivedMessage.getType().equals(MessageType.BROADCAST))
                                 {
-                                    queue.put(receivedMessage);
+                                    enqueue(receivedMessage);
 
                                     //1 second delay to show the queue in action
-                                    Thread.sleep(1000);
+                                    ///Thread.sleep(1000);
                                     sendMessage();
                                 }
                                 else if (agents.containsKey(receivedMessage.getFrom()))
@@ -196,10 +198,6 @@ public class Portal extends MetaAgent implements Connectable
                         {
                             Logger.getLogger(MetaAgent.class
                                     .getName()).log(Level.SEVERE, null, ex);
-                        }
-                        catch (InterruptedException ex)
-                        {
-                            Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     });
                 }
@@ -430,6 +428,7 @@ public class Portal extends MetaAgent implements Connectable
         try
         {
             queue.put(m);
+            Thread.sleep(delay);
         }
         catch (InterruptedException ex)
         {

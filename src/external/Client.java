@@ -54,7 +54,7 @@ public class Client implements Contactable
     @Override
     public void handleMessage(Message m)
     {
-        System.out.println("Client has message");
+        System.out.println("Client " + name + " has message");
         System.out.println("To: " + m.getTo());
         System.out.println("From: " + m.getFrom());
         System.out.println("Type: " + m.getType());
@@ -80,6 +80,11 @@ public class Client implements Contactable
     public Agent getAgent()
     {
         return agent;
+    }
+
+    public String getName() 
+    {
+        return name;
     }
     
     

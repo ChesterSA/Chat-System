@@ -46,3 +46,4 @@
 20190108_150423	From: handle	To: agentone		Type: STANDARD		Content: response message
 20190108_150423	From: handle	To: agenttwo		Type: STANDARD		Content: test message
 20190108_150423	From: handle	To: agentone		Type: STANDARD		Content: response message
+20190114_093511	From: agentone	To: agenttwo		Type: STANDARD		Content: Send Message

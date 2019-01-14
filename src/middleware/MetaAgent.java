@@ -132,7 +132,7 @@ public abstract class MetaAgent extends Node
      */
     public static boolean checkHandle(String handle)
     {
-        return handle.matches("^[^\\d\\s]+$");
+        return handle.matches("^[^\\s]+$");
     }
 
     /**
