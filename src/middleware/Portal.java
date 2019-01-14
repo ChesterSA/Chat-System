@@ -43,7 +43,7 @@ public class Portal extends MetaAgent implements Connectable
     /**
      * The delay on sending messages after enqueueing one in ms
      */
-    private final int delay = 100;
+    private int delay = 100;
     
     /**
      * Creates a new portal from the handle given
@@ -575,8 +575,6 @@ public class Portal extends MetaAgent implements Connectable
         agents = new HashMap<>();
     }
 
-    
-
     /**
      * Set the handle of the portal
      *
@@ -600,6 +598,11 @@ public class Portal extends MetaAgent implements Connectable
     
     public int getQueueSize()
     {
-        return queue.size();
+        return queue.size();    
+    }
+    
+    public void setDelay(int delay)
+    {
+        this.delay = delay;
     }
 }

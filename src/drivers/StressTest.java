@@ -37,14 +37,14 @@ public class StressTest {
     public static void main(String[] args) 
     {
         portal = new Portal("portal", "0.0.0.0");
-        
+        portal.setDelay(0);
         try 
         {
             portal.begin();
 
             //NormalStressTest(10000);
             //BroadcastStressTest(100);
-            ExternalStressTest(100, "cam", "152.105.67.111");
+            ExternalStressTest(1000, "cam", "152.105.67.111");
         } 
         catch (IOException ex) 
         {
