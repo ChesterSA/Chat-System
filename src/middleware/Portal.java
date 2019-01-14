@@ -97,8 +97,10 @@ public class Portal extends MetaAgent implements Connectable
                 {
                     agents.values().forEach((a) ->
                     {
-                        
-                        a.receiveMessage(message);
+                        if(!a.getHandle().equals(message.getFrom()))
+                        {
+                            a.receiveMessage(message);
+                        }
                     });
                     if (agents.containsKey(message.getFrom()))
                     {

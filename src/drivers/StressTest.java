@@ -36,7 +36,7 @@ public class StressTest {
      */
     public static void main(String[] args) 
     {
-        portal = new Portal("p", "0.0.0.0");
+        portal = new Portal("portal", "0.0.0.0");
         
         try 
         {
@@ -54,8 +54,6 @@ public class StressTest {
 
     public static void NormalStressTest(int clientCount) 
     {
-        //0.0.0.0 would be changed to reflect the company's ip
-
         for (int i = 0; i < clientCount; i++) 
         {
             clients.add(new Client("client" + i, portal));
@@ -89,19 +87,25 @@ public class StressTest {
 
     public static void ExternalStressTest(int clientCount, String receiver, String connectTo) 
     {
-        //0.0.0.0 would be changed to reflect the company's ip
-        for (int i = 0; i < clientCount; i++) 
-        {
-            clients.add(new Client("client" + i, portal));
-        }
-        System.out.println("clients made");
-
-        portal.connectTo(connectTo);
-
-        for (int i = 0; i < clients.size(); i++) 
-        {
-            Client sender = clients.get(i);
-            sender.sendMessage(receiver, "message " + i);
-        }
+//        for (int i = 0; i < clientCount; i++) 
+//        {
+//            clients.add(new Client("client" + i, portal));
+//        }
+//        System.out.println("clients made");
+//
+//        portal.connectTo(connectTo);
+//
+//        System.out.println("connected");
+//        
+//        for (int i = 0; i < clients.size(); i++) 
+//        {
+//            Client sender = clients.get(i);
+//            System.out.println("sending msg " + i);
+//            sender.sendMessage(receiver, "message " + i);
+//        }
+        
+//        portal.connectTo(connectTo);
+//        Client sender = new Client("csa", portal);
+//        sender.sendMessage("cam", "message");
     }
 }
