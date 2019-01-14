@@ -40,6 +40,9 @@ public class Portal extends MetaAgent implements Connectable
      */
     private HashMap<String, Agent> agents = new HashMap<>();
 
+    /**
+     * The delay on sending messages after enqueueing one in ms
+     */
     private final int delay = 0;
     
     /**
