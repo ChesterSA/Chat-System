@@ -13,8 +13,9 @@ import java.util.logging.Logger;
 import middleware.Portal;
 
 /**
+ * Tests the infrastructure with a high Client count
  *
- * @author t7077260
+ * @author Group B
  */
 public class StressTest {
 
@@ -33,31 +34,74 @@ public class StressTest {
      *
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-
-        //0.0.0.0 would be changed to reflect the company's ip
+    public static void main(String[] args) 
+    {
         portal = new Portal("p", "0.0.0.0");
-        
-        for (int i = 0; i < 100000; i++) 
-        {
-            clients.add(new Client("client" + i, portal));
-        }
-        
-        System.out.println("clients made");
         
         try 
         {
             portal.begin();
-            for (int i = 0; i < clients.size(); i++)
-            {
-                Client sender = clients.get(i);
-                String receiver = clients.get(clients.size() - i - 1).getName();
-                sender.sendMessage(receiver, "message " + i);
-            }
+
+            //NormalStressTest(10000);
+            //BroadcastStressTest(100);
+            ExternalStressTest(1000, "cam", "152.105.67.111");
         } 
         catch (IOException ex) 
         {
             Logger.getLogger(Portal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void NormalStressTest(int clientCount) 
+    {
+        //0.0.0.0 would be changed to reflect the company's ip
+
+        for (int i = 0; i < clientCount; i++) 
+        {
+            clients.add(new Client("client" + i, portal));
+        }
+
+        System.out.println("clients made");
+
+        for (int i = 0; i < clients.size(); i++) 
+        {
+            Client sender = clients.get(i);
+            String receiver = clients.get(clients.size() - i - 1).getName();
+            sender.sendMessage(receiver, "message " + i);
+        }
+    }
+
+    public static void BroadcastStressTest(int clientCount) 
+    {
+        for (int i = 0; i < clientCount; i++) 
+        {
+            clients.add(new Client("client" + i, portal));
+        }
+
+        System.out.println("clients made");
+
+        for (int i = 0; i < clients.size(); i++) 
+        {
+            Client sender = clients.get(i);
+            sender.sendBroadcast("message " + i);
+        }
+    }
+
+    public static void ExternalStressTest(int clientCount, String receiver, String connectTo) 
+    {
+        //0.0.0.0 would be changed to reflect the company's ip
+        for (int i = 0; i < clientCount; i++) 
+        {
+            clients.add(new Client("client" + i, portal));
+        }
+        System.out.println("clients made");
+
+        portal.connectTo(connectTo);
+
+        for (int i = 0; i < clients.size(); i++) 
+        {
+            Client sender = clients.get(i);
+            sender.sendMessage(receiver, "message " + i);
         }
     }
 }
