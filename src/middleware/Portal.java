@@ -43,7 +43,7 @@ public class Portal extends MetaAgent implements Connectable
     /**
      * The delay on sending messages after enqueueing one in ms
      */
-    private final int delay = 0;
+    private final int delay = 100;
     
     /**
      * Creates a new portal from the handle given
@@ -596,5 +596,10 @@ public class Portal extends MetaAgent implements Connectable
     public void connectTo(String remoteIpAddress)
     {
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
+    }
+    
+    public int getQueueSize()
+    {
+        return queue.size();
     }
 }

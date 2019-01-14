@@ -44,7 +44,7 @@ public class StressTest {
 
             //NormalStressTest(10000);
             //BroadcastStressTest(100);
-            ExternalStressTest(1000, "cam", "152.105.67.111");
+            ExternalStressTest(100, "cam", "152.105.67.111");
         } 
         catch (IOException ex) 
         {
@@ -106,6 +106,7 @@ public class StressTest {
             Client sender = clients.get(i);
             System.out.println("Sending Message " + i);
             sender.sendMessage(receiver, "message " + i);
+            System.out.println("size: " + portal.getQueueSize());
         }
     }
 }
