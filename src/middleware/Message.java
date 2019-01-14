@@ -164,7 +164,7 @@ public class Message
     /**
      * A regex to check messages are the correct format
      */
-    static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z]+)#(,TO:#([A-Za-z]*)#)?,CONTENT:#(.*)#,TYPE:#(.*)#$");
+    static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("^FROM:#([A-Za-z0-9]+)#(,TO:#([A-Za-z0-9]*)#)?,CONTENT:#(.*)#,TYPE:#(.*)#$");
 
     /**
      * Parse a message to check it is a valid format
