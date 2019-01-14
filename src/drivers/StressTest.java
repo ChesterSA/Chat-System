@@ -44,7 +44,7 @@ public class StressTest {
 
             //NormalStressTest(10000);
             //BroadcastStressTest(100);
-            ExternalStressTest(1000, "cam", "152.105.67.111");
+            ExternalStressTest(1, "cam", "152.105.67.111");
         } 
         catch (IOException ex) 
         {
@@ -87,22 +87,22 @@ public class StressTest {
 
     public static void ExternalStressTest(int clientCount, String receiver, String connectTo) 
     {
-//        for (int i = 0; i < clientCount; i++) 
-//        {
-//            clients.add(new Client("client" + i, portal));
-//        }
-//        System.out.println("clients made");
-//
-//        portal.connectTo(connectTo);
-//
-//        System.out.println("connected");
-//        
-//        for (int i = 0; i < clients.size(); i++) 
-//        {
-//            Client sender = clients.get(i);
-//            System.out.println("sending msg " + i);
-//            sender.sendMessage(receiver, "message " + i);
-//        }
+        for (int i = 0; i < clientCount; i++) 
+        {
+            clients.add(new Client("client" + i, portal));
+        }
+        System.out.println("clients made");
+
+        portal.connectTo(connectTo);
+
+        System.out.println("connected");
+        
+        for (int i = 0; i < clients.size(); i++) 
+        {
+            Client sender = clients.get(i);
+            System.out.println("sending msg " + i);
+            sender.sendMessage(receiver, "message " + i);
+        }
         
 //        portal.connectTo(connectTo);
 //        Client sender = new Client("csa", portal);
