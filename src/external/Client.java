@@ -73,6 +73,11 @@ public class Client implements Contactable
     {
         agent.sendMessage(to, content);
     }
+    
+    public void sendBroadcast(String content)
+    {
+        agent.sendBroadcast(content);
+    }
 
     /**
      * @return Current agent connected to client
