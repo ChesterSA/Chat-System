@@ -42,9 +42,9 @@ public class StressTest {
         {
             portal.begin();
 
-            //NormalStressTest(10000);
+            NormalStressTest(1000);
             //BroadcastStressTest(100);
-            ExternalStressTest(1000, "cam", "152.105.67.111");
+            //ExternalStressTest(100, "cam", "152.105.67.111");
         } 
         catch (IOException ex) 
         {
