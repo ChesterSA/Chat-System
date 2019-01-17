@@ -27,10 +27,11 @@ public class Client implements Contactable
      */
     Agent agent;
 
+    /**
+     * Creates a null Client
+     */
     public Client()
     {
-        this.name = null;
-        this.agent = null;
     }
     
     /**
@@ -75,6 +76,10 @@ public class Client implements Contactable
         agent.sendMessage(to, content);
     }
     
+    /**
+     * Sends a broadcast message to every connected agent
+     * @param content the content of the message
+     */
     public void sendBroadcast(String content)
     {
         agent.sendBroadcast(content);
@@ -88,10 +93,12 @@ public class Client implements Contactable
         return agent;
     }
 
+    /**
+     * Returns the name of the client
+     * @return the name property of the client
+     */
     public String getName() 
     {
         return name;
     }
-    
-    
 }

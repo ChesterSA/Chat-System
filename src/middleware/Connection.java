@@ -151,6 +151,10 @@ public class Connection
         return socket.getInetAddress().getHostAddress().compareTo(ipAddress) == 0;
     }
     
+    /**
+     * Gets the socket of the connection
+     * @return the socket property of the connection
+     */
     public Socket getSocket()
     {
         return socket;

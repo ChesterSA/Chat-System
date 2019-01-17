@@ -184,6 +184,11 @@ public class Directory extends MetaAgent
         return m;
     }
 
+    /**
+     * Returns the ip of a socket
+     * @param s The socket whose IP is needed
+     * @return the IP of the Socket
+     */
     private String getIp(Socket s)
     {
         return s.getInetAddress().toString().substring(1);

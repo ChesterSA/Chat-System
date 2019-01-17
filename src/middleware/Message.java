@@ -150,10 +150,13 @@ public class Message
         return type;
     }
 
+    /**
+     * Converts the message to string format for transmission
+     * @return a formatted string with all the message details
+     */
     @Override
     public String toString()
     {
-        //Simple message format for transmission...
         return String.format("FROM:#%s#,TO:#%s#,CONTENT:#%s#,TYPE:#%s#",
                 from,
                 to,

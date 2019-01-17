@@ -596,11 +596,19 @@ public class Portal extends MetaAgent implements Connectable
         this.connectTo(remoteIpAddress, DEFAULT_PORT);
     }
     
+    /**
+     * Gets the size of the queue
+     * @return the current queue size
+     */
     public int getQueueSize()
     {
         return queue.size();    
     }
     
+    /**
+     * Sets how much delay there is between sending messages
+     * @param delay the delay needed in milliseconds
+     */
     public void setDelay(int delay)
     {
         this.delay = delay;

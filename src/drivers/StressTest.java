@@ -38,6 +38,7 @@ public class StressTest {
     {
         portal = new Portal("portal", "0.0.0.0");
         portal.setDelay(0);
+        
         try 
         {
             portal.begin();
@@ -52,6 +53,10 @@ public class StressTest {
         }
     }
 
+    /**
+     * Sends messages from one client to another for every created client
+     * @param clientCount the amount of clients to be created. Also the amount of messages to be sent
+     */
     public static void NormalStressTest(int clientCount) 
     {
         for (int i = 0; i < clientCount; i++) 
@@ -69,6 +74,11 @@ public class StressTest {
         }
     }
 
+    /**
+     * Sends a broadcast message from every client
+     * @param clientCount the amount of clients to be created. 
+     *                    will send clientCount^2 messages
+     */
     public static void BroadcastStressTest(int clientCount) 
     {
         for (int i = 0; i < clientCount; i++) 
@@ -85,6 +95,12 @@ public class StressTest {
         }
     }
 
+    /**
+     * Creates clients to send messages to an external client
+     * @param clientCount the amount of clients to be created
+     * @param receiver the handle of the receiver
+     * @param connectTo the ip to connect to
+     */
     public static void ExternalStressTest(int clientCount, String receiver, String connectTo) 
     {
         portal.connectTo(connectTo);
